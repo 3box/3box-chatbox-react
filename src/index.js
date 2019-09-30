@@ -113,7 +113,7 @@ class App extends Component {
 
     let showLoadButton;
     if (dialogue.length > showCommentCount) showLoadButton = true;
-
+    console.log('dialogue', dialogue)
     this.setState({
       uniqueUsers,
       dialogue,
@@ -173,14 +173,15 @@ class App extends Component {
     const {
       spaceName,
       threadName,
-      adminEthAddr,
-      spaceOpts
+      spaceOpts,
+      adminEthAddr
     } = this.props;
     const stateBox = (this.state.box && Object.keys(this.state.box).length) && this.state.box;
     const propBox = (this.props.box && Object.keys(this.props.box).length) && this.props.box;
     const box = stateBox || propBox;
 
     const space = await box.openSpace(spaceName, spaceOpts || {});
+    // const opts = { ghost: true };
     const opts = { firstModerator: adminEthAddr };
     const thread = await space.joinThread(threadName, opts);
 
@@ -190,6 +191,12 @@ class App extends Component {
     const dialogue = await thread.getPosts();
     thread.onUpdate(() => this.updateComments());
     this.setState({ thread, dialogue });
+  }
+
+  updateComments = async () => {
+    const { thread } = this.state;
+    const dialogue = await thread.getPosts();
+    this.setState({ dialogue, dialogueLength: dialogue.length });
   }
 
   fetch3ID = async () => {
@@ -212,26 +219,61 @@ class App extends Component {
     this.setState({ currentUser3BoxProfile, profiles });
   }
 
-  _onMessageWasSent(message) {
+  _onMessageWasSent = async (message) => {
+    console.log('sendmessageruns')
+    await this.saveComment(message);
+    // if (text.length > 0) {
+    // }
     this.setState({
       messageList: [...this.state.messageList, message]
     })
   }
 
-  _sendMessage(text) {
-    if (text.length > 0) {
+  saveComment = async (message) => {
+    const {
+      thread,
+      box,
+      ethereum
+    } = this.state;
+    const {
+      loginFunction,
+    } = this.props;
+
+    // const updatedText = text.replace(/(\r\n|\n|\r)/gm, "");
+    const noWeb3 = (!ethereum || !Object.entries(ethereum).length) && !loginFunction;
+
+    if (noWeb3) return;
+    // if (!updatedText) return;
+    // this.setState({ postLoading: true });
+
+    if (!box || !Object.keys(box).length) loginFunction ? await loginFunction() : await this.openBox();
+    if (!Object.keys(thread).length) await this.joinThread();
+
+    try {
+      await this.state.thread.post(message.data.text);
+      await this.updateComments();
       this.setState({
-        messageList: [...this.state.messageList, {
-          author: 'them',
-          type: 'text',
-          data: { text }
-        }]
-      })
+        messageList: [...this.state.messageList, message],
+        // postLoading: false
+      });
+    } catch (error) {
+      console.error('There was an error saving your message', error);
     }
   }
 
+  handleCommentText = (event) => {
+    const { ethereum, loginFunction } = this.props
+    const noWeb3 = (!ethereum || !Object.entries(ethereum).length) && !loginFunction;
+    if (!noWeb3) this.setState({ comment: event.target.value });
+  }
+
+  handleLoggedInAs = () => {
+    const { showLoggedInAs } = this.state;
+    this.setState({ showLoggedInAs: !showLoggedInAs });
+  }
+
   render() {
-    const { chatName } = this.state;
+    const { chatName, dialogue, currentUserAddr, profiles } = this.state;
     return (
       <div className="threebox_ghostchat_react">
         <Launcher
@@ -240,8 +282,10 @@ class App extends Component {
             imageUrl: 'https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png'
           }}
           onMessageWasSent={this._onMessageWasSent.bind(this)}
-          messageList={this.state.messageList}
+          messageList={dialogue}
           showEmoji
+          currentUserAddr={currentUserAddr}
+          profiles={profiles}
         />
       </div>
     );

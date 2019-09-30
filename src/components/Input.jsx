@@ -24,43 +24,10 @@ class Input extends Component {
     this.inputRef = React.createRef();
   }
 
-  async componentDidMount() {
-    const el = document.getElementsByClassName('input_form')[0];
-    el.addEventListener("keydown", this.searchEnter, false);
-
-    this.setState({ disableComment: false });
-
-    document.addEventListener('input', (event) => {
-      if (event.target.tagName.toLowerCase() !== 'textarea') return;
-      this.autoExpand(event.target);
-    }, false);
-  }
-
-  autoExpand = (field) => {
-    var height = field.scrollHeight;
-    field.style.height = height + 'px';
-  };
-
-  componentWillUnmount() {
-    const el = document.getElementsByClassName('input_form')[0];
-    el.removeEventListener("keydown", this.searchEnter, false);
-  }
-
   handleCommentText = (event) => {
     const { ethereum, loginFunction } = this.props
     const noWeb3 = (!ethereum || !Object.entries(ethereum).length) && !loginFunction;
     if (!noWeb3) this.setState({ comment: event.target.value });
-  }
-
-  searchEnter = (event) => {
-    const { comment, isMobile } = this.state;
-    const updatedComment = comment.replace(/(\r\n|\n|\r)/gm, "");
-
-    if (event.keyCode === 13 && !event.shiftKey && updatedComment && !isMobile) {
-      this.saveComment();
-    } else if (event.keyCode === 13 && !event.shiftKey && !updatedComment && !isMobile) {
-      event.preventDefault();
-    }
   }
 
   handleLoggedInAs = () => {

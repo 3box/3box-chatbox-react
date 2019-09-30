@@ -14,10 +14,6 @@ class ChatWindow extends Component {
     this.props.onUserInputSubmit(message);
   }
 
-  onFilesSelected(filesList) {
-    this.props.onFilesSelected(filesList);
-  }
-
   render() {
     let messageList = this.props.messageList || [];
     let classList = [
@@ -34,10 +30,11 @@ class ChatWindow extends Component {
         <MessageList
           messages={messageList}
           imageUrl={this.props.agentProfile.imageUrl}
+          currentUserAddr={this.props.currentUserAddr}
+          profiles={this.props.profiles}
         />
         <UserInput
           onSubmit={this.onUserInputSubmit.bind(this)}
-          onFilesSelected={this.onFilesSelected.bind(this)}
           showEmoji={this.props.showEmoji}
         />
       </div>
@@ -49,7 +46,6 @@ ChatWindow.propTypes = {
   agentProfile: PropTypes.object.isRequired,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  onFilesSelected: PropTypes.func,
   onUserInputSubmit: PropTypes.func.isRequired,
   showEmoji: PropTypes.bool
 };

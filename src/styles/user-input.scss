@@ -80,7 +80,7 @@
   box-shadow: 0px -5px 20px 0px rgba(150, 165, 190, 0.2);
 }
 
-.sc-user-input--file-icon,
+// .sc-user-input--file-icon,
 .sc-user-input--send-icon {
   height: 20px;
   width: 20px;
@@ -89,19 +89,19 @@
   outline: none;
 }
 
-.sc-user-input--file-icon path,
+// .sc-user-input--file-icon path,
 .sc-user-input--send-icon path {
   fill: rgba(86, 88, 103, 0.3);
 }
 
-.sc-user-input--file-icon:hover path,
+// .sc-user-input--file-icon:hover path,
 .sc-user-input--send-icon:hover path {
   fill: rgba(86, 88, 103, 1);
 }
 
+// .sc-user-input--file-icon-wrapper
 .sc-user-input--emoji-icon-wrapper,
-.sc-user-input--send-icon-wrapper,
-.sc-user-input--file-icon-wrapper {
+.sc-user-input--send-icon-wrapper {
   background: none;
   border: none;
   padding: 2px;
@@ -111,8 +111,8 @@
   justify-content: center;
 }
 
-.sc-user-input--send-icon-wrapper,
-.sc-user-input--file-icon-wrapper {
+// .sc-user-input--file-icon-wrapper,
+.sc-user-input--send-icon-wrapper {
   flex-direction: row;
 }
 

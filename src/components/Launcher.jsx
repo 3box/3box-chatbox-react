@@ -40,6 +40,7 @@ class Launcher extends Component {
       });
     }
   }
+
   render() {
     const isOpen = this.props.hasOwnProperty('isOpen') ? this.props.isOpen : this.state.isOpen;
     const classList = [
@@ -59,8 +60,10 @@ class Launcher extends Component {
           onFilesSelected={this.props.onFilesSelected}
           agentProfile={this.props.agentProfile}
           isOpen={isOpen}
+          currentUserAddr={this.props.currentUserAddr}
           onClose={this.handleClick.bind(this)}
           showEmoji={this.props.showEmoji}
+          profiles={this.props.profiles}
         />
       </div>
     );

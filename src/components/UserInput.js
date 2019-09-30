@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import SendIcon from './icons/SendIcon';
-import FileIcon from './icons/FileIcon';
 import EmojiIcon from './icons/EmojiIcon';
 import PopupWindow from './popups/PopupWindow';
 import EmojiPicker from './emoji-picker/EmojiPicker';
@@ -18,7 +17,7 @@ class UserInput extends Component {
   }
 
   componentDidMount() {
-    this.emojiPickerButton = document.querySelector('#sc-emoji-picker-button'); 
+    this.emojiPickerButton = document.querySelector('#sc-emoji-picker-button');
   }
 
   handleKeyDown(event) {
@@ -65,15 +64,9 @@ class UserInput extends Component {
     }
   }
 
-  _onFilesSelected(event) {
-    if (event.target.files && event.target.files.length > 0) {
-      this.props.onFilesSelected(event.target.files);
-    }
-  }
-
   _handleEmojiPicked = (emoji) => {
     this.setState({ emojiPickerIsOpen: false });
-    if(this.state.inputHasText) {
+    if (this.state.inputHasText) {
       this.userInput.innerHTML += emoji;
     } else {
       this.props.onSubmit({
@@ -102,28 +95,6 @@ class UserInput extends Component {
     </PopupWindow>
   )
 
-  _renderSendOrFileIcon() {
-    if (this.state.inputHasText) {
-      return (
-        <div className="sc-user-input--button">
-          <SendIcon onClick={this._submitText.bind(this)} />
-        </div>
-      );
-    }
-    return (
-      <div className="sc-user-input--button">
-        <FileIcon onClick={this._showFilePicker.bind(this)} />
-        <input
-          type="file"
-          name="files[]"
-          multiple
-          ref={(e) => { this._fileUploadButton = e; }}
-          onChange={this._onFilesSelected.bind(this)}
-        />
-      </div>
-    );
-  }
-
   render() {
     const { emojiPickerIsOpen, inputActive } = this.state;
     return (
@@ -150,7 +121,11 @@ class UserInput extends Component {
               tooltip={this._renderEmojiPopup()}
             />}
           </div>
-          {this._renderSendOrFileIcon()}
+          {this.state.inputHasText && (
+            <div className="sc-user-input--button">
+              <SendIcon onClick={this._submitText.bind(this)} />
+            </div>
+          )}
         </div>
       </form>
     );
@@ -159,7 +134,6 @@ class UserInput extends Component {
 
 UserInput.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  onFilesSelected: PropTypes.func.isRequired,
   showEmoji: PropTypes.bool
 };
 
