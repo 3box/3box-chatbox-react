@@ -1,10 +1,11 @@
 .sc-user-input {
-  min-height: 55px;
+  min-height: 65px;
   margin: 0px;
   position: relative;
   bottom: 0;
   display: flex;
-  background-color: #f4f7f9;
+  background-color: #edf1f3;
+  // background-color: #f4f7f9;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   transition: background-color .2s ease,box-shadow .2s ease;
@@ -18,10 +19,10 @@
   outline: none;
   border-bottom-left-radius: 10px;
   box-sizing: border-box;
-  padding: 18px 18px 18px 56px;
+  padding: 18px 18px 18px 64px;
   font-size: 15px;
   font-weight: 400;
-  line-height: 1.33;
+  line-height: 1.83;
   white-space: pre-wrap;
   word-wrap: break-word;
   color: #565867;
@@ -38,6 +39,7 @@
   display: block; /* For Firefox */
   color: rgba(86, 88, 103, 0.3);
   outline: none;
+  font-size: 15px;
 }
 
 .sc-user-input--buttons {
@@ -54,8 +56,8 @@
 }
 
 .sc-user-input--button {
-  width: 30px;
-  height: 55px;
+  width: 42px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -121,7 +123,7 @@
 }
 
 .sc-user-input--emoji-icon {
-  height: 18px;
+  height: 22px;
   cursor: pointer;
   align-self: center;
 }

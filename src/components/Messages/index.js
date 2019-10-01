@@ -44,7 +44,7 @@ class Message extends Component {
             alt="profile"
           />
 
-          {this._renderMessageOfType(this.props.message.type)}
+          {this._renderMessageOfType(message.type)}
         </div>
       </div>);
   }

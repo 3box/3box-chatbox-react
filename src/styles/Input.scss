@@ -34,8 +34,8 @@
 
 .input_user {
   position: absolute;
-  left: 10px;
-  top: 10px;
+  left: 12px;
+  top: 11px;
   min-width: $commentPictureDimension;
   min-height: $commentPictureDimension;
   max-width: $commentPictureDimension;
@@ -47,15 +47,15 @@
 
 .input_emptyUser {
   position: absolute;
-  left: 10px;
-  top: 10px;
+  left: 12px;
+  top: 11px;
   min-width: $commentPictureDimension;
   min-height: $commentPictureDimension;
   max-width: $commentPictureDimension;
   max-height: $commentPictureDimension;
   border-radius: 50%;
-  background-color: white;
-  border: 1px solid $borderColor;
+  // background-color: white;
+  // border: 1px solid $borderColor;
   overflow: hidden;
   display: flex;
   justify-content: center;

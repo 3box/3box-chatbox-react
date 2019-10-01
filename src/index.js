@@ -8,30 +8,28 @@ import registerResolver from '3id-resolver';
 import { checkIsMobileDevice } from './utils';
 
 import Launcher from './components/Launcher';
-// import Input from './components/Input';
-// import Context from './components/Context';
-// import Dialogue from './components/Dialogue';
-// import Footer from './components/Footer';
 import './index.scss';
 
 class App extends Component {
   constructor(props) {
     super(props);
     const {
-      chatName,
+      agentProfile,
 
-      showCommentCount,
       currentUserAddr,
       box,
       ethereum,
     } = this.props;
 
     this.state = {
-      chatName: chatName || '3Box Chatbox',
+      agentProfile: agentProfile || {
+        teamName: 'Chat',
+        imageUrl: null
+      },
 
       dialogueLength: null,
-      showLoadButton: false,
       isLoading: false,
+      threadJoined: false,
       dialogue: [],
       uniqueUsers: [],
       thread: {},
@@ -39,7 +37,6 @@ class App extends Component {
       currentUser3BoxProfile: {},
       box,
       currentUserAddr,
-      showCommentCount: showCommentCount || 30,
       ethereum: ethereum || window.ethereum,
       isMobile: checkIsMobileDevice(),
 
@@ -88,37 +85,6 @@ class App extends Component {
     }
   }
 
-  // get thread from public api only on component mount
-  // fetchThread = async () => {
-  //   const { showCommentCount } = this.state;
-  //   const {
-  //     spaceName,
-  //     threadName,
-  //     adminEthAddr,
-  //     members,
-  //     threadOpts
-  //   } = this.props;
-
-  //   if (!spaceName || !threadName) console.error('You must pass both spaceName and threadName props');
-
-  //   // check if admin has that space first, if not, thread is empty
-  //   const spaces = await Box.listSpaces(adminEthAddr);
-  //   if (!spaces.includes(spaceName)) return;
-
-  //   const dialogue = await Box.getThread(spaceName, threadName, adminEthAddr, members, threadOpts || {});
-  //   const uniqueUsers = [...new Set(dialogue.map(x => x.author))];
-
-  //   let showLoadButton;
-  //   if (dialogue.length > showCommentCount) showLoadButton = true;
-  //   console.log('dialogue', dialogue)
-  //   this.setState({
-  //     uniqueUsers,
-  //     dialogue,
-  //     dialogueLength: dialogue.length,
-  //     showLoadButton,
-  //   });
-  // }
-
   fetchMe = async () => {
     const { currentUserAddr } = this.props;
     const stateCurrentUserAddr = this.state.currentUserAddr;
@@ -154,25 +120,23 @@ class App extends Component {
     this.setState({ profiles });
   }
 
-  // fetch3ID = async () => {
-  //   const { currentUserAddr, spaceName, userProfileURL } = this.props;
-  //   const { profiles } = this.state;
-  //   const stateCurrentUserAddr = this.state.currentUserAddr;
-  //   const myAddress = currentUserAddr || stateCurrentUserAddr;
+  openThread = async () => {
+    const {
+      box,
+      ethereum
+    } = this.state;
+    const {
+      loginFunction,
+    } = this.props;
 
-  //   const config = await Box.getConfig(myAddress);
-  //   const threeID = config.spaces && config.spaces[spaceName] && config.spaces[spaceName].DID;
+    const noWeb3 = (!ethereum || !Object.entries(ethereum).length) && !loginFunction;
+    if (noWeb3) return;
+    // add error message
+    // this.setState({ postLoading: true });
 
-  //   // if profile already exists in uniqueUsers object, return
-  //   if (profiles[threeID]) return;
-
-  //   const currentUser3BoxProfile = await Box.getProfile(myAddress);
-  //   currentUser3BoxProfile.ethAddr = myAddress;
-  //   currentUser3BoxProfile.profileURL = userProfileURL ? userProfileURL(myAddress) : `https://3box.io/${myAddress}`;
-  //   profiles[threeID] = currentUser3BoxProfile;
-
-  //   this.setState({ currentUser3BoxProfile, profiles });
-  // }
+    if (!box || !Object.keys(box).length) loginFunction ? await loginFunction() : await this.openBox();
+    await this.joinThread();
+  }
 
   openBox = async () => {
     const { ethereum } = this.state;
@@ -197,17 +161,13 @@ class App extends Component {
     const stateBox = (this.state.box && Object.keys(this.state.box).length) && this.state.box;
     const propBox = (this.props.box && Object.keys(this.props.box).length) && this.props.box;
     const box = stateBox || propBox;
-
     const space = await box.openSpace(spaceName, spaceOpts || {});
     const opts = { ghost: true };
     const thread = await space.joinThread(threadName, opts);
 
-    // fetch current user's space did to match herself against comment auth
-    // await this.fetch3ID();
-
     const dialogue = await thread.getPosts();
     thread.onUpdate(() => this.updateComments());
-    this.setState({ thread, dialogue });
+    this.setState({ thread, dialogue, threadJoined: true });
   }
 
   updateComments = async () => {
@@ -225,69 +185,48 @@ class App extends Component {
   }
 
   _onMessageWasSent = async (message) => {
-    await this.saveComment(message);
+    await this.postMessage(message);
     this.setState({
       messageList: [...this.state.messageList, message]
     })
   }
 
-  saveComment = async (message) => {
-    const {
-      thread,
-      box,
-      ethereum
-    } = this.state;
-    const {
-      loginFunction,
-    } = this.props;
-
-    // const updatedText = text.replace(/(\r\n|\n|\r)/gm, "");
-    const noWeb3 = (!ethereum || !Object.entries(ethereum).length) && !loginFunction;
-
-    if (noWeb3) return;
-    // this.setState({ postLoading: true });
-
-    if (!box || !Object.keys(box).length) loginFunction ? await loginFunction() : await this.openBox();
-    if (!Object.keys(thread).length) await this.joinThread();
-
+  postMessage = async (message) => {
     try {
       await this.state.thread.post(message.data.text);
       await this.updateComments();
       this.setState({
         messageList: [...this.state.messageList, message],
-        // postLoading: false
       });
     } catch (error) {
       console.error('There was an error saving your message', error);
     }
   }
 
-  handleCommentText = (event) => {
-    const { ethereum, loginFunction } = this.props
-    const noWeb3 = (!ethereum || !Object.entries(ethereum).length) && !loginFunction;
-    if (!noWeb3) this.setState({ comment: event.target.value });
-  }
-
-  handleLoggedInAs = () => {
-    const { showLoggedInAs } = this.state;
-    this.setState({ showLoggedInAs: !showLoggedInAs });
-  }
-
   render() {
-    const { chatName, dialogue, currentUserAddr, profiles, currentUser3BoxProfile } = this.state;
+    const {
+      dialogue,
+      currentUserAddr,
+      profiles,
+      currentUser3BoxProfile,
+      postLoading,
+      agentProfile,
+      threadJoined
+    } = this.state;
+
     return (
       <div className="threebox_ghostchat_react">
         <Launcher
-          agentProfile={{
-            teamName: chatName,
-            imageUrl: 'https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png'
-          }}
-          onMessageWasSent={this._onMessageWasSent.bind(this)}
+          onMessageWasSent={this._onMessageWasSent}
+          openThread={this.openThread}
+          agentProfile={agentProfile}
           messageList={dialogue}
           showEmoji
           currentUserAddr={currentUserAddr}
           currentUser3BoxProfile={currentUser3BoxProfile}
           profiles={profiles}
+          postLoading={postLoading}
+          threadJoined={threadJoined}
         />
       </div>
     );
@@ -299,12 +238,12 @@ export default App;
 App.propTypes = {
   chatName: PropTypes.string,
 
-  showCommentCount: PropTypes.number,
   currentUserAddr: PropTypes.string,
   userProfileURL: PropTypes.func,
   members: PropTypes.bool,
   box: PropTypes.object,
   spaceOpts: PropTypes.object,
+  agentProfile: PropTypes.object,
   ethereum: PropTypes.object,
   threadOpts: PropTypes.object,
   currentUser3BoxProfile: PropTypes.object,
@@ -318,7 +257,7 @@ App.propTypes = {
 App.defaultProps = {
   chatName: '',
   currentUserAddr: '',
-  showCommentCount: 30,
+  agentProfile: null,
   members: false,
   useHovers: false,
   userProfileURL: null,

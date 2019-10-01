@@ -1,7 +1,9 @@
+@import './variables.scss';
+
 .sc-launcher {
   width: 60px;
   height: 60px;
-  background-color: #4e8cff;
+  background-color: $threeBoxBlack;
   background-position: center;
   background-repeat: no-repeat;
   position: fixed;
@@ -10,6 +12,10 @@
   border-radius: 50%;
   box-shadow: none;
   transition: box-shadow 0.2s ease-in-out;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .sc-launcher:before {
@@ -17,7 +23,7 @@
   position: relative;
   display: block;
   width: 60px;
-  height: 60px;  
+  height: 60px;
   border-radius: 50%;
   transition: box-shadow 0.2s ease-in-out;
 }
@@ -27,15 +33,15 @@
   width: 60px;
   height: 60px;
   position: fixed;
-  right: 25px;
-  bottom: 25px;
+  // right: 25px;
+  // bottom: 25px;
   transition: opacity 100ms ease-in-out, transform 100ms ease-in-out;
 }
 
 .sc-launcher .sc-closed-icon {
   transition: opacity 100ms ease-in-out, transform 100ms ease-in-out;
-  width: 60px;
-  height: 60px;
+  width: 24px;
+  height: 24px;
 }
 
 .sc-launcher .sc-open-icon {
@@ -59,7 +65,7 @@
 }
 
 .sc-launcher:hover {
-  box-shadow: 0 0px 27px 1.5px rgba(0,0,0,0.2);
+  box-shadow: 0 0px 27px 1.5px rgba(0, 0, 0, 0.2);
 }
 
 .sc-new-messages-count {
@@ -70,7 +76,7 @@
   justify-content: center;
   flex-direction: column;
   border-radius: 50%;
-	width: 22px;
+  width: 22px;
   height: 22px;
   background: #ff4646;
   color: white;

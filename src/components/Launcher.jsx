@@ -1,9 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import SVG from 'react-inlinesvg';
+
 import ChatWindow from './ChatWindow';
 import launcherIcon from './../assets/logo-no-bg.svg';
 import incomingMessageSound from '../assets/sounds/notification.mp3';
 import launcherIconActive from '../assets/close-icon.png';
+import Chat from '../assets/Chat2.svg';
 
 import styles from '../styles';
 
@@ -42,7 +45,7 @@ class Launcher extends Component {
   }
 
   render() {
-    const { currentUserAddr, currentUser3BoxProfile } = this.props;
+    const { currentUserAddr, currentUser3BoxProfile, threadJoined, openThread } = this.props;
     const isOpen = this.props.hasOwnProperty('isOpen') ? this.props.isOpen : this.state.isOpen;
     const classList = [
       'sc-launcher',
@@ -54,7 +57,9 @@ class Launcher extends Component {
         <div className={classList.join(' ')} onClick={this.handleClick.bind(this)}>
           <MessageCount count={this.props.newMessagesCount} isOpen={isOpen} />
           <img className={'sc-open-icon'} src={launcherIconActive} />
-          <img className={'sc-closed-icon'} src={launcherIcon} />
+          {/* <img className={'sc-closed-icon'} src={launcherIcon} /> */}
+          <SVG src={Chat} alt="Logo" className={'sc-closed-icon'} />
+
         </div>
 
         <ChatWindow
@@ -68,6 +73,8 @@ class Launcher extends Component {
           profiles={this.props.profiles}
           currentUser3BoxProfile={currentUser3BoxProfile}
           currentUserAddr={currentUserAddr}
+          threadJoined={threadJoined}
+          openThread={openThread}
         />
       </div>
     );

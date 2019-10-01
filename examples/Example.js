@@ -16,7 +16,7 @@ class Example extends React.Component {
   }
 
   componentDidMount() {
-    this.handleLogin();
+    // this.handleLogin();
   }
 
   handleLogin = async () => {
@@ -52,15 +52,13 @@ class Example extends React.Component {
               box={box}
               currentUserAddr={myAddress}
 
-            // case B
-            // loginFunction={this.handleLogin}
+              // case B
+              // loginFunction={this.handleLogin}
 
-            // case C
-            // ethereum={window.ethereum}
+              // case C
+              ethereum={window.ethereum}
 
             // optional
-            // members={false}
-            // showCommentCount={10}
             // threadOpts={{}}
             // spaceOpts={{}}
             // useHovers={true}
