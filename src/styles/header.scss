@@ -1,6 +1,6 @@
 .sc-header {
   background: #4e8cff;
-  min-height: 75px;
+  min-height: 60px;
   border-top-left-radius: 9px;
   border-top-right-radius: 9px;
   color: white;
@@ -14,7 +14,7 @@
 .sc-header--img {
   border-radius: 50%;
   align-self: center;
-  padding: 10px;
+  padding: 0 6px;
 }
 
 .sc-header--team-name {
@@ -29,7 +29,6 @@
   width: 40px;
   align-self: center;
   height: 40px;
-  margin-right: 10px;
   box-sizing: border-box;
   cursor: pointer;
   border-radius: 5px;

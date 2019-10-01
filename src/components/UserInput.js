@@ -1,9 +1,13 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import makeBlockie from 'ethereum-blockies-base64';
+import SVG from 'react-inlinesvg';
+
 import SendIcon from './icons/SendIcon';
 import EmojiIcon from './icons/EmojiIcon';
 import PopupWindow from './popups/PopupWindow';
 import EmojiPicker from './emoji-picker/EmojiPicker';
+import Profile from '../assets/Profile.svg';
 
 class UserInput extends Component {
   constructor() {
@@ -97,8 +101,28 @@ class UserInput extends Component {
 
   render() {
     const { emojiPickerIsOpen, inputActive } = this.state;
+    const { currentUser3BoxProfile, currentUserAddr } = this.props;
+
+    const updatedProfilePicture = currentUser3BoxProfile.image ? `https://ipfs.infura.io/ipfs/${currentUser3BoxProfile.image[0].contentUrl['/']}`
+      : currentUserAddr && makeBlockie(currentUserAddr);
+
     return (
       <form className={`sc-user-input ${(inputActive ? 'active' : '')}`}>
+        {updatedProfilePicture ? (
+          <img
+            src={updatedProfilePicture}
+            alt="Profile"
+            className="input_user"
+          />
+        ) : (
+            <div className="input_emptyUser">
+              <SVG
+                src={Profile}
+                alt="Profile"
+                className="input_emptyUser_icon"
+              />
+            </div>
+          )}
         <div
           role="button"
           tabIndex="0"

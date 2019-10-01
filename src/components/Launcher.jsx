@@ -42,11 +42,13 @@ class Launcher extends Component {
   }
 
   render() {
+    const { currentUserAddr, currentUser3BoxProfile } = this.props;
     const isOpen = this.props.hasOwnProperty('isOpen') ? this.props.isOpen : this.state.isOpen;
     const classList = [
       'sc-launcher',
       (isOpen ? 'opened' : ''),
     ];
+
     return (
       <div id="sc-launcher">
         <div className={classList.join(' ')} onClick={this.handleClick.bind(this)}>
@@ -54,16 +56,18 @@ class Launcher extends Component {
           <img className={'sc-open-icon'} src={launcherIconActive} />
           <img className={'sc-closed-icon'} src={launcherIcon} />
         </div>
+
         <ChatWindow
           messageList={this.props.messageList}
           onUserInputSubmit={this.props.onMessageWasSent}
           onFilesSelected={this.props.onFilesSelected}
           agentProfile={this.props.agentProfile}
           isOpen={isOpen}
-          currentUserAddr={this.props.currentUserAddr}
           onClose={this.handleClick.bind(this)}
           showEmoji={this.props.showEmoji}
           profiles={this.props.profiles}
+          currentUser3BoxProfile={currentUser3BoxProfile}
+          currentUserAddr={currentUserAddr}
         />
       </div>
     );

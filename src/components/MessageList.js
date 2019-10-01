@@ -10,17 +10,19 @@ class MessageList extends Component {
   }
 
   render() {
-    const { messages } = this.props;
+    const { messages, profiles, currentUserAddr } = this.props;
+    console.log('profiles', profiles)
     const sortedChat = sortChronologically(messages);
     return (
       <div className="sc-message-list" ref={el => this.scrollList = el}>
         {sortedChat.map((message, i) => {
+          console.log('message.author', message.author)
           return (
             <Message
               message={message}
               key={i}
-              currentUserAddr={this.props.currentUserAddr}
-              profiles={this.props.profiles}
+              currentUserAddr={currentUserAddr}
+              profile={profiles[message.author]}
             />
           );
         })}

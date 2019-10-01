@@ -15,6 +15,7 @@ class ChatWindow extends Component {
   }
 
   render() {
+    const { currentUser3BoxProfile, currentUserAddr} = this.props
     let messageList = this.props.messageList || [];
     let classList = [
       'sc-chat-window',
@@ -34,6 +35,8 @@ class ChatWindow extends Component {
           profiles={this.props.profiles}
         />
         <UserInput
+          currentUser3BoxProfile={currentUser3BoxProfile}
+          currentUserAddr={currentUserAddr}
           onSubmit={this.onUserInputSubmit.bind(this)}
           showEmoji={this.props.showEmoji}
         />

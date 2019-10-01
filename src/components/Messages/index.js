@@ -3,8 +3,6 @@ import makeBlockie from 'ethereum-blockies-base64';
 
 import TextMessage from './TextMessage';
 // import EmojiMessage from './EmojiMessage';
-import chatIconUrl from './../../assets/chat-icon.svg';
-
 
 class Message extends Component {
 
@@ -21,8 +19,9 @@ class Message extends Component {
   }
 
   render() {
-    const { currentUserAddr, profiles, message } = this.props;
-    const profile = profiles[message.author];
+    const { currentUserAddr, profile, message } = this.props;
+    // console.log('profile', profile)
+    // console.log('currentUserAddr', currentUserAddr)
     const currentUserAddrNormalized = currentUserAddr && currentUserAddr.toLowerCase();
     const commentAddr = profile && profile.ethAddr.toLowerCase();
     const isMyComment = commentAddr === currentUserAddrNormalized;

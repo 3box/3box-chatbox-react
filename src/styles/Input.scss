@@ -1,4 +1,4 @@
-@import '../../variables.scss';
+@import './variables.scss';
 
 .input {
   position: relative;
@@ -34,27 +34,27 @@
 
 .input_user {
   position: absolute;
-  left: 0;
-  top: 7px;
-  min-width: $commentPictureDimension;
-  min-height: $commentPictureDimension;
-  max-width: $commentPictureDimension;
-  max-height: $commentPictureDimension;
-  border-radius: 50%;
-  background-color: #1168df;
-  object-fit: cover;
-}
-
-.input_emptyUser {
-  position: absolute;
-  left: -1px;
-  top: 6px;
+  left: 10px;
+  top: 10px;
   min-width: $commentPictureDimension;
   min-height: $commentPictureDimension;
   max-width: $commentPictureDimension;
   max-height: $commentPictureDimension;
   border-radius: 50%;
   background-color: transparent;
+  object-fit: cover;
+}
+
+.input_emptyUser {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  min-width: $commentPictureDimension;
+  min-height: $commentPictureDimension;
+  max-width: $commentPictureDimension;
+  max-height: $commentPictureDimension;
+  border-radius: 50%;
+  background-color: white;
   border: 1px solid $borderColor;
   overflow: hidden;
   display: flex;
