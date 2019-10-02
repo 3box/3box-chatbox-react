@@ -1,7 +1,10 @@
 import React from 'react';
 import Box from '3box';
 
-import Comments from '../src/index';
+// import Comments from '../src/index';
+
+import { Chat, PopupChat } from '../src/index';
+
 import './index.scss';
 
 class Example extends React.Component {
@@ -42,7 +45,7 @@ class Example extends React.Component {
       <div className="App">
         <div className="appcontainerreplace">
           <div className="userscontainer">
-            <Comments
+            <Chat
               // required
               spaceName='3boxtestcomments'
               threadName='ghostChatTest'
@@ -58,7 +61,8 @@ class Example extends React.Component {
               // case C
               ethereum={window.ethereum}
 
-            // optional
+              // optional
+              colorTheme="#1168df"
             // threadOpts={{}}
             // spaceOpts={{}}
             // useHovers={true}

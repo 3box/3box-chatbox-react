@@ -1,15 +1,22 @@
 @import './variables.scss';
 
 .sc-message {
-  width: 340px;
+  width: 350px;
   margin: auto;
-  padding-bottom: 10px;
+  padding-bottom: 40px;
   display: flex;
+
+  &:hover {
+    .sc-message_timestamp{
+      opacity: 1;
+    }
+  }
 }
 
 .sc-message--content {
   width: 100%;
   display: flex;
+  position: relative;
 }
 
 .sc-message--content.sent {
@@ -31,7 +38,7 @@
   max-height: 30px;
   border-radius: 50%;
   align-self: center;
-  margin-right: 15px;
+  margin-right: 10px;
 }
 
 .sc-message--text {
@@ -58,6 +65,31 @@
   color: #263238;
   background-color: #f4f7f9;
   margin-right: 40px;
+}
+
+.sc-message_messager {
+  position: absolute;
+  font-size: 13px;
+  color: $lighterFont;
+  top: -35px;
+  left: 66px;
+}
+
+.sc-message_timestamp {
+  position: absolute;
+  font-size: 13px;
+  color: $lighterFont;
+  bottom: -35px;
+  opacity: 0;
+  transition: .2s ease-in-out all;
+}
+
+.received .sc-message_timestamp {
+  left: 66px;
+}
+
+.sent .sc-message_timestamp {
+  right: 0;
 }
 
 .sc-message--emoji {

@@ -75,8 +75,8 @@ class UserInput extends Component {
     } else {
       this.props.onSubmit({
         author: 'me',
-        type: 'emoji',
-        data: { emoji }
+        type: 'text',
+        data: { text: emoji }
       });
     }
   }

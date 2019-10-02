@@ -1,4 +1,4 @@
-@import './variables.scss';
+// @import './variables.scss';
 
 body {
   margin: 0;
@@ -27,16 +27,4 @@ code {
 
 a {
   text-decoration: none;
-}
-
-.threebox-comments-react {
-  max-width: $maxCommentWidth;
-  width: 100%;
-  min-width: $minCommentWidth;
-}
-
-.comment-mobile {
-  .threebox-comments-react {
-    min-width: $minCommentWidth-mobile;
-  }
 }

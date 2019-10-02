@@ -1,3 +1,5 @@
+@import './variables.scss';
+
 .sc-user-input {
   min-height: 65px;
   margin: 0px;
@@ -6,9 +8,9 @@
   display: flex;
   background-color: #edf1f3;
   // background-color: #f4f7f9;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  transition: background-color .2s ease,box-shadow .2s ease;
+  border-bottom-left-radius: $windowBorderRadius;
+  border-bottom-right-radius: $windowBorderRadius;
+  transition: background-color .2s ease, box-shadow .2s ease;
 }
 
 
@@ -36,7 +38,8 @@
 
 .sc-user-input--text:empty:before {
   content: attr(placeholder);
-  display: block; /* For Firefox */
+  display: block;
+  /* For Firefox */
   color: rgba(86, 88, 103, 0.3);
   outline: none;
   font-size: 15px;
@@ -128,7 +131,8 @@
   align-self: center;
 }
 
-.sc-user-input--emoji-icon path, .sc-user-input--emoji-icon circle {
+.sc-user-input--emoji-icon path,
+.sc-user-input--emoji-icon circle {
   fill: rgba(86, 88, 103, 0.3);
 }
 

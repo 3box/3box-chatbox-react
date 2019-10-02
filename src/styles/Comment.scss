@@ -119,16 +119,6 @@
   word-break: break-word;
 }
 
-.comment_loading {
-  min-width: 30px;
-  min-height: 30px;
-  max-width: 30px;
-  max-height: 30px;
-  position: absolute;
-  right: -36px;
-  top: -4px;
-}
-
 @media only screen and (max-width: 768px) {
   .comment-mobile {
     .comment_picture {

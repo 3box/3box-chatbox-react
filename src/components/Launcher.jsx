@@ -45,7 +45,16 @@ class Launcher extends Component {
   }
 
   render() {
-    const { currentUserAddr, currentUser3BoxProfile, threadJoined, openThread } = this.props;
+    const {
+      currentUserAddr,
+      currentUser3BoxProfile,
+      threadJoined,
+      openThread,
+      threadLoading,
+      colorTheme,
+      onMessageWasSent
+    } = this.props;
+
     const isOpen = this.props.hasOwnProperty('isOpen') ? this.props.isOpen : this.state.isOpen;
     const classList = [
       'sc-launcher',
@@ -54,7 +63,11 @@ class Launcher extends Component {
 
     return (
       <div id="sc-launcher">
-        <div className={classList.join(' ')} onClick={this.handleClick.bind(this)}>
+        <div
+          className={classList.join(' ')}
+          onClick={this.handleClick.bind(this)}
+          style={{ backgroundColor: colorTheme}}
+        >
           <MessageCount count={this.props.newMessagesCount} isOpen={isOpen} />
           <img className={'sc-open-icon'} src={launcherIconActive} />
           {/* <img className={'sc-closed-icon'} src={launcherIcon} /> */}
@@ -64,8 +77,7 @@ class Launcher extends Component {
 
         <ChatWindow
           messageList={this.props.messageList}
-          onUserInputSubmit={this.props.onMessageWasSent}
-          onFilesSelected={this.props.onFilesSelected}
+          onUserInputSubmit={onMessageWasSent}
           agentProfile={this.props.agentProfile}
           isOpen={isOpen}
           onClose={this.handleClick.bind(this)}
@@ -75,6 +87,7 @@ class Launcher extends Component {
           currentUserAddr={currentUserAddr}
           threadJoined={threadJoined}
           openThread={openThread}
+          threadLoading={threadLoading}
         />
       </div>
     );
