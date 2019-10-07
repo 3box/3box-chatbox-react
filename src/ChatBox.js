@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, {
+  Component
+} from 'react';
 import Box from '3box';
 import PropTypes from 'prop-types';
 import resolve from 'did-resolver';
@@ -8,9 +10,10 @@ import registerResolver from '3id-resolver';
 import { checkIsMobileDevice } from './utils';
 
 import Launcher from './components/Launcher';
+import ChatWindow from './components/ChatWindow';
 import './index.scss';
 
-class App extends Component {
+class ChatBox extends Component {
   constructor(props) {
     super(props);
     const {
@@ -20,6 +23,7 @@ class App extends Component {
       currentUserAddr,
       box,
       ethereum,
+      popupChat,
     } = this.props;
 
     this.state = {
@@ -27,8 +31,10 @@ class App extends Component {
         teamName: 'Ghost',
         imageUrl: null
       },
-      colorTheme,
+      colorTheme: colorTheme || '#181F21',
       showEmoji,
+      popupChat,
+      isOpen: false,
 
       dialogueLength: null,
       isLoading: false,
@@ -66,14 +72,16 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { currentUserAddr, currentUser3BoxProfile, box } = this.props;
+    const {
+      currentUserAddr,
+      currentUser3BoxProfile,
+      box
+    } = this.props;
 
     // if current user's eth addr is updated in parent, fetch profile
     if (currentUserAddr !== prevProps.currentUserAddr) {
       const hasNoUserProfile = (!currentUser3BoxProfile || !Object.entries(currentUser3BoxProfile).length);
-      this.setState({ currentUserAddr }, () => {
-        hasNoUserProfile && this.fetchMe();
-      });
+      this.setState({ currentUserAddr }, () => { hasNoUserProfile && this.fetchMe(); });
     }
 
     // if current user's profile is updated in parent, update UI
@@ -124,13 +132,8 @@ class App extends Component {
   }
 
   openThread = async () => {
-    const {
-      box,
-      ethereum
-    } = this.state;
-    const {
-      loginFunction,
-    } = this.props;
+    const { box, ethereum } = this.state;
+    const { loginFunction } = this.props;
 
     const noWeb3 = (!ethereum || !Object.entries(ethereum).length) && !loginFunction;
     if (noWeb3) return;
@@ -145,7 +148,9 @@ class App extends Component {
   }
 
   openBox = async () => {
-    const { ethereum } = this.state;
+    const {
+      ethereum
+    } = this.state;
     if (!ethereum) console.error('You must provide an ethereum object to the comments component.');
 
     const addresses = await ethereum.enable();
@@ -168,25 +173,40 @@ class App extends Component {
     const propBox = (this.props.box && Object.keys(this.props.box).length) && this.props.box;
     const box = stateBox || propBox;
     const space = await box.openSpace(spaceName, spaceOpts || {});
-    const opts = { ghost: true };
+    const opts = {
+      ghost: true
+    };
     const thread = await space.joinThread(threadName, opts);
 
     const dialogue = await thread.getPosts();
     thread.onUpdate(() => this.updateComments());
-    this.setState({ thread, dialogue, threadJoined: true });
+    this.setState({
+      thread,
+      dialogue,
+      threadJoined: true
+    });
   }
 
   updateComments = async () => {
-    const { thread, uniqueUsers } = this.state;
+    const {
+      thread,
+      uniqueUsers
+    } = this.state;
     const dialogue = await thread.getPosts();
 
     // if there are new messagers, fetch their profiles
     const updatedUniqueUsers = [...new Set(dialogue.map(x => x.author))];
     if (uniqueUsers.length === updatedUniqueUsers.length) {
-      this.setState({ dialogue, dialogueLength: dialogue.length });
+      this.setState({
+        dialogue,
+        dialogueLength: dialogue.length
+      });
     } else {
       await this.fetchMessagers(updatedUniqueUsers);
-      this.setState({ dialogue, dialogueLength: dialogue.length });
+      this.setState({
+        dialogue,
+        dialogueLength: dialogue.length
+      });
     }
   }
 
@@ -195,6 +215,13 @@ class App extends Component {
     this.setState({
       messageList: [...this.state.messageList, message]
     })
+  }
+
+  _handleClick = () => {
+    this.setState({
+      isOpen: !this.state.isOpen,
+      newMessagesCount: 0
+    });
   }
 
   postMessage = async (message) => {
@@ -219,30 +246,53 @@ class App extends Component {
       agentProfile,
       threadJoined,
       colorTheme,
-      showEmoji
+      showEmoji,
+      popupChat,
     } = this.state;
+    const isOpen = this.props.hasOwnProperty('isOpen') ? this.props.isOpen : this.state.isOpen;
+
+    if (popupChat) {
+      return (
+        <Launcher
+          onMessageWasSent={this._onMessageWasSent}
+          handleClick={this._handleClick}
+          openThread={this.openThread}
+          agentProfile={agentProfile}
+          messageList={dialogue}
+          showEmoji={showEmoji}
+          currentUserAddr={currentUserAddr}
+          currentUser3BoxProfile={currentUser3BoxProfile}
+          profiles={profiles}
+          threadLoading={threadLoading}
+          threadJoined={threadJoined}
+          colorTheme={colorTheme}
+          isOpen={isOpen}
+        />
+      );
+    }
 
     return (
-      <Launcher
-        onMessageWasSent={this._onMessageWasSent}
+      <ChatWindow
+        onUserInputSubmit={this._onMessageWasSent}
         openThread={this.openThread}
-        agentProfile={agentProfile}
         messageList={dialogue}
+        agentProfile={agentProfile}
+        isOpen={isOpen}
         showEmoji={showEmoji}
-        currentUserAddr={currentUserAddr}
-        currentUser3BoxProfile={currentUser3BoxProfile}
         profiles={profiles}
-        threadLoading={threadLoading}
+        currentUser3BoxProfile={currentUser3BoxProfile}
+        currentUserAddr={currentUserAddr}
         threadJoined={threadJoined}
-        colorTheme={colorTheme}
+        threadLoading={threadLoading}
+        notPopup
       />
-    );
+    )
   }
 }
 
-export default App;
+export default ChatBox;
 
-App.propTypes = {
+ChatBox.propTypes = {
   chatName: PropTypes.string,
 
   currentUserAddr: PropTypes.string,
@@ -261,7 +311,7 @@ App.propTypes = {
   adminEthAddr: PropTypes.string.isRequired,
 };
 
-App.defaultProps = {
+ChatBox.defaultProps = {
   chatName: '',
   currentUserAddr: '',
   agentProfile: null,

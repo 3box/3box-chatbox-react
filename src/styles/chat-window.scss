@@ -1,10 +1,11 @@
 @import './variables.scss';
 
-.chat, .popupChat {
+.chat,
+.popupChat {
   height: 100%;
   width: 100%;
   position: relative;
-} 
+}
 
 .sc-chat-window {
   width: 376px;
@@ -17,6 +18,8 @@
   justify-content: space-between;
   transition: 0.3s ease-in-out;
   border-radius: $windowBorderRadius;
+
+  border: 1px solid $borderColor;
 }
 
 .popupChat .sc-chat-window {
@@ -29,7 +32,6 @@
 .sc-chat-window.closed {
   opacity: 0;
   visibility: hidden;
-  // bottom: 90px;
 }
 
 .sc-message-list {
@@ -54,18 +56,18 @@
   height: calc(100% - 120px);
   max-height: 590px;
   box-sizing: border-box;
-  background-color: $threeBoxBlack;
+  background-color: white;
   flex-direction: column;
   justify-content: space-between;
   transition: 0.3s ease-in-out;
   border-radius: $windowBorderRadius;
 
   &:hover {
-    background-color: $threeBoxBlackHover;
+    // background-color: $threeBoxBlackHover;
   }
 }
 
-.popupChat.joinThreadWindow {
+.popupChat .joinThreadWindow {
   box-shadow: 0px 7px 40px 2px rgba(148, 149, 150, 0.3);
   position: fixed;
   right: 25px;
@@ -86,7 +88,6 @@
 .joinThreadWindow.closed {
   opacity: 0;
   visibility: hidden;
-  // bottom: 90px;
 }
 
 .joinThreadWindow_wrapper {
@@ -94,23 +95,24 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: space-around;
   position: relative;
+  box-sizing: border-box;
 
   p {
     margin: 0;
-    color: white;
-    font-size: 13px;
-    opacity: .6;
+    // font-size: 13px;
+    // opacity: .6;
   }
 }
 
 .joinThreadWindow_wrapper_header_title {
-  color: white;
+  color: $threeBoxBlack;
   margin: 0;
-  font-size: 22px;
+  font-size: 36px;
   letter-spacing: .5px;
+  font-weight: 800;
 }
 
 .joinThreadWindow_wrapper_header {
@@ -121,10 +123,10 @@
 }
 
 .joinThreadWindow_wrapper_button {
-  background-color: #1168df;
+  background-color: $threeBoxBlack;
   padding: 10px 20px;
-  border-radius: 25px;
-  font-size: 16px;
+  border-radius: 35px;
+  font-size: 24px;
   font-weight: 700;
   color: white;
   border: none;
@@ -132,6 +134,43 @@
   box-sizing: border-box;
   height: 40px;
   cursor: pointer;
+  height: 60px;
+  width: 180px;
+  transition: 0.3s ease-in-out;
+  box-shadow: 0px 0px 35px -7px rgba(0, 0, 0, 0.56);
+  opacity: 1;
+}
+
+.show.joinThreadWindow_wrapper_button {
+  opacity: 0;
+}
+
+.joinThreadWindow_wrapper_approve {
+  position: absolute;
+  bottom: 250px;
+  left: calc(50% - 130px);
+  color: $lighterFont;
+  opacity: 0;
+  transition: 0.3s ease-in-out;
+}
+
+.show.joinThreadWindow_wrapper_approve {
+  opacity: 1;
+}
+
+.joinThreadWindow_wrapper_image {
+  background-color: $threeBoxBlack;
+  height: 140px;
+  width: 140px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.joinThreadWindow_wrapper_image_pic {
+  width: 70px;
+  height: auto;
 }
 
 .thread_loading {

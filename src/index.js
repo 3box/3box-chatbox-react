@@ -1,8 +1,5 @@
 import './styles';
-import PopupChat from './PopupChat';
-import Chat from './Chat';
+import ChatBox from './ChatBox';
+// import Chat from './Chat';
 
-export {
-  Chat,
-  PopupChat,
-};
+export default ChatBox;

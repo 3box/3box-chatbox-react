@@ -6,11 +6,13 @@
   position: relative;
   bottom: 0;
   display: flex;
-  background-color: #edf1f3;
+  // background-color: #edf1f3;
   // background-color: #f4f7f9;
   border-bottom-left-radius: $windowBorderRadius;
   border-bottom-right-radius: $windowBorderRadius;
   transition: background-color .2s ease, box-shadow .2s ease;
+
+  border-top: 1px solid $borderColor;
 }
 
 

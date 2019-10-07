@@ -25,7 +25,7 @@ class App extends Component {
         teamName: 'Ghost',
         imageUrl: null
       },
-      colorTheme,
+      colorTheme: colorTheme || '#181F21',
 
       dialogueLength: null,
       isLoading: false,
@@ -192,6 +192,13 @@ class App extends Component {
     this.setState({
       messageList: [...this.state.messageList, message]
     })
+  }
+
+  _handleClick() {
+    this.setState({
+      isOpen: !this.state.isOpen,
+      newMessagesCount: 0
+    });
   }
 
   postMessage = async (message) => {

@@ -3,14 +3,16 @@
 .sc-header {
   background: $threeBoxBlack;
   min-height: 60px;
+
   border-top-left-radius: $windowBorderRadius;
   border-top-right-radius: $windowBorderRadius;
-  color: white;
+  // color: white;
   padding: 10px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, .2);
+  // box-shadow: 0 1px 4px rgba(0, 0, 0, .2);
   position: relative;
   box-sizing: border-box;
   display: flex;
+  border-bottom: 1px solid $borderColor;
 }
 
 .sc-header--img {
@@ -19,9 +21,10 @@
   padding: 0 6px;
 }
 
-.sc-header--img.ghost {
-  font-size: 30px;
+.sc-header--img.default {
   margin: 0;
+  width: 28px;
+  height: auto;
 }
 
 .sc-header--team-name {
@@ -33,6 +36,8 @@
   font-weight: 800;
   font-size: 18px;
   letter-spacing: .3px;
+  color: white;
+  // color: $threeBoxBlack;
 }
 
 .sc-header--close-button {
@@ -45,7 +50,7 @@
 }
 
 .sc-header--close-button:hover {
-  background: #4882ed;
+  background-color: rgba(255, 255, 255, 0.153);
 }
 
 .sc-header--close-button img {

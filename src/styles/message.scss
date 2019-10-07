@@ -3,7 +3,7 @@
 .sc-message {
   width: 350px;
   margin: auto;
-  padding-bottom: 40px;
+  padding-bottom: 20px;
   display: flex;
 
   &:hover {
@@ -69,19 +69,20 @@
 
 .sc-message_messager {
   position: absolute;
-  font-size: 13px;
+  font-size: 12px;
   color: $lighterFont;
-  top: -35px;
-  left: 66px;
+  top: -32px;
+  left: 67px;
 }
 
 .sc-message_timestamp {
   position: absolute;
   font-size: 13px;
   color: $lighterFont;
-  bottom: -35px;
+  bottom: -32px;
   opacity: 0;
   transition: .2s ease-in-out all;
+  margin: 0;
 }
 
 .received .sc-message_timestamp {
@@ -94,6 +95,7 @@
 
 .sc-message--emoji {
   font-size: 40px;
+  height: 40px;
 }
 
 .sc-message--file {

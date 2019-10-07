@@ -52,10 +52,14 @@ class Launcher extends Component {
       openThread,
       threadLoading,
       colorTheme,
-      onMessageWasSent
+      onMessageWasSent,
+      isOpen,
+      agentProfile,
+      messageList,
+      showEmoji,
+      profiles
     } = this.props;
 
-    const isOpen = this.props.hasOwnProperty('isOpen') ? this.props.isOpen : this.state.isOpen;
     const classList = [
       'sc-launcher',
       (isOpen ? 'opened' : ''),
@@ -72,22 +76,22 @@ class Launcher extends Component {
           <img className={'sc-open-icon'} src={launcherIconActive} />
           {/* <img className={'sc-closed-icon'} src={launcherIcon} /> */}
           <SVG src={Chat} alt="Logo" className={'sc-closed-icon'} />
-
         </div>
 
         <ChatWindow
-          messageList={this.props.messageList}
+          messageList={messageList}
           onUserInputSubmit={onMessageWasSent}
-          agentProfile={this.props.agentProfile}
+          agentProfile={agentProfile}
           isOpen={isOpen}
           onClose={this.handleClick.bind(this)}
-          showEmoji={this.props.showEmoji}
-          profiles={this.props.profiles}
+          showEmoji={showEmoji}
+          profiles={profiles}
           currentUser3BoxProfile={currentUser3BoxProfile}
           currentUserAddr={currentUserAddr}
           threadJoined={threadJoined}
           openThread={openThread}
           threadLoading={threadLoading}
+          colorTheme={colorTheme}
         />
       </div>
     );

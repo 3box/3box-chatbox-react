@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import closeIcon from '../assets/close-icon.png';
+import SVG from 'react-inlinesvg';
 
+import closeIcon from '../assets/close-icon.png';
+import Chat from '../assets/Chat2.svg';
 
 class Header extends Component {
 
@@ -11,7 +13,7 @@ class Header extends Component {
 
         {imageUrl ? (
           <img className="sc-header--img" src={imageUrl} alt="Chat Profile" />
-        ) : <p className="sc-header--img ghost">👻</p>
+        ) : <SVG src={Chat} alt="Logo" className="sc-header--img default" />
         }
 
         <div className="sc-header--team-name"> {teamName} </div>
