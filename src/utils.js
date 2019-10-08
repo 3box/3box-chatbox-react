@@ -56,7 +56,6 @@ export const sortChronologicallyAndGroup = (threadPosts) => {
   });
 
   return groupedThreadPosts;
-  // return updatedThreadPosts;
 }
 
 const ranges = [

@@ -57,8 +57,9 @@ class UserInput extends Component {
 
   _submitText(event) {
     event.preventDefault();
+    const { threadJoined } = this.props;
     const text = this.userInput.textContent;
-    if (text && text.length > 0) {
+    if (text && text.length > 0 && threadJoined) {
       this.props.onSubmit({
         author: 'me',
         type: 'text',
@@ -69,10 +70,11 @@ class UserInput extends Component {
   }
 
   _handleEmojiPicked = (emoji) => {
+    const { threadJoined } = this.props;
     this.setState({ emojiPickerIsOpen: false });
     if (this.state.inputHasText) {
       this.userInput.innerHTML += emoji;
-    } else {
+    } else if (threadJoined) {
       this.props.onSubmit({
         author: 'me',
         type: 'text',
@@ -123,6 +125,7 @@ class UserInput extends Component {
               />
             </div>
           )}
+
         <div
           role="button"
           tabIndex="0"
@@ -136,15 +139,18 @@ class UserInput extends Component {
           className="sc-user-input--text"
         >
         </div>
+
         <div className="sc-user-input--buttons">
-          <div className="sc-user-input--button"></div>
           <div className="sc-user-input--button">
-            {this.props.showEmoji && <EmojiIcon
-              onClick={this.toggleEmojiPicker}
-              isActive={emojiPickerIsOpen}
-              tooltip={this._renderEmojiPopup()}
-            />}
+            {this.props.showEmoji && (
+              <EmojiIcon
+                onClick={this.toggleEmojiPicker}
+                isActive={emojiPickerIsOpen}
+                tooltip={this._renderEmojiPopup()}
+              />
+            )}
           </div>
+
           {this.state.inputHasText && (
             <div className="sc-user-input--button">
               <SendIcon onClick={this._submitText.bind(this)} />

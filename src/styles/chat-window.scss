@@ -62,10 +62,6 @@
   justify-content: space-between;
   transition: 0.3s ease-in-out;
   border-radius: $windowBorderRadius;
-
-  &:hover {
-    // background-color: $threeBoxBlackHover;
-  }
 }
 
 .popupChat .joinThreadWindow {
@@ -79,6 +75,7 @@
   position: absolute;
   top: 0;
   left: 0;
+  border: 1px solid $borderColor;
 }
 
 .joinThreadWindow.opened {
@@ -104,8 +101,6 @@
 
   p {
     margin: 0;
-    // font-size: 13px;
-    // opacity: .6;
   }
 }
 
@@ -123,8 +118,6 @@
   align-items: flex-start;
   justify-content: space-between;
 }
-
-
 
 .joinThreadWindow_wrapper_buttonDiv {
   height: 60px;
@@ -161,9 +154,6 @@
 }
 
 .joinThreadWindow_wrapper_loading {
-  // position: absolute;
-  // bottom: 250px;
-  // left: calc(50% - 130px);
   opacity: 0;
   transition: 0.3s ease-in-out;
   display: flex;
@@ -195,7 +185,6 @@
 }
 
 .joinThreadWindow_wrapper_image {
-  // background-color: $threeBoxBlack;
   height: 140px;
   width: 140px;
   border-radius: 50%;
@@ -214,9 +203,6 @@
   min-height: 30px;
   max-width: 30px;
   max-height: 30px;
-  // position: absolute;
-  // right: -36px;
-  // top: -4px;
 }
 
 @media (max-width: 450px) {

@@ -1,8 +1,6 @@
 import React from 'react';
 import Box from '3box';
 
-// import Comments from '../src/index';
-
 import ChatBox from '../src/index';
 
 import './index.scss';
@@ -62,8 +60,9 @@ class Example extends React.Component {
               ethereum={window.ethereum}
 
               popupChat
-
+              mute
               // colorTheme="#1168df"
+
             // optional
             // colorTheme="#1168df"
             // threadOpts={{}}

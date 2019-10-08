@@ -15,20 +15,18 @@ class Message extends Component {
     } else {
       return <TextMessage {...this.props.message} isMyComment={isMyComment} colorTheme={colorTheme} />;
     }
-    // switch (message) {
-    //   // if message is one emoji, use emoji component
-    //   case 'text':
-    //     return <TextMessage {...this.props.message} />;
-    //   // case 'emoji':
-    //   //   return <EmojiMessage {...this.props.message} />;
-    //   default:
-    //     // console.error(`Attempting to load message with unsupported file type '${type}'`);
-    //     return <TextMessage {...this.props.message} />;
-    // }
   }
 
   render() {
-    const { currentUserAddr, profile, message, isFirstMessage, isLastMessage, colorTheme } = this.props;
+    const {
+      currentUserAddr,
+      profile,
+      message,
+      isFirstMessage,
+      isLastMessage,
+      colorTheme,
+    } = this.props;
+
     const currentUserAddrNormalized = currentUserAddr && currentUserAddr.toLowerCase();
     const commentAddr = profile && profile.ethAddr.toLowerCase();
     const isMyComment = commentAddr === currentUserAddrNormalized;

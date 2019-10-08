@@ -6,8 +6,7 @@ import PropTypes from 'prop-types';
 import resolve from 'did-resolver';
 import registerResolver from '3id-resolver';
 
-
-import { checkIsMobileDevice } from './utils';
+import { checkIsMobileDevice, sortChronologicallyAndGroup } from './utils';
 
 import Launcher from './components/Launcher';
 import ChatWindow from './components/ChatWindow';
@@ -24,6 +23,7 @@ class ChatBox extends Component {
       box,
       ethereum,
       popupChat,
+      mute,
     } = this.props;
 
     this.state = {
@@ -35,6 +35,9 @@ class ChatBox extends Component {
       showEmoji,
       popupChat,
       isOpen: false,
+      newMessagesCount: 0,
+      numUsersOnline: 0,
+      mute,
 
       dialogueLength: null,
       isLoading: false,
@@ -126,7 +129,7 @@ class ChatBox extends Component {
       profile.profileURL = userProfileURL ? userProfileURL(ethAddr) : `https://3box.io/${ethAddr}`;
       profiles[profilesToUpdate[i]] = profile;
     });
-    this.setState({ profiles });
+    this.setState({ profiles, numUsersOnline: profiles.length });
   }
 
   openThread = async () => {
@@ -176,34 +179,46 @@ class ChatBox extends Component {
     };
     const thread = await space.joinThread(threadName, opts);
 
-    const dialogue = await thread.getPosts();
-    thread.onUpdate(() => this.updateComments());
+    const unsortedDialogue = await thread.getPosts();
+    const dialogue = sortChronologicallyAndGroup(unsortedDialogue);
+
     this.setState({
       thread,
       dialogue,
       threadJoined: true
-    });
+    }, () => thread.onUpdate(() => this.updateComments()));
   }
 
   updateComments = async () => {
     const {
       thread,
-      uniqueUsers
+      uniqueUsers,
+      dialogue,
+      newMessagesCount
     } = this.state;
-    const dialogue = await thread.getPosts();
+    const updatedUnsortedDialogue = await thread.getPosts();
+    const updatedDialogue = sortChronologicallyAndGroup(updatedUnsortedDialogue);
 
     // if there are new messagers, fetch their profiles
-    const updatedUniqueUsers = [...new Set(dialogue.map(x => x.author))];
+    const updatedUniqueUsers = [...new Set(updatedUnsortedDialogue.map(x => x.author))];
+
+    // count new messages for when popup closed
+    const numNewMessages = updatedDialogue.length - dialogue.length;
+    let totalNewMessages = newMessagesCount;
+    totalNewMessages += numNewMessages;
+
     if (uniqueUsers.length === updatedUniqueUsers.length) {
       this.setState({
-        dialogue,
-        dialogueLength: dialogue.length
+        dialogue: updatedDialogue,
+        dialogueLength: updatedDialogue.length,
+        newMessagesCount: totalNewMessages
       });
     } else {
       await this.fetchMessagers(updatedUniqueUsers);
       this.setState({
-        dialogue,
-        dialogueLength: dialogue.length
+        dialogue: updatedDialogue,
+        dialogueLength: updatedDialogue.length,
+        newMessagesCount: totalNewMessages
       });
     }
   }
@@ -240,6 +255,9 @@ class ChatBox extends Component {
       colorTheme,
       showEmoji,
       popupChat,
+      newMessagesCount,
+      numUsersOnline,
+      mute
     } = this.state;
     const isOpen = this.props.hasOwnProperty('isOpen') ? this.props.isOpen : this.state.isOpen;
 
@@ -249,6 +267,7 @@ class ChatBox extends Component {
           onMessageWasSent={this._onMessageWasSent}
           handleClick={this._handleClick}
           openThread={this.openThread}
+          resetNewMessageCounter={this.resetNewMessageCounter}
           agentProfile={agentProfile}
           messageList={dialogue}
           showEmoji={showEmoji}
@@ -259,6 +278,9 @@ class ChatBox extends Component {
           threadJoined={threadJoined}
           colorTheme={colorTheme}
           isOpen={isOpen}
+          newMessagesCount={newMessagesCount}
+          numUsersOnline={numUsersOnline}
+          mute={mute}
         />
       );
     }
@@ -276,6 +298,9 @@ class ChatBox extends Component {
         currentUserAddr={currentUserAddr}
         threadJoined={threadJoined}
         threadLoading={threadLoading}
+        colorTheme={colorTheme}
+        numUsersOnline={numUsersOnline}
+        mute={mute}
         notPopup
       />
     )
@@ -301,6 +326,7 @@ ChatBox.propTypes = {
   spaceName: PropTypes.string.isRequired,
   threadName: PropTypes.string.isRequired,
   adminEthAddr: PropTypes.string.isRequired,
+  showEmoji: PropTypes.bool,
 };
 
 ChatBox.defaultProps = {
@@ -316,4 +342,5 @@ ChatBox.defaultProps = {
   threadOpts: null,
   spaceOpts: null,
   loginFunction: null,
+  showEmoji: true,
 };

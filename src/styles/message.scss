@@ -5,12 +5,6 @@
   margin: auto;
   padding-bottom: 10px;
   display: flex;
-
-  // &:hover {
-  //   .sc-message_timestamp{
-  //     opacity: 1;
-  //   }
-  // }
 }
 
 .sc-message--content {
@@ -50,13 +44,12 @@
   white-space: pre-wrap;
   -webkit-font-smoothing: subpixel-antialiased;
   word-wrap: break-word;
-  width: calc(100% - 90px);
+  // width: calc(100% - 90px);
+  width: fit-content;
 }
 
 .sc-message--content.sent .sc-message--text {
   color: white;
-  // background-color: $threeBoxBlack;
-  // background-color: #4e8cff;
   max-width: calc(100% - 120px);
   word-wrap: break-word;
 }
@@ -88,24 +81,6 @@
   min-width: 52px;
 }
 
-// .sc-message_timestamp {
-//   position: absolute;
-//   font-size: 13px;
-//   color: $lighterFont;
-//   bottom: -20px;
-//   opacity: 0;
-//   transition: .2s ease-in-out all;
-//   margin: 0;
-// }
-
-// .received .sc-message_timestamp {
-//   left: 66px;
-// }
-
-// .sent .sc-message_timestamp {
-//   right: 0;
-// }
-
 .sc-message--emoji {
   font-size: 40px;
   height: 40px;
@@ -128,10 +103,6 @@
   margin: 0px 0px 0px 10px;
   color: rgba(86, 88, 103, 0.6);
 }
-
-// .sc-message--file .sc-user-input--file-icon:hover path {
-//   fill: rgba(86, 88, 103, 0.3);
-// }
 
 @media (max-width: 450px) {
   .sc-message {
