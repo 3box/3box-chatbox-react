@@ -8,12 +8,12 @@ import EmojiMessage from './EmojiMessage';
 
 class Message extends Component {
 
-  _renderMessageOfType(message) {
+  _renderMessageOfType(message, isMyComment, colorTheme) {
     const isEmoji = checkEmojis(message);
     if (isEmoji) {
       return <EmojiMessage {...this.props.message} />;
     } else {
-      return <TextMessage {...this.props.message} />;
+      return <TextMessage {...this.props.message} isMyComment={isMyComment} colorTheme={colorTheme} />;
     }
     // switch (message) {
     //   // if message is one emoji, use emoji component
@@ -28,7 +28,7 @@ class Message extends Component {
   }
 
   render() {
-    const { currentUserAddr, profile, message } = this.props;
+    const { currentUserAddr, profile, message, isFirstMessage, isLastMessage, colorTheme } = this.props;
     const currentUserAddrNormalized = currentUserAddr && currentUserAddr.toLowerCase();
     const commentAddr = profile && profile.ethAddr.toLowerCase();
     const isMyComment = commentAddr === currentUserAddrNormalized;
@@ -43,21 +43,21 @@ class Message extends Component {
         : makeBlockie(profile.ethAddr));
 
     return (
-      <div className="sc-message">
+      <div className="sc-message" title={`${timeSince(message.timestamp * 1000)} ago`}>
         <div className={contentClassList.join(' ')}>
-          {!isMyComment && <p className="sc-message_messager">{`${profile.name} ${shortenEthAddr(profile.ethAddr)}`}</p>}
+          {(!isMyComment && isFirstMessage) && (
+            <p className="sc-message_messager" >
+              {`${profile.name} ${shortenEthAddr(profile.ethAddr)}`}
+            </p>)}
 
-          <img
-            className="sc-message--avatar comment_picture comment_picture-bgWhite"
-            src={profilePicture}
-            alt="profile"
-          />
+          {isLastMessage ? (
+            <img
+              className="sc-message--avatar comment_picture comment_picture-bgWhite"
+              src={profilePicture}
+              alt="profile"
+            />) : <div className="sc-message_spacer" />}
 
-          {this._renderMessageOfType(message.message)}
-
-          <p className="sc-message_timestamp">
-            {`${timeSince(message.timestamp * 1000)} ago`}
-          </p>
+          {this._renderMessageOfType(message.message, isMyComment, colorTheme)}
         </div>
       </div>);
   }

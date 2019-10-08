@@ -35,14 +35,28 @@ export const checkIsMobileDevice = () => {
   return ((window && typeof window.orientation !== "undefined")) || (navigator && navigator.userAgent.indexOf('IEMobile') !== -1);
 };
 
-export const sortChronologically = (threadPosts) => {
+export const sortChronologicallyAndGroup = (threadPosts) => {
   const updatedThreadPosts = threadPosts.sort((a, b) => {
     a = a.timestamp;
     b = b.timestamp;
     return a > b ? 1 : a < b ? -1 : 0;
   });
 
-  return updatedThreadPosts;
+  const groupedThreadPosts = [];
+  let groupedIndex = -1;
+
+  updatedThreadPosts.forEach((post) => {
+    if (groupedIndex === -1 || groupedThreadPosts[groupedIndex][groupedThreadPosts[groupedIndex].length - 1].author !== post.author) {
+      groupedIndex += 1;
+      groupedThreadPosts[groupedIndex] = [];
+      groupedThreadPosts[groupedIndex].push(post);
+    } else {
+      groupedThreadPosts[groupedIndex].push(post);
+    }
+  });
+
+  return groupedThreadPosts;
+  // return updatedThreadPosts;
 }
 
 const ranges = [

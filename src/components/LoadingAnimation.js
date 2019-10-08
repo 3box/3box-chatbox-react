@@ -2,8 +2,8 @@ import React from 'react';
 
 import '../styles/LoadingAnimation.scss';
 
-const LoadingAnimation = () => (
-  <div style={{ color: "#87c4a3" }} className="la-ball-pulse-sync">
+const LoadingAnimation = ({ colorTheme, threadLoading }) => (
+  <div style={{ color: colorTheme }} className={`la-ball-pulse-sync ${threadLoading ? 'threadLoading' : ''}`}>
     <div></div>
     <div></div>
     <div></div>

@@ -48,8 +48,6 @@ class ChatBox extends Component {
       currentUserAddr,
       ethereum: ethereum || window.ethereum,
       isMobile: checkIsMobileDevice(),
-
-      messageList: []
     }
   }
 
@@ -212,9 +210,6 @@ class ChatBox extends Component {
 
   _onMessageWasSent = async (message) => {
     await this.postMessage(message);
-    this.setState({
-      messageList: [...this.state.messageList, message]
-    })
   }
 
   _handleClick = () => {
@@ -228,9 +223,6 @@ class ChatBox extends Component {
     try {
       await this.state.thread.post(message.data.text || message.data.emoji);
       await this.updateComments();
-      this.setState({
-        messageList: [...this.state.messageList, message],
-      });
     } catch (error) {
       console.error('There was an error saving your message', error);
     }

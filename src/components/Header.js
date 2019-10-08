@@ -7,9 +7,9 @@ import Chat from '../assets/Chat2.svg';
 class Header extends Component {
 
   render() {
-    const { imageUrl, teamName, onClose } = this.props;
+    const { imageUrl, teamName, onClose, colorTheme } = this.props;
     return (
-      <div className="sc-header">
+      <div className="sc-header" style={{ backgroundColor: colorTheme }}>
 
         {imageUrl ? (
           <img className="sc-header--img" src={imageUrl} alt="Chat Profile" />

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component, Fragment } from 'react';
 import SVG from 'react-inlinesvg';
 import Tilt from 'react-tilt';
+import TextLoop from "react-text-loop";
 
 import Chat from '../assets/Chat2.svg';
 import Logo from '../assets/3BoxLogo.svg';
@@ -82,7 +83,7 @@ class ChatWindow extends Component {
         <div className={joinThreadWindowClassList.join(' ')}>
           <div className="joinThreadWindow_wrapper">
 
-            <div className="joinThreadWindow_wrapper_image">
+            <div className="joinThreadWindow_wrapper_image" style={{ backgroundColor: colorTheme }}>
               {agentProfile.imageUrl ? (
                 <img
                   src={agentProfile.imageUrl}
@@ -94,21 +95,41 @@ class ChatWindow extends Component {
             </div>
 
             <div className="joinThreadWindow_wrapper_header">
-              <h3 className="joinThreadWindow_wrapper_header_title">{`${agentProfile.teamName} Chat`} </h3>
-              {/* <p>Ephemeral threads are P2P and impermanent.</p> */}
+              <h3 className="joinThreadWindow_wrapper_header_title">
+                {`${agentProfile.teamName} Chat`}
+              </h3>
             </div>
 
-            <Tilt options={options}>
-              <button className={`joinThreadWindow_wrapper_button  ${threadLoading ? 'show' : ''}`} onClick={openThread}>
-                Join
-              </button>
-            </Tilt>
+            <div className={`joinThreadWindow_wrapper_loading  ${threadLoading ? 'show' : ''}`} >
+              <TextLoop interval="3400" noWrap={false} adjustingSpeed={1000}>
+                <p className="joinThreadWindow_wrapper_loading_text">
+                  Loading 3Box
+                </p>
+                <p className="joinThreadWindow_wrapper_loading_text">
+                  Joining chat
+                </p>
+                <p className="joinThreadWindow_wrapper_loading_text">
+                  Approve in your wallet
+                </p>
+              </TextLoop>
+            </div>
+
+            <div className="joinThreadWindow_wrapper_buttonDiv">
+              <Tilt options={options}>
+                <button
+                  className={`joinThreadWindow_wrapper_button  ${threadLoading ? '' : 'show'}`}
+                  onClick={openThread}
+                  style={{ backgroundColor: colorTheme }}
+                >
+                  Join
+                </button>
+              </Tilt>
+
+              <LoadingAnimation colorTheme={colorTheme} threadLoading={threadLoading} />
+            </div>
+
 
             {/* {threadLoading && <SVG className="thread_loading" src={Loading} alt="Loading" />} */}
-
-            <p className={`joinThreadWindow_wrapper_approve ${threadLoading ? 'show' : ''}`}>Approve the message in your wallet</p>
-            
-            <LoadingAnimation />
 
             <footer>
               <span className="footer_text">
@@ -126,12 +147,14 @@ class ChatWindow extends Component {
             teamName={agentProfile.teamName}
             imageUrl={agentProfile.imageUrl}
             onClose={onClose}
+            colorTheme={colorTheme}
           />
           <MessageList
             messages={messageList}
             imageUrl={agentProfile.imageUrl}
             currentUserAddr={currentUserAddr}
             profiles={profiles}
+            colorTheme={colorTheme}
           />
           <UserInput
             currentUser3BoxProfile={currentUser3BoxProfile}

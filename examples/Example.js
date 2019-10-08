@@ -63,6 +63,7 @@ class Example extends React.Component {
 
               popupChat
 
+              // colorTheme="#1168df"
             // optional
             // colorTheme="#1168df"
             // threadOpts={{}}
