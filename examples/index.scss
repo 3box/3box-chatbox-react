@@ -1,17 +1,38 @@
-.appcontainerreplace {
+.App {
+  background-color: #1168df;
   width: 100vw;
   height: 100vh;
-
   display: flex;
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
 }
 
+.example_page {
+  width: 80%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .userscontainer {
   margin-top: 100px;
-  width: 70vw;
+  width: 80%;
   height: 600px;
+}
+
+.example_page_header {
+  h2 {
+    font-size: 50px;
+    color: white;
+    margin: 0;
+  }
+}
+
+.example_page_header_logo {
+  width: 180px;
+  margin: 0 0 60px 0;
 }
 
 @media only screen and (max-width: 768px) {

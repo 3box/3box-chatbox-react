@@ -1,7 +1,9 @@
 import React from 'react';
 import Box from '3box';
+import SVG from 'react-inlinesvg';
 
 import ChatBox from '../src/index';
+import Logo from '../src/assets/3BoxLogoWhite.svg';
 
 import './index.scss';
 
@@ -41,7 +43,11 @@ class Example extends React.Component {
 
     return (
       <div className="App">
-        <div className="appcontainerreplace">
+        <div className="example_page">
+          <div className="example_page_header">
+            <SVG src={Logo} alt="Logo" className="example_page_header_logo" />
+            <h2>Chatbox <br /> Demo</h2>
+          </div>
           <div className="userscontainer">
             <ChatBox
               // required
@@ -59,9 +65,9 @@ class Example extends React.Component {
               // case C
               ethereum={window.ethereum}
 
-              // popupChat
-              mute
-              // colorTheme="#1168df"
+              popupChat
+            // mute
+            // colorTheme="#1168df"
 
             // optional
             // colorTheme="#1168df"
