@@ -12,6 +12,8 @@
   position: relative;
   box-sizing: border-box;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   // border-bottom: 1px solid $borderColor;
 }
 
@@ -28,15 +30,31 @@
 }
 
 .sc-header--team-name {
-  align-self: center;
   padding: 10px 8px;
-  flex: 1;
-  user-select: none;
-  border-radius: 5px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.sc-header--team-name_text {
   font-weight: 800;
   font-size: 18px;
   letter-spacing: .3px;
   color: white;
+  margin-right: 12px;
+}
+
+.sc-header_details {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.sc-header--team-name_membersOnline {
+  font-size: 13px;
+  color: white;
+  opacity: .6;
+  padding-top: 1px;
 }
 
 .sc-header--close-button {

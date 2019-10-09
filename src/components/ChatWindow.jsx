@@ -67,7 +67,7 @@ class ChatWindow extends Component {
       profiles,
       showEmoji,
       colorTheme,
-      numUsersOnline,
+      membersOnline
     } = this.props;
 
     let messageList = this.props.messageList || [];
@@ -163,7 +163,7 @@ class ChatWindow extends Component {
             imageUrl={agentProfile.imageUrl}
             onClose={onClose}
             colorTheme={colorTheme}
-            numUsersOnline={numUsersOnline}
+            membersOnline={membersOnline}
           />
 
           <MessageList
@@ -203,7 +203,7 @@ ChatWindow.propTypes = {
   colorTheme: PropTypes.string,
   profiles: PropTypes.array,
   messageList: PropTypes.array,
-  numUsersOnline: PropTypes.number,
+  membersOnline: PropTypes.number,
 };
 
 export default ChatWindow;

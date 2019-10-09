@@ -37,6 +37,7 @@ class ChatBox extends Component {
       isOpen: false,
       newMessagesCount: 0,
       numUsersOnline: 0,
+      membersOnline: 0,
       mute,
 
       dialogueLength: null,
@@ -196,6 +197,7 @@ class ChatBox extends Component {
       dialogue,
       newMessagesCount
     } = this.state;
+    const members = await thread.listMembers();
     const updatedUnsortedDialogue = await thread.getPosts();
     const updatedDialogue = sortChronologicallyAndGroup(updatedUnsortedDialogue);
 
@@ -218,7 +220,8 @@ class ChatBox extends Component {
       this.setState({
         dialogue: updatedDialogue,
         dialogueLength: updatedDialogue.length,
-        newMessagesCount: totalNewMessages
+        newMessagesCount: totalNewMessages,
+        membersOnline: members.length + 1,
       });
     }
   }
@@ -257,7 +260,8 @@ class ChatBox extends Component {
       popupChat,
       newMessagesCount,
       numUsersOnline,
-      mute
+      mute,
+      membersOnline,
     } = this.state;
     const isOpen = this.props.hasOwnProperty('isOpen') ? this.props.isOpen : this.state.isOpen;
 
@@ -281,6 +285,7 @@ class ChatBox extends Component {
           newMessagesCount={newMessagesCount}
           numUsersOnline={numUsersOnline}
           mute={mute}
+          membersOnline={membersOnline}
         />
       );
     }
@@ -301,6 +306,7 @@ class ChatBox extends Component {
         colorTheme={colorTheme}
         numUsersOnline={numUsersOnline}
         mute={mute}
+        membersOnline={membersOnline}
         notPopup
       />
     )

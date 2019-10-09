@@ -41,7 +41,8 @@ class Launcher extends Component {
       showEmoji,
       profiles,
       numUsersOnline,
-      mute
+      mute,
+      membersOnline
     } = this.props;
 
     const classList = [
@@ -76,6 +77,7 @@ class Launcher extends Component {
           threadLoading={threadLoading}
           colorTheme={colorTheme}
           numUsersOnline={numUsersOnline}
+          membersOnline={membersOnline}
           mute={mute}
         />
       </div>
@@ -109,7 +111,7 @@ Launcher.propTypes = {
   agentProfile: PropTypes.string,
   currentUser3BoxProfile: PropTypes.object,
   profiles: PropTypes.object,
-  numUsersOnline: PropTypes.number,
+  membersOnline: PropTypes.number,
 };
 
 Launcher.defaultProps = {
