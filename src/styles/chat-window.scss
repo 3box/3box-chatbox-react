@@ -1,0 +1,248 @@
+@import './variables.scss';
+
+.chat,
+.popupChat {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.sc-chat-window {
+  width: 376px;
+  height: calc(100% - 120px);
+  max-height: 590px;
+  box-sizing: border-box;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: 0.3s ease-in-out;
+  border-radius: $windowBorderRadius;
+
+  border: 1px solid $borderColor;
+}
+
+.popupChat .sc-chat-window {
+  box-shadow: 0px 7px 40px 2px rgba(148, 149, 150, 0.3);
+  position: fixed;
+  right: 25px;
+  bottom: 100px;
+}
+
+.sc-chat-window.closed {
+  opacity: 0;
+  visibility: hidden;
+  bottom: 90px;
+}
+
+.sc-message-list {
+  height: 80%;
+  overflow-y: auto;
+  background-color: white;
+  background-size: 100%;
+  padding: 40px 0 0 0;
+}
+
+.sc-message--me {
+  text-align: right;
+}
+
+.sc-message--them {
+  text-align: left;
+}
+
+
+.joinThreadWindow {
+  width: 376px;
+  height: calc(100% - 120px);
+  max-height: 590px;
+  box-sizing: border-box;
+  background-color: white;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: 0.3s ease-in-out;
+  border-radius: $windowBorderRadius;
+}
+
+.popupChat .joinThreadWindow {
+  box-shadow: 0px 7px 40px 2px rgba(148, 149, 150, 0.3);
+  position: fixed;
+  right: 25px;
+  bottom: 100px;
+}
+
+.chat .joinThreadWindow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 1px solid $borderColor;
+  height: 100% !important;
+}
+
+.joinThreadWindow.opened {
+  display: flex;
+  opacity: 1;
+}
+
+.joinThreadWindow.closed {
+  opacity: 0;
+  visibility: hidden;
+  bottom: 90px;
+}
+
+.joinThreadWindow_wrapper {
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  position: relative;
+  box-sizing: border-box;
+
+  p {
+    margin: 0;
+  }
+}
+
+.joinThreadWindow_wrapper_header_title {
+  color: $threeBoxBlack;
+  margin: 0;
+  font-size: 36px;
+  letter-spacing: .5px;
+  font-weight: 800;
+}
+
+.joinThreadWindow_wrapper_header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.joinThreadWindow_wrapper_buttonDiv {
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.joinThreadWindow_wrapper_button {
+  background-color: $threeBoxBlack;
+  padding: 10px 20px;
+  border-radius: 35px;
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
+  border: none;
+  letter-spacing: .5px;
+  box-sizing: border-box;
+  height: 40px;
+  cursor: pointer;
+  height: 60px;
+  width: 180px;
+  transition: 0.3s ease-in-out;
+  box-shadow: 0px 0px 35px -7px rgba(0, 0, 0, 0.56);
+  opacity: 0;
+  display: none;
+}
+
+.show.joinThreadWindow_wrapper_button {
+  opacity: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.joinThreadWindow_wrapper_loading {
+  opacity: 0;
+  transition: 0.3s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -28px;
+}
+
+.joinThreadWindow_wrapper_loading_text {
+  color: $lighterFont;
+  text-align: center;
+  width: 270px;
+}
+
+.show.joinThreadWindow_wrapper_loading {
+  opacity: 1;
+}
+
+.x0.x1.x2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} 
+
+.x0.x3.x4.x5 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.joinThreadWindow_wrapper_image {
+  height: 140px;
+  width: 140px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.joinThreadWindow_wrapper_image_pic {
+  width: 70px;
+  height: auto;
+}
+
+.thread_loading {
+  min-width: 30px;
+  min-height: 30px;
+  max-width: 30px;
+  max-height: 30px;
+}
+
+@media (max-width: 450px) {
+  .chat .sc-chat-window {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    right: 0px;
+    bottom: 0px;
+  }
+
+  .popupChat .sc-chat-window {
+    width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    right: 0px;
+    bottom: 0px;
+    border-radius: 0px;
+    border: none;
+  }
+
+  .popupChat .sc-chat-window {
+    box-shadow: none;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+  }
+  
+  .sc-chat-window.closed {
+    opacity: 0;
+    visibility: hidden;
+    bottom: 0;
+  }
+
+  .sc-chat-window {
+    transition: 0.1s ease-in-out;
+  }
+
+  .sc-chat-window.closed {
+    bottom: 0px;
+  }
+}
