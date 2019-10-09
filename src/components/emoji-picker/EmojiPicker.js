@@ -19,7 +19,7 @@ const EmojiPicker = ({ onEmojiPicked, filter }) => (
             </div>
           )}
 
-          {filteredEmojis.map(({ char, _name }) => {
+          {filteredEmojis.map(({ char }) => {
             return (
               <span
                 key={char}

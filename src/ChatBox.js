@@ -28,7 +28,7 @@ class ChatBox extends Component {
 
     this.state = {
       agentProfile: agentProfile || {
-        teamName: 'Ghost',
+        chatName: 'Ghost',
         imageUrl: null
       },
       colorTheme: colorTheme || '#181F21',
@@ -324,6 +324,7 @@ ChatBox.propTypes = {
   spaceName: PropTypes.string.isRequired,
   threadName: PropTypes.string.isRequired,
   showEmoji: PropTypes.bool,
+  isOpen: PropTypes.bool,
 };
 
 ChatBox.defaultProps = {

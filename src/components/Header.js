@@ -8,7 +8,7 @@ import Chat from '../assets/Chat2.svg';
 class Header extends Component {
 
   render() {
-    const { imageUrl, teamName, onClose, colorTheme } = this.props;
+    const { imageUrl, chatName, onClose, colorTheme } = this.props;
 
     return (
       <div className="sc-header" style={{ backgroundColor: colorTheme }}>
@@ -17,7 +17,7 @@ class Header extends Component {
           : <SVG src={Chat} alt="Logo" className="sc-header--img default" />
         }
 
-        <div className="sc-header--team-name"> {teamName} </div>
+        <div className="sc-header--team-name"> {chatName} </div>
         <div className="sc-header--close-button" onClick={onClose}>
           <img src={closeIcon} alt="" />
         </div>
@@ -28,7 +28,7 @@ class Header extends Component {
 
 Header.propTypes = {
   imageUrl: PropTypes.string,
-  teamName: PropTypes.string,
+  chatName: PropTypes.string,
   colorTheme: PropTypes.string,
   onClose: PropTypes.func,
 };

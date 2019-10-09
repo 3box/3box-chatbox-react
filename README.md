@@ -1,10 +1,10 @@
 [![Discord](https://img.shields.io/discord/484729862368526356.svg?style=for-the-badge)](https://discordapp.com/invite/Z3f3Cxy)
-[![npm](https://img.shields.io/npm/v/3box-comments-react.svg?style=for-the-badge)](https://www.npmjs.com/package/3box-comments-react)
+[![npm](https://img.shields.io/npm/v/3box-chatbox-react.svg?style=for-the-badge)](https://www.npmjs.com/package/3box-chatbox-react)
 [![Twitter Follow](https://img.shields.io/twitter/follow/3boxdb.svg?style=for-the-badge&label=Twitter)](https://twitter.com/3boxdb)
 
-# 3Box Comments Plugin 💬
+# 3Box Chatbox Plugin 💬
 
-`3box-comments-react` node package is a drop-in react component that provides Web3 developers with a readymade commenting system for their Ethereum application. Easily add rich, decentralized social discourse to your dApp with one line of code. The 3Box Comments plugin is built using 3Box infrastructure, and handles all logic for creating a comments thread. *Read the docs on [docs.3box.io](https://docs.3box.io/build/plugins/comments)*.
+`3box-chatbox-react` node package is a drop-in react component that provides Web3 developers with a readymade chat system for their Ethereum application. Easily add rich, decentralized social discourse to your dApp with one line of code. The 3Box Chatbox plugin is built using 3Box infrastructure, and handles all logic for creating a chatbox. *Read the docs on [docs.3box.io](https://docs.3box.io/build/plugins/comments)*.
 
 ### Try the demo [here](https://3box.github.io/3box-comments-react/examples/dist/)
 ![Example Screenshot](comments-example-screenshot.png)
@@ -12,10 +12,10 @@
 
 ## How it Works
 #### Architecture
-The Comments plugin is built using a standard implementation of [Open Threads](https://docs.3box.io/build/web-apps/messaging/choose#open-threads) which are defined in the [3Box Threads API](https://docs.3box.io/api/messaging) and made available via the [`3Box.js SDK`](https://github.com/3box/3box-js). The Comments plugin also includes UI for inputting and displaying user comments, logic for fetching user profiles, and pagination. The component is configurable to various authentication patterns, and can handle both Web3/3Box logged-in & logged-out states. 
+The Chatbox plugin is built using a standard implementation of [Open Threads](https://docs.3box.io/build/web-apps/messaging/choose#open-threads) which are defined in the [3Box Threads API](https://docs.3box.io/api/messaging) and made available via the [`3Box.js SDK`](https://github.com/3box/3box-js). Chatbox messages are ephemeral and are persisted only as long as there is at least one user in the chatbox. The Chatbox plugin includes UI for inputting and displaying both an in-window and pop-up chat and all relevant logic. The component is configurable to various authentication patterns, and can handle both Web3/3Box logged-in & logged-out states. 
 
 #### Authentication
-Without authenticating, users can read messages in the comment thread. However authentication is required to perform more interactive functionality. After the user is authenticated, a user can post a comment, delete their comment, and receive comments from other users in *real-time*.
+The content of the configured chatbox cannot be read until a user has authenticated into their 3Box and joined the ephemeral (`ghost`-type) thread.  After authenticating, a user can post and receive messages from other users in *real-time*.
 </br>
 </br>
 
@@ -28,7 +28,7 @@ Without authenticating, users can read messages in the comment thread. However a
 ### 1. Install the component
 
 ```shell
-npm i -S 3box-comments-react
+npm i -S 3box-chatbox-react
 ```
 
 ### 2. Choose your authentication pattern
@@ -36,7 +36,7 @@ Depending on *when and how* your dApp handles authentication for web3 and 3Box, 
 
 **A) Dapp handles web3 and 3Box logins, and they run *before* component is mounted. (recommended)**
 
-Dapp integrates with `3Box.js SDK` and the `3box-comments-react` component. In this case, the `box` instance returned from `Box.openBox(ethAddr)` via 3Box.js should be passed to the `box` prop in the comments component. The user's current Ethereum address should be passed to the `currentUserAddr` prop to determine `deletePost` access on each comment.
+Dapp integrates with `3Box.js SDK` and the `3box-chatbox-react` component. In this case, the `box` instance returned from `Box.openBox(ethAddr)` via 3Box.js should be passed to the `box` prop in the comments component. The user's current Ethereum address should be passed to the `currentUserAddr` prop to determine which messages are their own.
 
 **B) Dapp handles web3 and 3Box logins, but they haven't run before component is mounted. (recommended)**
 
@@ -50,32 +50,18 @@ Dapp only integrates with the `3box-comments-react` component, but not `3Box.js 
 
 For the best UX, we recommend implementing one of the following authentication patterns: A; B; or B with A.
 
-Each of these patterns allow your application to make the `box` object available in global application state where it can be used by all instances of the Comments component regardless of which page the user is on. This global pattern removes the need for users to authenticate on each individual page they wish to comment on, which would be the case in C.
+Each of these patterns allow your application to make the `box` object available in global application state where it can be used by all instances of the Chatbox component regardless of which page the user is on. This global pattern removes the need for users to authenticate on each chatbox component, should you decide to have more than one, which would be the case in C.
 
 ### 3. Configure application settings
 
 **First, choose a name for your application's 3Box space.**
 
-Although you are free to choose whichever name you'd like for your app's space, we recommend using the name of your app. If your application already has a 3Box space, you are welcome to use that same one for comments.
+Although you are free to choose whichever name you'd like for your app's space, we recommend using the name of your app. If your application already has a 3Box space, you are welcome to use that same one for the chatbox.
 
 **Next, choose a naming convention for your application's threads.**
 
-Comment threads need a name, and we recommend that your application creates `threadNames` according to a simple rule. We generally like using a natural identifier, such as community name, page URL, token ID, or other similar means.
+The Chatbox thread needs a name, and we recommend that your application creates `threadNames` according to a simple rule. We generally like using a natural identifier, such as community name, page URL, token ID, or other similar means.
 
-**Then, create an admin 3Box account for your application.**
-
-Each thread is required to have an admin (`adminEthAddr`), which possesses the rights to moderate the thread. We recommend you create an admin Ethereum account for your application so you can perform these actions. While technically you can use any Ethereum address as an admin account, we recommend [creating a 3Box profile](https://3box.io/hub) for that address so if you need to take action in the thread, others will know and trust you as the admin.
-
-**Lastly, initialize your application's space.**
-
-Before threads can be deployed in your dapp, your application's admin account (`adminEthAddr` created in the previous step) must first open the space (`spaceName`) that will be used to store your application's threads. This step *must* be completed before your comment threads can be used by others. This process would likely be done outside the context of your dapp, probably in a test environment.
-
-Simply open a space by running (via `3Box.js SDK`): 
-```
-const box = await Box.openBox(adminEthAddr, ethereum);
-const space = await box.openSpace(spaceName, spaceOpts);
-```
-Sign the web3 prompts to complete the space initialization process.
 </br>
 </br>
 
@@ -88,11 +74,10 @@ Sign the web3 prompts to complete the space initialization process.
 import ThreeBoxComments from '3box-comments-react';
 
 const MyComponent = ({ handleLogin, box, ethereum, myAddress, currentUser3BoxProfile, adminEthAddr }) => (
-    <ThreeBoxComments 
+    <ChatBox 
         // required
         spaceName="mySpaceName"
         threadName="myThreadName"
-        adminEthAddr={adminEthAddr}
 
 
         // Required props for context A) & B)
@@ -106,12 +91,18 @@ const MyComponent = ({ handleLogin, box, ethereum, myAddress, currentUser3BoxPro
         ethereum={ethereum}
 
         // optional
-        members={false}
-        showCommentCount={10}
-        threadOpts={{}}
-        useHovers={false}
+        mute={false}
+        popupChat
+        showEmoji
+        colorTheme="#181F21"
         currentUser3BoxProfile={currentUser3BoxProfile}
         userProfileURL={address => `https://mywebsite.com/user/${address}`}
+        spaceOpts={}
+        threadOpts={}
+        agentProfile={
+            chatName: "3Box",
+            imageUrl: "https://imgur.com/RXJO8FD"
+        }
     />
 );
 ```

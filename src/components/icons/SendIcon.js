@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class SendIcon extends Component {
 
   render() {
+    const { onFocus, onBlur, onClick } = this.props;
     return (
       <button
-        onFocus={this.props.onFocus}
-        onBlur={this.props.onBlur}
-        onClick={(e) => { e.preventDefault(); this.props.onClick(e); }}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        onClick={(e) => { e.preventDefault(); onClick(e); }}
         className="sc-user-input--send-icon-wrapper"
       >
         <svg
@@ -31,5 +33,11 @@ class SendIcon extends Component {
     );
   }
 }
+
+SendIcon.propTypes = {
+  onFocus: PropTypes.func.isRequired,
+  onBlur: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
 
 export default SendIcon;

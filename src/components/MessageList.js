@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import makeBlockie from 'ethereum-blockies-base64';
 
 import Message from './Messages';
 
 class MessageList extends Component {
-
-  componentDidUpdate(_prevProps, _prevState) {
+  componentDidUpdate() {
     this.scrollList.scrollTop = this.scrollList.scrollHeight;
   }
 

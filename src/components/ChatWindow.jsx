@@ -114,7 +114,7 @@ class ChatWindow extends Component {
 
             <div className="joinThreadWindow_wrapper_header">
               <h3 className="joinThreadWindow_wrapper_header_title">
-                {`${agentProfile.teamName} Chat`}
+                {`${agentProfile.chatName} Chat`}
               </h3>
             </div>
 
@@ -159,7 +159,7 @@ class ChatWindow extends Component {
 
         <div className={chatWindowClassList.join(' ')}>
           <Header
-            teamName={agentProfile.teamName}
+            chatName={agentProfile.chatName}
             imageUrl={agentProfile.imageUrl}
             onClose={onClose}
             colorTheme={colorTheme}

@@ -72,7 +72,6 @@
     "babel-core": "^7.0.0-bridge.0",
     "emoji-js": "^3.4.1",
     "ethereum-blockies-base64": "^1.0.2",
-    "profile-hover": "^1.1.1",
     "react-linkify": "^1.0.0-alpha",
     "react-text-loop": "^2.1.1",
     "react-tilt": "^0.1.4",
