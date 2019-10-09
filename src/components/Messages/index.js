@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import makeBlockie from 'ethereum-blockies-base64';
+import PropTypes from 'prop-types';
 
 import { shortenEthAddr, timeSince, checkEmojis } from '../../utils';
 
@@ -10,10 +11,17 @@ class Message extends Component {
 
   _renderMessageOfType(message, isMyComment, colorTheme) {
     const isEmoji = checkEmojis(message);
+
     if (isEmoji) {
       return <EmojiMessage {...this.props.message} />;
     } else {
-      return <TextMessage {...this.props.message} isMyComment={isMyComment} colorTheme={colorTheme} />;
+      return (
+        <TextMessage
+          {...this.props.message}
+          isMyComment={isMyComment}
+          colorTheme={colorTheme}
+        />
+      );
     }
   }
 
@@ -43,22 +51,36 @@ class Message extends Component {
     return (
       <div className="sc-message" title={`${timeSince(message.timestamp * 1000)} ago`}>
         <div className={contentClassList.join(' ')}>
+
           {(!isMyComment && isFirstMessage) && (
-            <p className="sc-message_messager" >
+            <a href={profile.profileURL} className="sc-message_messager" >
               {`${profile.name} ${shortenEthAddr(profile.ethAddr)}`}
-            </p>)}
+            </a>
+          )}
 
           {isLastMessage ? (
-            <img
-              className="sc-message--avatar comment_picture comment_picture-bgWhite"
-              src={profilePicture}
-              alt="profile"
-            />) : <div className="sc-message_spacer" />}
+            <a href={profile.profileURL} className="sc-message_avatarWrapper" >
+              <img
+                className="sc-message--avatar comment_picture comment_picture-bgWhite"
+                src={profilePicture}
+                alt="profile"
+              />
+            </a>
+          ) : <div className="sc-message_spacer" />}
 
           {this._renderMessageOfType(message.message, isMyComment, colorTheme)}
         </div>
       </div>);
   }
 }
+
+Message.propTypes = {
+  message: PropTypes.string,
+  profile: PropTypes.object,
+  isFirstMessage: PropTypes.bool,
+  isLastMessage: PropTypes.bool,
+  colorTheme: PropTypes.string,
+  currentUserAddr: PropTypes.string,
+};
 
 export default Message;

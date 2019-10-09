@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 
 const EmojiIcon = ({ tooltip, onClick, isActive }) => (
   <div className="sc-user-input--picker-wrapper">
@@ -34,5 +34,11 @@ const EmojiIcon = ({ tooltip, onClick, isActive }) => (
     </button>
   </div>
 );
+
+EmojiIcon.propTypes = {
+  tooltip: PropTypes.string,
+  onClick: PropTypes.func.isRequired,
+  isActive: PropTypes.bool,
+};
 
 export default EmojiIcon;

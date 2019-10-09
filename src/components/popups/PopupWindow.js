@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import PropTypes from 'prop-types';
 
 class PopupWindow extends Component {
 
@@ -13,18 +13,19 @@ class PopupWindow extends Component {
   }
 
   interceptLauncherClick = (e) => {
-    const { isOpen } = this.props;
+    const { isOpen, onClickedOutside } = this.props;
     const clickedOutside = !this.emojiPopup.contains(e.target) && isOpen;
-    clickedOutside && this.props.onClickedOutside(e);
+    clickedOutside && onClickedOutside(e);
   }
 
   render() {
-    const { isOpen, children } = this.props;
+    const { isOpen, children, onInputChange } = this.props;
+    
     return (
       <div className="sc-popup-window" ref={e => this.emojiPopup = e}>
         <div className={`sc-popup-window--cointainer ${isOpen ? '' : 'closed'}`}>
           <input
-            onChange={this.props.onInputChange}
+            onChange={onInputChange}
             className="sc-popup-window--search"
             placeholder="Search emoji..."
           />
@@ -34,5 +35,12 @@ class PopupWindow extends Component {
     );
   }
 }
+
+PopupWindow.propTypes = {
+  isOpen: PropTypes.bool,
+  children: PropTypes.object,
+  onInputChange: PropTypes.func,
+  onClickedOutside: PropTypes.func,
+};
 
 export default PopupWindow;

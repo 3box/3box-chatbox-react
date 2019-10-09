@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import '../styles/LoadingAnimation.scss';
 
@@ -10,5 +11,10 @@ const LoadingAnimation = ({ colorTheme, threadLoading }) => (
     <div></div>
   </div>
 )
+
+LoadingAnimation.propTypes = {
+  colorTheme: PropTypes.string,
+  threadLoading: PropTypes.bool
+};
 
 export default LoadingAnimation;

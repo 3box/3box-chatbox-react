@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Message from './Messages';
+import PropTypes from 'prop-types';
 import makeBlockie from 'ethereum-blockies-base64';
 
-import { sortChronologicallyAndGroup } from '../utils';
+import Message from './Messages';
 
 class MessageList extends Component {
 
@@ -11,16 +11,17 @@ class MessageList extends Component {
   }
 
   render() {
-    const { messages, profiles, currentUserAddr, colorTheme } = this.props;
-    // const sortedChat = sortChronologicallyAndGroup(messages);
+    const {
+      messages,
+      profiles,
+      currentUserAddr,
+      colorTheme,
+    } = this.props;
 
     return (
       <div className="sc-message-list" ref={el => this.scrollList = el}>
         {messages.map((userGrouping, i) => {
           const profile = profiles[userGrouping[0].author];
-          const profilePicture = (profile && profile.ethAddr) &&
-            (profile.image ? `https://ipfs.infura.io/ipfs/${profile.image[0].contentUrl['/']}`
-              : makeBlockie(profile.ethAddr));
           const currentUserAddrNormalized = currentUserAddr && currentUserAddr.toLowerCase();
           const commentAddr = profile && profile.ethAddr.toLowerCase();
           const isMyComment = commentAddr === currentUserAddrNormalized;
@@ -46,5 +47,12 @@ class MessageList extends Component {
       </div>);
   }
 }
+
+MessageList.propTypes = {
+  messages: PropTypes.array,
+  profiles: PropTypes.object,
+  currentUserAddr: PropTypes.string,
+  colorTheme: PropTypes.string,
+};
 
 export default MessageList;

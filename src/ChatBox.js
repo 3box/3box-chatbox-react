@@ -17,11 +17,11 @@ class ChatBox extends Component {
     super(props);
     const {
       agentProfile,
-      colorTheme,
       showEmoji,
       currentUserAddr,
       box,
       ethereum,
+      colorTheme,
       popupChat,
       mute,
     } = this.props;
@@ -307,25 +307,22 @@ class ChatBox extends Component {
   }
 }
 
-export default ChatBox;
-
 ChatBox.propTypes = {
   chatName: PropTypes.string,
-
+  colorTheme: PropTypes.string,
+  popupChat: PropTypes.bool,
+  mute: PropTypes.bool,
   currentUserAddr: PropTypes.string,
   userProfileURL: PropTypes.func,
-  members: PropTypes.bool,
+  loginFunction: PropTypes.func,
   box: PropTypes.object,
   spaceOpts: PropTypes.object,
   agentProfile: PropTypes.object,
   ethereum: PropTypes.object,
   threadOpts: PropTypes.object,
   currentUser3BoxProfile: PropTypes.object,
-  useHovers: PropTypes.bool,
-  loginFunction: PropTypes.func,
   spaceName: PropTypes.string.isRequired,
   threadName: PropTypes.string.isRequired,
-  adminEthAddr: PropTypes.string.isRequired,
   showEmoji: PropTypes.bool,
 };
 
@@ -333,8 +330,6 @@ ChatBox.defaultProps = {
   chatName: '',
   currentUserAddr: '',
   agentProfile: null,
-  members: false,
-  useHovers: false,
   userProfileURL: null,
   box: null,
   ethereum: null,
@@ -344,3 +339,5 @@ ChatBox.defaultProps = {
   loginFunction: null,
   showEmoji: true,
 };
+
+export default ChatBox;

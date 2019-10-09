@@ -68,6 +68,12 @@
   left: 67px;
 }
 
+.sc-message_avatarWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .sc-message_group {
   position: relative;
   margin-bottom: 34px;

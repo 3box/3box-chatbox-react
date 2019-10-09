@@ -1,9 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const EmojiMessage = (props) => (
+const EmojiMessage = ({ message }) => (
   <div className="sc-message--emoji">
-    {props.message}
+    {message}
   </div>
 );
+
+EmojiMessage.propTypes = {
+  message: PropTypes.string,
+};
 
 export default EmojiMessage;

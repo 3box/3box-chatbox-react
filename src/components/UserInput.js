@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import makeBlockie from 'ethereum-blockies-base64';
 import SVG from 'react-inlinesvg';
 
@@ -164,7 +164,10 @@ class UserInput extends Component {
 
 UserInput.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  showEmoji: PropTypes.bool
+  showEmoji: PropTypes.bool,
+  threadJoined: PropTypes.bool,
+  currentUserAddr: PropTypes.string,
+  currentUser3BoxProfile: PropTypes.object,
 };
 
 export default UserInput;

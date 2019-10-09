@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import SVG from 'react-inlinesvg';
 
 import ChatWindow from './ChatWindow';
-import incomingMessageSound from '../assets/sounds/notification.mp3';
 import launcherIconActive from '../assets/close-icon.png';
 import Chat from '../assets/Chat2.svg';
 
@@ -16,27 +15,6 @@ class Launcher extends Component {
       isOpen: false
     };
   }
-
-  // componentDidUpdate(prevProps) {
-  //   const { messageList, profiles, currentUserAddr } = this.props;
-
-  //   if (this.props.mute) { return; }
-
-  //   const messageGroup = messageList[messageList.length - 1];
-  //   const nextMessage = messageGroup && messageGroup[messageGroup.length - 1];
-  //   const profile = nextMessage && profiles[nextMessage.author];
-  //   const currentUserAddrNormalized = currentUserAddr && currentUserAddr.toLowerCase();
-  //   const commentAddr = profile && profile.ethAddr.toLowerCase();
-  //   const isMyComment = commentAddr === currentUserAddrNormalized;
-  //   const isNew = messageList.length > prevProps.messageList.length;
-
-  //   if (!isMyComment && isNew) this.playIncomingMessageSound();
-  // }
-
-  // playIncomingMessageSound() {
-  //   var audio = new Audio(incomingMessageSound);
-  //   audio.play();
-  // }
 
   handleClick() {
     if (this.props.handleClick !== undefined) {
@@ -106,7 +84,7 @@ class Launcher extends Component {
 }
 
 const MessageCount = ({ count, isOpen }) => {
-  if (count === 0 || isOpen === true) { return null; }
+  if (count === 0 || isOpen === true) return null;
   return (
     <div className={'sc-new-messages-count'}>
       {count}
