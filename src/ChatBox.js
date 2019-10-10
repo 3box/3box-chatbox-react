@@ -36,8 +36,7 @@ class ChatBox extends Component {
       popupChat,
       isOpen: false,
       newMessagesCount: 0,
-      numUsersOnline: 0,
-      membersOnline: 0,
+      membersOnline: 1,
       mute,
 
       dialogueLength: null,
