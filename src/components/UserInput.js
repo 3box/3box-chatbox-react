@@ -31,7 +31,7 @@ class UserInput extends Component {
   }
 
   handleKeyUp(event) {
-    const inputHasText = event.target.innerHTML.length !== 0 &&
+    const inputHasText = event.target.value.length !== 0 &&
       event.target.innerText !== '\n';
     this.setState({ inputHasText });
   }
@@ -58,14 +58,14 @@ class UserInput extends Component {
   _submitText(event) {
     event.preventDefault();
     const { threadJoined } = this.props;
-    const text = this.userInput.textContent;
+    const text = this.userInput.value;
     if (text && text.length > 0 && threadJoined) {
       this.props.onSubmit({
         author: 'me',
         type: 'text',
         data: { text }
       });
-      this.userInput.innerHTML = '';
+      this.userInput.value = '';
     }
   }
 
@@ -73,7 +73,7 @@ class UserInput extends Component {
     const { threadJoined } = this.props;
     this.setState({ emojiPickerIsOpen: false });
     if (this.state.inputHasText) {
-      this.userInput.innerHTML += emoji;
+      this.userInput.value += emoji;
     } else if (threadJoined) {
       this.props.onSubmit({
         author: 'me',
@@ -126,7 +126,7 @@ class UserInput extends Component {
             </div>
           )}
 
-        <div
+        <input
           role="button"
           tabIndex="0"
           onFocus={() => { this.setState({ inputActive: true }); }}
@@ -137,8 +137,7 @@ class UserInput extends Component {
           contentEditable="true"
           placeholder="Write a reply..."
           className="sc-user-input--text"
-        >
-        </div>
+        />
 
         <div className="sc-user-input--buttons">
           <div className="sc-user-input--button">

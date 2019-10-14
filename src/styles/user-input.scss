@@ -15,7 +15,6 @@
   border-top: 1px solid $borderColor;
 }
 
-
 .sc-user-input--text {
   width: 330px;
   resize: none;
@@ -29,22 +28,13 @@
   line-height: 1.83;
   white-space: pre-wrap;
   word-wrap: break-word;
-  color: #565867;
+  color: $threeBoxBlack;
   -webkit-font-smoothing: antialiased;
   max-height: 200px;
   overflow: scroll;
   bottom: 0;
   overflow-x: hidden;
   overflow-y: auto;
-}
-
-.sc-user-input--text:empty:before {
-  content: attr(placeholder);
-  display: block;
-  /* For Firefox */
-  color: rgba(86, 88, 103, 0.3);
-  outline: none;
-  font-size: 15px;
 }
 
 .sc-user-input--buttons {
@@ -152,11 +142,6 @@
     font-size: 16px;
   }
 
-  .sc-user-input--text:empty:before {
-    font-size: 16px;
-  }
-
-  // .sc-user-input--file-icon:hover path,
   .hasText.sc-user-input--send-icon path {
     fill: rgba(86, 88, 103, 1);
   }
