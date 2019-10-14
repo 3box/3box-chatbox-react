@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import resolve from 'did-resolver';
 import registerResolver from '3id-resolver';
 
-import { checkIsMobileDevice, sortChronologicallyAndGroup } from './utils';
+import { sortChronologicallyAndGroup } from './utils';
 
 import Launcher from './components/Launcher';
 import ChatWindow from './components/ChatWindow';
@@ -38,9 +38,6 @@ class ChatBox extends Component {
       newMessagesCount: 0,
       membersOnline: 1,
       mute,
-
-      dialogueLength: null,
-      isLoading: false,
       threadJoined: false,
       dialogue: [],
       uniqueUsers: [],
@@ -50,14 +47,12 @@ class ChatBox extends Component {
       box,
       currentUserAddr,
       ethereum: ethereum || window.ethereum,
-      isMobile: checkIsMobileDevice(),
     }
   }
 
   async componentDidMount() {
     const { currentUserAddr } = this.state;
     const { currentUser3BoxProfile } = this.props;
-    this.setState({ isLoading: true });
 
     // get ipfs instance for did-resolver
     const IPFS = await Box.getIPFS();
@@ -68,8 +63,6 @@ class ChatBox extends Component {
       (!currentUser3BoxProfile || !Object.entries(currentUser3BoxProfile).length)) {
       this.fetchMe();
     }
-
-    this.setState({ isLoading: false });
   }
 
   componentDidUpdate(prevProps) {
@@ -211,14 +204,12 @@ class ChatBox extends Component {
     if (uniqueUsers.length === updatedUniqueUsers.length) {
       this.setState({
         dialogue: updatedDialogue,
-        dialogueLength: updatedDialogue.length,
         newMessagesCount: totalNewMessages
       });
     } else {
       await this.fetchMessagers(updatedUniqueUsers);
       this.setState({
         dialogue: updatedDialogue,
-        dialogueLength: updatedDialogue.length,
         newMessagesCount: totalNewMessages,
         membersOnline: members.length + 1,
       });

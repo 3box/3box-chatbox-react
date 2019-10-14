@@ -31,10 +31,6 @@ export const timeSince = (date) => {
   return Math.floor(seconds) + " seconds";
 }
 
-export const checkIsMobileDevice = () => {
-  return ((window && typeof window.orientation !== "undefined")) || (navigator && navigator.userAgent.indexOf('IEMobile') !== -1);
-};
-
 export const sortChronologicallyAndGroup = (threadPosts) => {
   const updatedThreadPosts = threadPosts.sort((a, b) => {
     a = a.timestamp;

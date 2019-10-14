@@ -102,7 +102,7 @@ class UserInput extends Component {
   )
 
   render() {
-    const { emojiPickerIsOpen, inputActive } = this.state;
+    const { emojiPickerIsOpen, inputActive, inputHasText } = this.state;
     const { currentUser3BoxProfile, currentUserAddr } = this.props;
 
     const updatedProfilePicture = currentUser3BoxProfile.image ? `https://ipfs.infura.io/ipfs/${currentUser3BoxProfile.image[0].contentUrl['/']}`
@@ -151,9 +151,9 @@ class UserInput extends Component {
             )}
           </div>
 
-          {this.state.inputHasText && (
+          {inputHasText && (
             <div className="sc-user-input--button">
-              <SendIcon onClick={this._submitText.bind(this)} />
+              <SendIcon onClick={this._submitText.bind(this)} inputHasText={inputHasText} />
             </div>
           )}
         </div>
