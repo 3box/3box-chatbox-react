@@ -30,10 +30,9 @@ class UserInput extends Component {
     const { isMobile } = this.state;
     if (event.keyCode === 13 && !event.shiftKey && !isMobile) {
       return this._submitText(event);
+    } else if (event.keyCode === 13 && !event.shiftKey && isMobile) {
+      event.preventDefault();
     }
-    //  else if (event.keyCode === 13 && !event.shiftKey && isMobile) {
-    //   return;
-    // }
   }
 
   handleKeyUp(event) {
@@ -132,7 +131,7 @@ class UserInput extends Component {
             </div>
           )}
 
-        <input
+        <textarea
           role="button"
           tabIndex="0"
           onFocus={() => { this.setState({ inputActive: true }); }}
