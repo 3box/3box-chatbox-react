@@ -131,7 +131,7 @@ class UserInput extends Component {
             </div>
           )}
 
-        <textarea
+        <div
           role="button"
           tabIndex="0"
           onFocus={() => { this.setState({ inputActive: true }); }}
@@ -142,7 +142,7 @@ class UserInput extends Component {
           contentEditable="true"
           placeholder="Write a reply..."
           className="sc-user-input--text"
-        />
+        ></div>
 
         <div className="sc-user-input--buttons">
           <div className="sc-user-input--button">
