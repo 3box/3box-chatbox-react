@@ -51,20 +51,27 @@
 }
 
 .la-ball-pulse-sync>div:nth-child(1) {
+  -webkit-animation-delay: -.21s;
+  -moz-animation-delay: -.21s;
+  -o-animation-delay: -.21s;
+  animation-delay: -.21s;
+}
+
+.la-ball-pulse-sync>div:nth-child(2) {
   -webkit-animation-delay: -.14s;
   -moz-animation-delay: -.14s;
   -o-animation-delay: -.14s;
   animation-delay: -.14s;
 }
 
-.la-ball-pulse-sync>div:nth-child(2) {
+.la-ball-pulse-sync>div:nth-child(3) {
   -webkit-animation-delay: -.07s;
   -moz-animation-delay: -.07s;
   -o-animation-delay: -.07s;
   animation-delay: -.07s;
 }
 
-.la-ball-pulse-sync>div:nth-child(3) {
+.la-ball-pulse-sync>div:nth-child(4) {
   -webkit-animation-delay: 0s;
   -moz-animation-delay: 0s;
   -o-animation-delay: 0s;

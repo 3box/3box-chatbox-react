@@ -106,11 +106,6 @@
   fill: rgba(86, 88, 103, 1);
 }
 
-// .sc-user-input--file-icon:hover path,
-.hasText.sc-user-input--send-icon path {
-  fill: rgba(86, 88, 103, 1);
-}
-
 // .sc-user-input--file-icon-wrapper
 .sc-user-input--emoji-icon-wrapper,
 .sc-user-input--send-icon-wrapper {
@@ -159,5 +154,10 @@
 
   .sc-user-input--text:empty:before {
     font-size: 16px;
+  }
+
+  // .sc-user-input--file-icon:hover path,
+  .hasText.sc-user-input--send-icon path {
+    fill: rgba(86, 88, 103, 1);
   }
 }

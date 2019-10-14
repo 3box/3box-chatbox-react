@@ -38,6 +38,7 @@ SendIcon.propTypes = {
   onFocus: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
+  inputHasText: PropTypes.bool,
 };
 
 export default SendIcon;

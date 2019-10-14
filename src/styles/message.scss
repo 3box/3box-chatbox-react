@@ -111,6 +111,10 @@
 
 @media (max-width: 450px) {
   .sc-message {
-    width: 80%;
+    width: 90%;
+  }
+
+  .sc-message_messager {
+    top: -22px;
   }
 }
