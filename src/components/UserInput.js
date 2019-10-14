@@ -36,7 +36,7 @@ class UserInput extends Component {
   }
 
   handleKeyUp(event) {
-    const inputHasText = event.target.value.length !== 0 &&
+    const inputHasText = event.target.textContent.length !== 0 &&
       event.target.innerText !== '\n';
     this.setState({ inputHasText });
   }
@@ -63,14 +63,14 @@ class UserInput extends Component {
   _submitText(event) {
     event.preventDefault();
     const { threadJoined } = this.props;
-    const text = this.userInput.value;
+    const text = this.userInput.textContent;
     if (text && text.length > 0 && threadJoined) {
       this.props.onSubmit({
         author: 'me',
         type: 'text',
         data: { text }
       });
-      this.userInput.value = '';
+      this.userInput.textContent = '';
     }
   }
 
@@ -78,7 +78,7 @@ class UserInput extends Component {
     const { threadJoined } = this.props;
     this.setState({ emojiPickerIsOpen: false });
     if (this.state.inputHasText) {
-      this.userInput.value += emoji;
+      this.userInput.textContent += emoji;
     } else if (threadJoined) {
       this.props.onSubmit({
         author: 'me',
@@ -89,7 +89,7 @@ class UserInput extends Component {
   }
 
   handleEmojiFilterChange = (event) => {
-    const emojiFilter = event.target.value;
+    const emojiFilter = event.target.textContent;
     this.setState({ emojiFilter });
   }
 
