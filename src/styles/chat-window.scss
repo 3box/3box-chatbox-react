@@ -21,7 +21,7 @@
 }
 
 .popupChat .sc-chat-window {
-  box-shadow: 0px 7px 40px 2px rgba(148, 149, 150, 0.3);
+  box-shadow: 0px 7px 40px 2px rgba(0, 0, 0, 0.3);
   position: fixed;
   right: 25px;
   bottom: 100px;
@@ -179,7 +179,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-} 
+}
 
 .x0.x3.x4.x5 {
   display: flex;
@@ -225,15 +225,26 @@
     bottom: 0px;
     border-radius: 0px;
     border: none;
-  }
-
-  .popupChat .sc-chat-window {
     box-shadow: none;
     position: fixed;
     right: 0;
     bottom: 0;
   }
-  
+
+  .popupChat .joinThreadWindow {
+    width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    right: 0px;
+    bottom: 0px;
+    border-radius: 0px;
+    border: none;
+    box-shadow: none;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+  }
+
   .sc-chat-window.closed {
     opacity: 0;
     visibility: hidden;

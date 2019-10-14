@@ -6,15 +6,12 @@
 
   border-top-left-radius: $windowBorderRadius;
   border-top-right-radius: $windowBorderRadius;
-  // color: white;
   padding: 10px;
-  // box-shadow: 0 1px 4px rgba(0, 0, 0, .2);
   position: relative;
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  // border-bottom: 1px solid $borderColor;
 }
 
 .sc-header--img {
@@ -41,7 +38,7 @@
   font-size: 18px;
   letter-spacing: .3px;
   color: white;
-  margin: 0 12px 0 0 ;
+  margin: 0 12px 0 0;
 }
 
 .sc-header_details {
@@ -64,6 +61,24 @@
   box-sizing: border-box;
   cursor: pointer;
   border-radius: 5px;
+}
+
+.joinThreadWindow_wrapper--close-button {
+  width: 40px;
+  height: 40px;
+  box-sizing: border-box;
+  cursor: pointer;
+  border-radius: 5px;
+  position: absolute;
+  top: 24px;
+  right: 24px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    padding: 13px;
+    box-sizing: border-box;
+  }
 }
 
 .sc-header--close-button:hover {
