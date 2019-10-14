@@ -8,6 +8,7 @@ import EmojiIcon from './icons/EmojiIcon';
 import PopupWindow from './popups/PopupWindow';
 import EmojiPicker from './emoji-picker/EmojiPicker';
 import Profile from '../assets/Profile.svg';
+import { checkIsMobileDevice } from '../utils';
 
 class UserInput extends Component {
   constructor() {
@@ -16,7 +17,8 @@ class UserInput extends Component {
       inputActive: false,
       inputHasText: false,
       emojiPickerIsOpen: false,
-      emojiFilter: ''
+      emojiFilter: '',
+      isMobile: checkIsMobileDevice(),
     };
   }
 
@@ -25,9 +27,13 @@ class UserInput extends Component {
   }
 
   handleKeyDown(event) {
-    if (event.keyCode === 13 && !event.shiftKey) {
+    const { isMobile } = this.state;
+    if (event.keyCode === 13 && !event.shiftKey && !isMobile) {
       return this._submitText(event);
     }
+    //  else if (event.keyCode === 13 && !event.shiftKey && isMobile) {
+    //   return;
+    // }
   }
 
   handleKeyUp(event) {

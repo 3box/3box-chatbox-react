@@ -65,3 +65,7 @@ export const checkEmojis = (message) => {
   const isOnlyEmojis = !message.replace(new RegExp(ranges, 'g'), '').length;
   return isOnlyEmojis;
 }
+
+export const checkIsMobileDevice = () => {
+  return ((window && typeof window.orientation !== "undefined")) || (navigator && navigator.userAgent.indexOf('IEMobile') !== -1);
+};
