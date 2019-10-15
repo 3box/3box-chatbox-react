@@ -28,7 +28,7 @@ class ChatBox extends Component {
 
     this.state = {
       agentProfile: agentProfile || {
-        chatName: 'Ghost',
+        chatName: 'Chatbox',
         imageUrl: null
       },
       colorTheme: colorTheme || '#181F21',
@@ -186,25 +186,27 @@ class ChatBox extends Component {
     const {
       thread,
       uniqueUsers,
-      dialogue,
-      newMessagesCount
+      newMessagesCount,
+      dialogueLength
     } = this.state;
     const members = await thread.listMembers();
     const updatedUnsortedDialogue = await thread.getPosts();
+    const newDialogueLength = updatedUnsortedDialogue.length;
     const updatedDialogue = sortChronologicallyAndGroup(updatedUnsortedDialogue);
 
     // if there are new messagers, fetch their profiles
     const updatedUniqueUsers = [...new Set(updatedUnsortedDialogue.map(x => x.author))];
 
     // count new messages for when popup closed
-    const numNewMessages = updatedDialogue.length - dialogue.length;
+    const numNewMessages = newDialogueLength - dialogueLength;
     let totalNewMessages = newMessagesCount;
     totalNewMessages += numNewMessages;
 
     if (uniqueUsers.length === updatedUniqueUsers.length) {
       this.setState({
         dialogue: updatedDialogue,
-        newMessagesCount: totalNewMessages
+        newMessagesCount: totalNewMessages,
+        dialogueLength: newDialogueLength,
       });
     } else {
       await this.fetchMessagers(updatedUniqueUsers);
@@ -212,6 +214,7 @@ class ChatBox extends Component {
         dialogue: updatedDialogue,
         newMessagesCount: totalNewMessages,
         membersOnline: members.length + 1,
+        dialogueLength: newDialogueLength,
       });
     }
   }
@@ -252,7 +255,12 @@ class ChatBox extends Component {
       numUsersOnline,
       mute,
       membersOnline,
+      ethereum,
+      box,
     } = this.state;
+    const { loginFunction } = this.props;
+
+    const noWeb3 = !box && !loginFunction && !ethereum;
     const isOpen = this.props.hasOwnProperty('isOpen') ? this.props.isOpen : this.state.isOpen;
 
     if (popupChat) {
@@ -276,6 +284,8 @@ class ChatBox extends Component {
           numUsersOnline={numUsersOnline}
           mute={mute}
           membersOnline={membersOnline}
+          ethereum={ethereum}
+          noWeb3={noWeb3}
         />
       );
     }
@@ -297,6 +307,8 @@ class ChatBox extends Component {
         numUsersOnline={numUsersOnline}
         mute={mute}
         membersOnline={membersOnline}
+        ethereum={ethereum}
+        noWeb3={noWeb3}
         notPopup
       />
     )

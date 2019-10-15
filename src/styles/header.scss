@@ -15,9 +15,21 @@
 }
 
 .sc-header--img {
-  border-radius: 50%;
   align-self: center;
   padding: 0 6px;
+}
+
+.sc-header--right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.sc-header-updateProfile {
+  color: white;
+  opacity: .6;
+  font-size: 13px;
+  margin-right: 6px;
 }
 
 .sc-header--img.default {
@@ -88,7 +100,8 @@
     position: absolute;
     top: 24px;
     right: 24px;
-  
+    display: flex;
+
     img {
       width: 100%;
       height: 100%;

@@ -54,18 +54,45 @@ export const sortChronologicallyAndGroup = (threadPosts) => {
   return groupedThreadPosts;
 }
 
-const ranges = [
-  '\ud83c[\udf00-\udfff]', // U+1F300 to U+1F3FF
-  '\ud83d[\udc00-\ude4f]', // U+1F400 to U+1F64F
-  '\ud83d[\ude80-\udeff]', // U+1F680 to U+1F6FF
-  ' ', // Also allow spaces
-].join('|');
-
-export const checkEmojis = (message) => {
-  const isOnlyEmojis = !message.replace(new RegExp(ranges, 'g'), '').length;
-  return isOnlyEmojis;
-}
-
 export const checkIsMobileDevice = () => {
   return ((window && typeof window.orientation !== "undefined")) || (navigator && navigator.userAgent.indexOf('IEMobile') !== -1);
 };
+
+export const getCurrentProvider = (ethereum) => {
+  if (!window.web3) return 'unknown';
+
+  if (ethereum.isMetaMask)
+      return 'metamask';
+
+  if (ethereum.isTrust)
+      return 'trust';
+
+  if (ethereum.isGoWallet)
+      return 'goWallet';
+
+  if (ethereum.isAlphaWallet)
+      return 'alphaWallet';
+
+  if (ethereum.isStatus)
+      return 'status';
+
+  if (ethereum.isToshi)
+      return 'coinbase';
+
+  if (typeof window.__CIPHER__ !== 'undefined')
+      return 'cipher';
+
+  if (ethereum.constructor.name === 'EthereumProvider')
+      return 'mist';
+
+  if (ethereum.constructor.name === 'Web3FrameProvider')
+      return 'parity';
+
+  if (ethereum.host && ethereum.host.indexOf('infura') !== -1)
+      return 'infura';
+
+  if (ethereum.host && ethereum.host.indexOf('localhost') !== -1)
+      return 'localhost';
+  
+  return 'unknown';
+}

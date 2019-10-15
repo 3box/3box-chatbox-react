@@ -28,6 +28,8 @@ class UserInput extends Component {
 
   handleKeyDown(event) {
     const { isMobile } = this.state;
+    // this.autoExpand(event.target);
+
     if (event.keyCode === 13 && !event.shiftKey && !isMobile) {
       return this._submitText(event);
     } else if (event.keyCode === 13 && !event.shiftKey && isMobile) {
@@ -36,8 +38,9 @@ class UserInput extends Component {
   }
 
   handleKeyUp(event) {
-    const inputHasText = event.target.textContent.length !== 0 &&
+    const inputHasText = event.target.value.length !== 0 &&
       event.target.innerText !== '\n';
+    // this.autoExpand(event.target);
     this.setState({ inputHasText });
   }
 
@@ -63,14 +66,14 @@ class UserInput extends Component {
   _submitText(event) {
     event.preventDefault();
     const { threadJoined } = this.props;
-    const text = this.userInput.textContent;
+    const text = this.userInput.value;
     if (text && text.length > 0 && threadJoined) {
       this.props.onSubmit({
         author: 'me',
         type: 'text',
         data: { text }
       });
-      this.userInput.textContent = '';
+      this.userInput.value = '';
     }
   }
 
@@ -78,7 +81,7 @@ class UserInput extends Component {
     const { threadJoined } = this.props;
     this.setState({ emojiPickerIsOpen: false });
     if (this.state.inputHasText) {
-      this.userInput.textContent += emoji;
+      this.userInput.value += emoji;
     } else if (threadJoined) {
       this.props.onSubmit({
         author: 'me',
@@ -89,7 +92,7 @@ class UserInput extends Component {
   }
 
   handleEmojiFilterChange = (event) => {
-    const emojiFilter = event.target.textContent;
+    const emojiFilter = event.target.value;
     this.setState({ emojiFilter });
   }
 
@@ -105,6 +108,11 @@ class UserInput extends Component {
       />
     </PopupWindow>
   )
+
+  // autoExpand = (field) => {
+  //   var height = field.scrollHeight;
+  //   field.style.height = height + 'px';
+  // };
 
   render() {
     const { emojiPickerIsOpen, inputActive, inputHasText } = this.state;
@@ -131,7 +139,7 @@ class UserInput extends Component {
             </div>
           )}
 
-        <div
+        <textarea
           role="button"
           tabIndex="0"
           onFocus={() => { this.setState({ inputActive: true }); }}
@@ -142,7 +150,7 @@ class UserInput extends Component {
           contentEditable="true"
           placeholder="Write a reply..."
           className="sc-user-input--text"
-        ></div>
+        />
 
         <div className="sc-user-input--buttons">
           <div className="sc-user-input--button">

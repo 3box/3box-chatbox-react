@@ -1,13 +1,13 @@
 @import './variables.scss';
 
 .sc-user-input {
-  min-height: 65px;
+  // min-height: 65px;
+  height: fit-content;
+  max-height: 200px;
   margin: 0px;
   position: relative;
   bottom: 0;
   display: flex;
-  // background-color: #edf1f3;
-  // background-color: #f4f7f9;
   border-bottom-left-radius: $windowBorderRadius;
   border-bottom-right-radius: $windowBorderRadius;
   transition: background-color .2s ease, box-shadow .2s ease;
@@ -22,7 +22,7 @@
   outline: none;
   border-bottom-left-radius: 10px;
   box-sizing: border-box;
-  padding: 18px 18px 18px 64px;
+  padding: 23px 18px 18px 64px;
   font-size: 15px;
   font-weight: 400;
   white-space: pre-wrap;
@@ -33,9 +33,12 @@
   overflow: scroll;
   overflow-x: hidden;
   overflow-y: auto;
-  vertical-align:middle;
+  // vertical-align:middle;
 
-  line-height: 27px;
+  min-height: 72px;
+  height: 72px;
+  line-height: 22px;
+  transition: ease-in-out .2s all;
 }
 
 .sc-user-input--text:empty:before {
@@ -63,7 +66,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
 }
 
 .sc-user-input--button button {
@@ -109,7 +112,7 @@
 .sc-user-input--send-icon-wrapper {
   background: none;
   border: none;
-  padding: 2px;
+  padding: 2px 2px 26px 2px;
   margin: 0px;
   display: flex;
   flex-direction: column;

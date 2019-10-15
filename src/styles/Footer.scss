@@ -1,6 +1,6 @@
 @import './variables.scss';
 
-footer {
+.chatbox_footer {
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -13,8 +13,9 @@ footer {
   justify-content: flex-end;
   align-items: center;
   opacity: .3;
-
+  
   a {
+    color: $threeBoxBlack !important;
     display: flex;
     justify-content: flex-end;
     align-items: center;

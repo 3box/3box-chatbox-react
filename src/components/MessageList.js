@@ -33,7 +33,6 @@ class MessageList extends Component {
                     key={i}
                     currentUserAddr={currentUserAddr}
                     profile={profiles[message.author]}
-                    isLastMessage={userGrouping.length - 1 === i}
                     isFirstMessage={i === 0}
                     colorTheme={colorTheme}
                   />

@@ -5,7 +5,8 @@ import Tilt from 'react-tilt';
 import TextLoop from "react-text-loop";
 
 import incomingMessageSound from '../assets/sounds/notification.mp3';
-import Chat from '../assets/Chat2.svg';
+import Chat from '../assets/chat-bubble.svg';
+// import Chat from '../assets/Chat2.svg';
 import Logo from '../assets/3BoxLogo.svg';
 import MessageList from './MessageList';
 import UserInput from './UserInput';
@@ -68,7 +69,9 @@ class ChatWindow extends Component {
       profiles,
       showEmoji,
       colorTheme,
-      membersOnline
+      membersOnline,
+      noWeb3,
+      ethereum
     } = this.props;
 
     let messageList = this.props.messageList || [];
@@ -118,7 +121,7 @@ class ChatWindow extends Component {
 
             <div className="joinThreadWindow_wrapper_header">
               <h3 className="joinThreadWindow_wrapper_header_title">
-                {`${agentProfile.chatName} Chat`}
+                {agentProfile.chatName}
               </h3>
             </div>
 
@@ -137,29 +140,34 @@ class ChatWindow extends Component {
             </div>
 
             <div className="joinThreadWindow_wrapper_buttonDiv">
-              <Tilt options={options}>
-                <button
-                  className={`joinThreadWindow_wrapper_button  ${threadLoading ? '' : 'show'}`}
-                  onClick={openThread}
-                  style={{ backgroundColor: colorTheme }}
-                >
-                  Join
-                </button>
-              </Tilt>
+              {noWeb3 ? (
+                <p className="joinThreadWindow_wrapper_buttonDiv_error">
+                  Web3 is required for Chatbox
+                </p>
+              ) : (
+                  <Tilt options={options}>
+                    <button
+                      className={`joinThreadWindow_wrapper_button  ${threadLoading ? '' : 'show'}`}
+                      onClick={openThread}
+                      style={{ backgroundColor: colorTheme }}
+                    >
+                      Join
+                    </button>
+                  </Tilt>)}
 
               <LoadingAnimation colorTheme={colorTheme} threadLoading={threadLoading} />
             </div>
 
-            <footer>
+            <div className="chatbox_footer">
               <span className="footer_text">
-                Decentralized chat by
-                <a href="https://docs.3box.io" target="_blank" rel="noopener noreferrer">
+                <a href="https://docs.3box.io/build/web-apps/messaging/ghost-threads" target="_blank" rel="noopener noreferrer">
+                  Decentralized chat by
                   <SVG src={Logo} alt="Logo" className="footer_text_image" />
                 </a>
               </span>
-            </footer>
+            </div>
           </div>
-        </div>
+        </div >
 
         <div className={chatWindowClassList.join(' ')}>
           <Header
@@ -168,6 +176,8 @@ class ChatWindow extends Component {
             onClose={onClose}
             colorTheme={colorTheme}
             membersOnline={membersOnline}
+            currentUser3BoxProfile={currentUser3BoxProfile}
+            ethereum={ethereum}
           />
 
           <MessageList
@@ -186,13 +196,14 @@ class ChatWindow extends Component {
             threadJoined={threadJoined}
           />
         </div>
-      </div>
+      </div >
     );
   }
 }
 
 ChatWindow.propTypes = {
   agentProfile: PropTypes.object.isRequired,
+  ethereum: PropTypes.object,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onUserInputSubmit: PropTypes.func.isRequired,
@@ -202,6 +213,7 @@ ChatWindow.propTypes = {
   threadLoading: PropTypes.bool,
   mute: PropTypes.bool,
   notPopup: PropTypes.bool,
+  noWeb3: PropTypes.bool,
   currentUser3BoxProfile: PropTypes.object,
   currentUserAddr: PropTypes.string,
   colorTheme: PropTypes.string,

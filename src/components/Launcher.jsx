@@ -4,7 +4,8 @@ import SVG from 'react-inlinesvg';
 
 import ChatWindow from './ChatWindow';
 import launcherIconActive from '../assets/close-icon.png';
-import Chat from '../assets/Chat2.svg';
+import Chat from '../assets/chat-bubble.svg';
+// import Chat from '../assets/Chat2.svg';
 
 import styles from '../styles';
 
@@ -40,9 +41,10 @@ class Launcher extends Component {
       messageList,
       showEmoji,
       profiles,
-      numUsersOnline,
       mute,
-      membersOnline
+      membersOnline,
+      noWeb3,
+      ethereum
     } = this.props;
 
     const classList = [
@@ -58,8 +60,8 @@ class Launcher extends Component {
           style={{ backgroundColor: colorTheme }}
         >
           <MessageCount count={this.props.newMessagesCount} isOpen={isOpen} />
-          <img className={'sc-open-icon'} src={launcherIconActive} />
-          <SVG src={Chat} alt="Logo" className={'sc-closed-icon'} />
+          <img className="sc-open-icon" src={launcherIconActive} />
+          <SVG src={Chat} alt="Logo" className="sc-closed-icon" />
         </div>
 
         <ChatWindow
@@ -76,9 +78,10 @@ class Launcher extends Component {
           openThread={openThread}
           threadLoading={threadLoading}
           colorTheme={colorTheme}
-          numUsersOnline={numUsersOnline}
           membersOnline={membersOnline}
           mute={mute}
+          ethereum={ethereum}
+          noWeb3={noWeb3}
         />
       </div>
     );
@@ -106,11 +109,13 @@ Launcher.propTypes = {
   showEmoji: PropTypes.bool,
   threadJoined: PropTypes.bool,
   threadLoading: PropTypes.bool,
+  noWeb3: PropTypes.bool,
   currentUserAddr: PropTypes.string,
   colorTheme: PropTypes.string,
   agentProfile: PropTypes.string,
   currentUser3BoxProfile: PropTypes.object,
   profiles: PropTypes.object,
+  ethereum: PropTypes.object,
   membersOnline: PropTypes.number,
 };
 
