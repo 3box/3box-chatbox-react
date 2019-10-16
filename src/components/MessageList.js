@@ -16,7 +16,6 @@ class MessageList extends Component {
       colorTheme,
       userProfileURL
     } = this.props;
-    console.log('colorTheme5', colorTheme);
 
     return (
       <div className="sc-message-list" ref={el => this.scrollList = el}>
