@@ -127,17 +127,17 @@ class ChatWindow extends Component {
             </div>
 
             <div className={`joinThreadWindow_wrapper_loading  ${threadLoading ? 'show' : ''}`} >
-              <TextLoop interval="3400" noWrap={false} adjustingSpeed={1000}>
-                <p className="joinThreadWindow_wrapper_loading_text">
-                  Loading 3Box
-                </p>
-                <p className="joinThreadWindow_wrapper_loading_text">
-                  Joining chat
-                </p>
-                <p className="joinThreadWindow_wrapper_loading_text">
-                  Approve in your wallet
-                </p>
-              </TextLoop>
+                <TextLoop interval="3400" noWrap={false} adjustingSpeed={1000}>
+                  <p className="joinThreadWindow_wrapper_loading_text">
+                    Loading 3Box
+                  </p>
+                  <p className="joinThreadWindow_wrapper_loading_text">
+                    Joining chat
+                  </p>
+                  <p className="joinThreadWindow_wrapper_loading_text">
+                    Approve in your wallet
+                  </p>
+                </TextLoop>
             </div>
 
             <div className="joinThreadWindow_wrapper_buttonDiv">
@@ -220,7 +220,7 @@ ChatWindow.propTypes = {
   currentUser3BoxProfile: PropTypes.object,
   currentUserAddr: PropTypes.string,
   colorTheme: PropTypes.string,
-  profiles: PropTypes.array,
+  profiles: PropTypes.object,
   messageList: PropTypes.array,
   membersOnline: PropTypes.number,
 };

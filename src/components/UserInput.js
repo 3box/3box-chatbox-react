@@ -139,7 +139,7 @@ class UserInput extends Component {
           ref={(e) => { this.userInput = e; }}
           onKeyDown={this.handleKeyDown.bind(this)}
           onKeyUp={this.handleKeyUp.bind(this)}
-          contentEditable="true"
+          // contentEditable="true"
           placeholder="Write a reply..."
           className="sc-user-input--text"
         />

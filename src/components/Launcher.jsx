@@ -115,7 +115,7 @@ Launcher.propTypes = {
   noWeb3: PropTypes.bool,
   currentUserAddr: PropTypes.string,
   colorTheme: PropTypes.string,
-  agentProfile: PropTypes.string,
+  agentProfile: PropTypes.object,
   currentUser3BoxProfile: PropTypes.object,
   profiles: PropTypes.object,
   ethereum: PropTypes.object,
