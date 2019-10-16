@@ -46,7 +46,7 @@ class Header extends Component {
               href={`https://3box.io/login?wallet=${getCurrentProvider(ethereum)}`}
               className="sc-header-updateProfile"
             >
-              Update profile
+              Edit profile
             </a>
           )}
 

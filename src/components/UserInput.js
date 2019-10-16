@@ -80,15 +80,7 @@ class UserInput extends Component {
   _handleEmojiPicked = (emoji) => {
     const { threadJoined } = this.props;
     this.setState({ emojiPickerIsOpen: false });
-    if (this.state.inputHasText) {
-      this.userInput.value += emoji;
-    } else if (threadJoined) {
-      this.props.onSubmit({
-        author: 'me',
-        type: 'text',
-        data: { text: emoji }
-      });
-    }
+    if (threadJoined) this.userInput.value += emoji;
   }
 
   handleEmojiFilterChange = (event) => {

@@ -14,7 +14,9 @@ class MessageList extends Component {
       profiles,
       currentUserAddr,
       colorTheme,
+      userProfileURL
     } = this.props;
+    console.log('colorTheme5', colorTheme);
 
     return (
       <div className="sc-message-list" ref={el => this.scrollList = el}>
@@ -30,6 +32,7 @@ class MessageList extends Component {
                 return (
                   <Message
                     message={message}
+                    userProfileURL={userProfileURL}
                     key={i}
                     currentUserAddr={currentUserAddr}
                     profile={profiles[message.author]}
@@ -50,6 +53,7 @@ MessageList.propTypes = {
   profiles: PropTypes.object,
   currentUserAddr: PropTypes.string,
   colorTheme: PropTypes.string,
+  userProfileURL: PropTypes.func,
 };
 
 export default MessageList;

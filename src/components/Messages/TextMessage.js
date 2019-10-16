@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const TextMessage = ({ isMyComment, colorTheme, messageObj }) => (
   <div
     className="sc-message--text"
-    style={{ backgroundColor: isMyComment && colorTheme }}
+    style={{ backgroundColor: isMyComment ? colorTheme : '#ececec'}}
   >
     <Linkify properties={{ target: '_blank' }}>
       {messageObj.message}

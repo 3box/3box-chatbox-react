@@ -258,7 +258,7 @@ class ChatBox extends Component {
       ethereum,
       box,
     } = this.state;
-    const { loginFunction } = this.props;
+    const { loginFunction, userProfileURL } = this.props;
 
     const noWeb3 = !box && !loginFunction && !ethereum;
     const isOpen = this.props.hasOwnProperty('isOpen') ? this.props.isOpen : this.state.isOpen;
@@ -286,6 +286,7 @@ class ChatBox extends Component {
           membersOnline={membersOnline}
           ethereum={ethereum}
           noWeb3={noWeb3}
+          userProfileURL={userProfileURL}
         />
       );
     }
@@ -309,6 +310,7 @@ class ChatBox extends Component {
         membersOnline={membersOnline}
         ethereum={ethereum}
         noWeb3={noWeb3}
+        userProfileURL={userProfileURL}
         notPopup
       />
     )

@@ -44,7 +44,8 @@ class Launcher extends Component {
       mute,
       membersOnline,
       noWeb3,
-      ethereum
+      ethereum,
+      userProfileURL
     } = this.props;
 
     const classList = [
@@ -82,6 +83,7 @@ class Launcher extends Component {
           mute={mute}
           ethereum={ethereum}
           noWeb3={noWeb3}
+          userProfileURL={userProfileURL}
         />
       </div>
     );
@@ -100,6 +102,7 @@ const MessageCount = ({ count, isOpen }) => {
 Launcher.propTypes = {
   onMessageWasReceived: PropTypes.func,
   onMessageWasSent: PropTypes.func,
+  userProfileURL: PropTypes.func,
   newMessagesCount: PropTypes.number,
   isOpen: PropTypes.bool,
   handleClick: PropTypes.func,

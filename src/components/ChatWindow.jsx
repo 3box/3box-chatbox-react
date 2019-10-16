@@ -71,7 +71,8 @@ class ChatWindow extends Component {
       colorTheme,
       membersOnline,
       noWeb3,
-      ethereum
+      ethereum,
+      userProfileURL
     } = this.props;
 
     let messageList = this.props.messageList || [];
@@ -185,6 +186,7 @@ class ChatWindow extends Component {
             imageUrl={agentProfile.imageUrl}
             currentUserAddr={currentUserAddr}
             profiles={profiles}
+            userProfileURL={userProfileURL}
             colorTheme={colorTheme}
           />
 
@@ -208,6 +210,7 @@ ChatWindow.propTypes = {
   onClose: PropTypes.func.isRequired,
   onUserInputSubmit: PropTypes.func.isRequired,
   openThread: PropTypes.func.isRequired,
+  userProfileURL: PropTypes.func,
   showEmoji: PropTypes.bool,
   threadJoined: PropTypes.bool,
   threadLoading: PropTypes.bool,

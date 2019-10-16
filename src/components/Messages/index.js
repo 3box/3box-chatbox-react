@@ -13,6 +13,7 @@ const Message = (props) => {
     message,
     isFirstMessage,
     colorTheme,
+    userProfileURL
   } = props;
 
   const currentUserAddrNormalized = currentUserAddr && currentUserAddr.toLowerCase();
@@ -33,13 +34,23 @@ const Message = (props) => {
       <div className={contentClassList.join(' ')}>
 
         {(!isMyComment && isFirstMessage) && (
-          <a href={profile.profileURL} className="sc-message_messager" >
+          <a
+            href={profile.profileURL}
+            className="sc-message_messager"
+            target={userProfileURL ? '_self' : '_blank'}
+            rel={userProfileURL ? 'dofollow' : 'noopener noreferrer'}
+          >
             {profile.name ? `${profile.name} ${shortenEthAddr(profile.ethAddr)}` : `${shortenEthAddr(profile.ethAddr)}`}
           </a>
         )}
 
         {isFirstMessage ? (
-          <a href={profile.profileURL} className="sc-message_avatarWrapper" >
+          <a
+            href={profile.profileURL}
+            className="sc-message_avatarWrapper"
+            target={userProfileURL ? '_self' : '_blank'}
+            rel={userProfileURL ? 'dofollow' : 'noopener noreferrer'}
+          >
             <img
               className="sc-message--avatar comment_picture comment_picture-bgWhite"
               src={profilePicture}
@@ -64,6 +75,7 @@ Message.propTypes = {
   isFirstMessage: PropTypes.bool,
   colorTheme: PropTypes.string,
   currentUserAddr: PropTypes.string,
+  userProfileURL: PropTypes.func,
 };
 
 export default Message;
