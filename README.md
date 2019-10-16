@@ -4,10 +4,10 @@
 
 # 3Box Chatbox Plugin 💬
 
-`3box-chatbox-react` node package is a drop-in react component that provides Web3 developers with a readymade chat system for their Ethereum application. Easily add rich, decentralized social discourse to your dApp with one line of code. The 3Box Chatbox plugin is built using 3Box infrastructure, and handles all logic for creating a chatbox. *Read the docs on [docs.3box.io](https://docs.3box.io/build/plugins/comments)*.
+`3box-chatbox-react` node package is a drop-in react component that provides Web3 developers with a readymade chat system for their Ethereum application. Easily add rich, decentralized social discourse to your dApp with one line of code. The 3Box Chatbox plugin is built using 3Box infrastructure, and handles all logic for creating a chatbox. *Read the docs on [docs.3box.io](https://docs.3box.io/build/plugins/chatbox)*.
 
-### Try the demo [here](https://3box.github.io/3box-comments-react/examples/dist/)
-![Example Screenshot](comments-example-screenshot.png)
+### Try the demo [here](https://3box.github.io/3box-chatbox/examples/dist/)
+![Example Screenshot](chatbox-example-screenshot.png)
 </br>
 
 ## How it Works
@@ -36,15 +36,15 @@ Depending on *when and how* your dApp handles authentication for web3 and 3Box, 
 
 **A) Dapp handles web3 and 3Box logins, and they run *before* component is mounted. (recommended)**
 
-Dapp integrates with `3Box.js SDK` and the `3box-chatbox-react` component. In this case, the `box` instance returned from `Box.openBox(ethAddr)` via 3Box.js should be passed to the `box` prop in the comments component. The user's current Ethereum address should be passed to the `currentUserAddr` prop to determine which messages are their own.
+Dapp integrates with `3Box.js SDK` and the `3box-chatbox-react` component. In this case, the `box` instance returned from `Box.openBox(ethAddr)` via 3Box.js should be passed to the `box` prop in the chatbox component. The user's current Ethereum address should be passed to the `currentUserAddr` prop to determine which messages are their own.
 
 **B) Dapp handles web3 and 3Box logins, but they haven't run before component is mounted. (recommended)**
 
-Dapp integrates with `3Box.js SDK` and the `3box-comments-react` component. In this case, the login logic implemented in the dapp should be passed to the Comments component as the `loginFunction` prop, which is run when a user attempts to post a comment. The user's current Ethereum address should be passed to the `currentUserAddr` prop to determine `deletePost` access on each comment.
+Dapp integrates with `3Box.js SDK` and the `3box-chatbox-react` component. In this case, the login logic implemented in the dapp should be passed to the Chatbox component as the `loginFunction` prop, which is run when a user attempts to post a message. The user's current Ethereum address should be passed to the `currentUserAddr` prop to determine which messages belong to that user.
 
 **C) Dapp has no web3 and 3Box login logic.**
 
-Dapp only integrates with the `3box-comments-react` component, but not `3Box.js SDK`. All web3 and 3Box login logic will be handled within the Comments component, though it's required for the `ethereum` object from your dapp's preferred web3 provider be passed to the `ethereum` prop in the component.
+Dapp only integrates with the `3box-chatbox-react` component, but not `3Box.js SDK`. All web3 and 3Box login logic will be handled within the Chatbox component, though it's required for the `ethereum` object from your dapp's preferred web3 provider be passed to the `ethereum` prop in the component.
 
 #### Best practice
 
@@ -71,7 +71,7 @@ The Chatbox thread needs a name, and we recommend that your application creates 
 #### Example
 
 ```jsx
-import ThreeBoxComments from '3box-comments-react';
+import ChatBox from '3box-chatbox-react';
 
 const MyComponent = ({ handleLogin, box, ethereum, myAddress, currentUser3BoxProfile, adminEthAddr }) => (
     <ChatBox 
@@ -112,12 +112,11 @@ const MyComponent = ({ handleLogin, box, ethereum, myAddress, currentUser3BoxPro
 
 | Property | Type          | Default  | Required Case          | Description |
 | :-------------------------------- | :-------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `spaceName`    | String        |    |  Always   | Likely your dApp name and / or comment category.  A single `spaceName` with different `threadName`s is common practice when building a dApp with multiple Comment threads. |
-| `threadName`    | String       |   | Always    | A name specific to this Comments thread. |
-| `adminEthAddr`    | String (Ethereum Address)       |   | Always    | The Ethereum address you wish to give admin rights to for the Comments thread.  This user will be able to delete all comments and accept members in a members-only thread. **A thread with a new admin address, despite identical `spaceName` and `threadName`, will create an entirely new thread.**|
+| `spaceName`    | String        |    |  Always   | Likely your dApp name and / or chatbox category.  A single `spaceName` with different `threadName`s is common practice when building a dApp with multiple Chatbox threads. |
+| `threadName`    | String       |   | Always    | A name specific to this Chatbox. |
 | `box`    | Object         |   | A (and likely B)    | The `box` instance returned from running `await Box.openBox(address, web3)` somewhere in your dApp.|
-| `currentUserAddr`    | String (Ethereum Address)          |    | A & B | The current user's Ethereum address. Passing this will help determine whether a user has delete access on each comment.  This prop will also let the component fetch that user's 3Box profile on component mount and render that data (profile picture) in the Comment input UI. |
-| `loginFunction`    | Function       |    | B    | A function from your dApp that handles web3 and 3Box login at the global dApp state. This callback will run when a user attempts to save a comment but a `box` instance doesn't yet exist. Running this function should result in a box instance (from `const box = Box.openBox(address, web3)`) being passed as the `box` prop to this component.  |
+| `currentUserAddr`    | String (Ethereum Address)          |    | A & B | The current user's Ethereum address. Passing this will be used to check which messages belong to the current user and can be used for fetching their 3Box profile to render in the Chatbox input UI. |
+| `loginFunction`    | Function       |    | B    | A function from your dApp that handles web3 and 3Box login at the global dApp state. This callback will run when a user attempts to join the Chatbox but a `box` instance doesn't yet exist. Running this function should result in a box instance (from `const box = Box.openBox(address, web3)`) being passed as the `box` prop to this component.  |
 | `ethereum`    | Object        |  window.ethereum  | C    | The `ethereum` object from whichever web3 provider your dApp uses.  The `enable` method on this object will be used to get the current user's Ethereum address and that address will be used to `openBox` within the current Component context.|
 | `popupChat`    | Boolean       |  False   | Optional    | A boolean - `true` - to configure a pop up style chatbox with a button fixed to the bottom right of the window to pop open the chat UI. False will render the component in whichever container you have implemented. |
 | `agentProfile`    | Object       |  { chatName: 'Chatbox', imageUrl: null }   | Optional    | An object with the name of the chatbox which will appear in the `Join thread` step and in the header of the chat UI.  The default `imageUrl` is the provided chat icon. |
@@ -126,8 +125,8 @@ const MyComponent = ({ handleLogin, box, ethereum, myAddress, currentUser3BoxPro
 | `colorTheme`    | String       |  False  | Optional    | Pass an rgb or hex color string to match the color theme of your application |
 | `mute`    | Boolean       |  False  | Optional    | Pass false to turn off sound for incoming messages. |
 | `showEmoji`    | Boolean       |  False  | Optional    | Pass false to turn off the emoji pop up within the chat input UI. |
-| `currentUser3BoxProfile`    | Object       |   | Optional    | If the current user has already had their 3Box data fetched at the global dApp state, pass the object returned from `Box.getProfile(profileAddress)` to avoid an extra request.  This data will be rendered in the Comment input interface.|
-| `userProfileURL`    | Function       |  Defaults to returning user's 3Box profile URL  | Optional    | A function that returns a correctly formatted URL of a user's profile on the current platform.  The function will be passed an Ethereum address within the component, if needed.  A user will be redirected to the URL returned from this function when clicking on the name or Ethereum address associated with the comment in the thread.|
+| `currentUser3BoxProfile`    | Object       |   | Optional    | If the current user has already had their 3Box data fetched at the global dApp state, pass the object returned from `Box.getProfile(profileAddress)` to avoid an extra request.  This data will be rendered in the Chatbox input interface.|
+| `userProfileURL`    | Function       |  Defaults to returning user's 3Box profile URL  | Optional    | A function that returns a correctly formatted URL of a user's profile on the current platform.  The function will be passed an Ethereum address within the component, if needed.  A user will be redirected to the URL returned from this function when clicking on the name or Ethereum address associated with the message in the chatbox.|
 
 ## License
 
