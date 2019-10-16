@@ -44,6 +44,10 @@
   -webkit-font-smoothing: subpixel-antialiased;
   word-wrap: break-word;
   width: fit-content;
+
+  a {
+    color: white;
+  }
 }
 
 .sc-message--content.sent .sc-message--text {
