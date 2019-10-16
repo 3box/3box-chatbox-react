@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import SVG from 'react-inlinesvg';
 
 import ChatWindow from './ChatWindow';
-import launcherIconActive from '../assets/close-icon.png';
+import launcherIconActive from '../assets/close-icon.svg';
 import Chat from '../assets/chat-bubble.svg';
 // import Chat from '../assets/Chat2.svg';
 
@@ -61,7 +61,7 @@ class Launcher extends Component {
           style={{ backgroundColor: colorTheme }}
         >
           <MessageCount count={this.props.newMessagesCount} isOpen={isOpen} />
-          <img className="sc-open-icon" src={launcherIconActive} />
+          <SVG className="sc-open-icon" src={launcherIconActive} />
           <SVG src={Chat} alt="Logo" className="sc-closed-icon" />
         </div>
 

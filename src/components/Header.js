@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import SVG from 'react-inlinesvg';
 
 import { getCurrentProvider } from '../utils';
-import closeIcon from '../assets/close-icon.png';
+import closeIcon from '../assets/close-icon.svg';
 import Chat from '../assets/chat-bubble.svg';
 // import Chat from '../assets/Chat2.svg';
 
@@ -51,7 +51,7 @@ class Header extends Component {
           )}
 
           <div className="sc-header--close-button" onClick={onClose}>
-            <img src={closeIcon} alt="" />
+            <SVG src={closeIcon} alt="Close" />
           </div>
         </div>
       </div>

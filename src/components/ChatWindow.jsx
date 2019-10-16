@@ -12,7 +12,7 @@ import MessageList from './MessageList';
 import UserInput from './UserInput';
 import Header from './Header';
 import LoadingAnimation from './LoadingAnimation';
-import closeIcon from '../assets/close-icon-black.png';
+import closeIcon from '../assets/close-icon-black.svg';
 
 const options = {
   reverse: true,  // reverse the tilt direction
@@ -106,7 +106,7 @@ class ChatWindow extends Component {
         <div className={joinThreadWindowClassList.join(' ')}>
           <div className="joinThreadWindow_wrapper">
             <div className="joinThreadWindow_wrapper--close-button" onClick={onClose}>
-              <img src={closeIcon} alt="" />
+              <SVG src={closeIcon} alt="Close" />
             </div>
 
             <div className="joinThreadWindow_wrapper_image" style={{ backgroundColor: colorTheme }}>
