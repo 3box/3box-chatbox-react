@@ -195,6 +195,7 @@ class ChatWindow extends Component {
             currentUserAddr={currentUserAddr}
             onSubmit={this.onUserInputSubmit}
             showEmoji={showEmoji}
+            userProfileURL={userProfileURL}
             threadJoined={threadJoined}
           />
         </div>

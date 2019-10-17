@@ -108,7 +108,7 @@ class UserInput extends Component {
 
   render() {
     const { emojiPickerIsOpen, inputActive, inputHasText } = this.state;
-    const { currentUser3BoxProfile, currentUserAddr } = this.props;
+    const { currentUser3BoxProfile, currentUserAddr, userProfileURL } = this.props;
 
     const updatedProfilePicture = currentUser3BoxProfile.image ? `https://ipfs.infura.io/ipfs/${currentUser3BoxProfile.image[0].contentUrl['/']}`
       : currentUserAddr && makeBlockie(currentUserAddr);
@@ -116,11 +116,18 @@ class UserInput extends Component {
     return (
       <form className={`sc-user-input ${(inputActive ? 'active' : '')}`}>
         {updatedProfilePicture ? (
-          <img
-            src={updatedProfilePicture}
-            alt="Profile"
-            className="input_user"
-          />
+          <a
+            href={currentUser3BoxProfile.profileURL}
+            className=""
+            target={userProfileURL ? '_self' : '_blank'}
+            rel={userProfileURL ? 'dofollow' : 'noopener noreferrer'}
+          >
+            <img
+              src={updatedProfilePicture}
+              alt="Profile"
+              className="input_user"
+            />
+          </a>
         ) : (
             <div className="input_emptyUser">
               <SVG
@@ -168,6 +175,7 @@ class UserInput extends Component {
 
 UserInput.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  userProfileURL: PropTypes.func,
   showEmoji: PropTypes.bool,
   threadJoined: PropTypes.bool,
   currentUserAddr: PropTypes.string,

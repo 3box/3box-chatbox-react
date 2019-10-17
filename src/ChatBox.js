@@ -91,11 +91,13 @@ class ChatBox extends Component {
   }
 
   fetchMe = async () => {
-    const { currentUserAddr } = this.props;
+    const { currentUserAddr, userProfileURL } = this.props;
     const stateCurrentUserAddr = this.state.currentUserAddr;
     const myAddress = currentUserAddr || stateCurrentUserAddr;
 
     const currentUser3BoxProfile = await Box.getProfile(myAddress);
+    currentUser3BoxProfile.profileURL = userProfileURL ? userProfileURL(myAddress) : `https://3box.io/${myAddress}`;
+
     this.setState({ currentUser3BoxProfile });
   }
 
