@@ -6,7 +6,6 @@ import TextLoop from "react-text-loop";
 
 import incomingMessageSound from '../assets/sounds/notification.mp3';
 import Chat from '../assets/chat-bubble.svg';
-// import Chat from '../assets/Chat2.svg';
 import Logo from '../assets/3BoxLogo.svg';
 import MessageList from './MessageList';
 import UserInput from './UserInput';
@@ -106,7 +105,7 @@ class ChatWindow extends Component {
         <div className={joinThreadWindowClassList.join(' ')}>
           <div className="joinThreadWindow_wrapper">
             <div className="joinThreadWindow_wrapper--close-button" onClick={onClose}>
-              <SVG src={closeIcon} alt="Close" />
+              <SVG src={closeIcon} alt="Close" className="joinThreadWindow_wrapper_close_icon" />
             </div>
 
             <div className="joinThreadWindow_wrapper_image" style={{ backgroundColor: colorTheme }}>

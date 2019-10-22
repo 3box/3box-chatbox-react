@@ -8,7 +8,7 @@
 }
 
 .popupChat {
-  z-index: 5;
+  z-index: 100;
 }
 
 .sc-chat-window {
@@ -29,6 +29,7 @@
   position: fixed;
   right: 25px;
   bottom: 100px;
+  min-height: 400px;
 }
 
 .chat .sc-chat-window {
@@ -76,6 +77,7 @@
   position: fixed;
   right: 25px;
   bottom: 100px;
+  min-height: 400px;
 }
 
 .chat .joinThreadWindow {
@@ -212,6 +214,11 @@
 .joinThreadWindow_wrapper_image_pic {
   width: 70px;
   height: auto;
+}
+
+.joinThreadWindow_wrapper_close_icon {
+  width: 20px;
+  height: 20px;
 }
 
 .thread_loading {
