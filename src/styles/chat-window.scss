@@ -5,6 +5,7 @@
   height: 100%;
   width: 100%;
   position: relative;
+  min-height: 600px;
 }
 
 .popupChat {
@@ -30,10 +31,6 @@
   right: 25px;
   bottom: 100px;
   min-height: 400px;
-}
-
-.chat .sc-chat-window {
-  // border: 1px solid $borderColor;
 }
 
 .sc-chat-window.closed {
