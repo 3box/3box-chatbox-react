@@ -40,12 +40,107 @@
 }
 
 .sc-message-list {
+  display: none;
   height: 80%;
   overflow-y: auto;
   background-color: white;
   background-size: 100%;
   padding: 40px 0 0 0;
   -webkit-overflow-scrolling: touch;
+}
+
+.sc-message-list.show {
+  display: flex;
+}
+
+.sc-message-list.isLoading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.onlineList {
+  display: none;
+  height: 80%;
+  overflow-y: auto;
+  background-color: white;
+  background-size: 100%;
+  padding: 40px 0 0 0;
+  -webkit-overflow-scrolling: touch;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.onlineList.show {
+  display: flex;
+}
+
+.onlineList_wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.onlineList_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 10px 0 20px;
+  box-sizing: border-box;
+  margin-top: -40px;
+  border-bottom: 1px solid $borderColor;
+}
+
+.closeOnlineList {
+  padding: 0;
+}
+
+.onlineList_header_group {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.onlineList_onlineIcon {
+  min-width: 18px;
+  min-height: 18px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: rgb(82, 208, 139);
+  margin-right: 10px;
+}
+
+.onlineList_members_link {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.onlineList_members {
+  // background-color: #eee;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-y: scroll;
+}
+
+.onlineList_members_profile {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.onlineList_members_profile_name {
+  margin: 0;
+  color: $threeBoxBlack;
+
+  &:visited {
+    color: $threeBoxBlack;
+  }
 }
 
 .sc-message--me {

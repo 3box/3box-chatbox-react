@@ -28,6 +28,9 @@ const options = {
 class ChatWindow extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isShowOnlineList: false,
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -55,6 +58,11 @@ class ChatWindow extends Component {
     this.props.onUserInputSubmit(message);
   }
 
+  handleShowOnlineList = () => {
+    const { isShowOnlineList } = this.state;
+    this.setState({ isShowOnlineList: !isShowOnlineList });
+  }
+
   render() {
     const {
       currentUser3BoxProfile,
@@ -68,11 +76,15 @@ class ChatWindow extends Component {
       profiles,
       showEmoji,
       colorTheme,
-      membersOnline,
+      membersOnlineLength,
       noWeb3,
       ethereum,
-      userProfileURL
+      userProfileURL,
+      isJoiningThread,
+      membersOnline,
     } = this.props;
+
+    const { isShowOnlineList } = this.state;
 
     let messageList = this.props.messageList || [];
     let chatWindowClassList;
@@ -126,17 +138,17 @@ class ChatWindow extends Component {
             </div>
 
             <div className={`joinThreadWindow_wrapper_loading  ${threadLoading ? 'show' : ''}`} >
-                <TextLoop interval="3400" noWrap={false} adjustingSpeed={1000}>
-                  <p className="joinThreadWindow_wrapper_loading_text">
-                    Loading 3Box
+              <TextLoop interval="3400" noWrap={false} adjustingSpeed={1000}>
+                <p className="joinThreadWindow_wrapper_loading_text">
+                  Loading 3Box
                   </p>
-                  <p className="joinThreadWindow_wrapper_loading_text">
-                    Joining chat
+                <p className="joinThreadWindow_wrapper_loading_text">
+                  Joining chat
                   </p>
-                  <p className="joinThreadWindow_wrapper_loading_text">
-                    Approve in your wallet
+                <p className="joinThreadWindow_wrapper_loading_text">
+                  Approve in your wallet
                   </p>
-                </TextLoop>
+              </TextLoop>
             </div>
 
             <div className="joinThreadWindow_wrapper_buttonDiv">
@@ -173,20 +185,26 @@ class ChatWindow extends Component {
           <Header
             chatName={agentProfile.chatName}
             imageUrl={agentProfile.imageUrl}
+            handleShowOnlineList={this.handleShowOnlineList}
             onClose={onClose}
             colorTheme={colorTheme}
-            membersOnline={membersOnline}
+            membersOnlineLength={membersOnlineLength}
             currentUser3BoxProfile={currentUser3BoxProfile}
+            isShowOnlineList={isShowOnlineList}
             ethereum={ethereum}
           />
 
           <MessageList
             messages={messageList}
             imageUrl={agentProfile.imageUrl}
+            handleShowOnlineList={this.handleShowOnlineList}
             currentUserAddr={currentUserAddr}
             profiles={profiles}
             userProfileURL={userProfileURL}
             colorTheme={colorTheme}
+            isJoiningThread={isJoiningThread}
+            isShowOnlineList={isShowOnlineList}
+            membersOnline={membersOnline}
           />
 
           <UserInput
@@ -214,15 +232,18 @@ ChatWindow.propTypes = {
   showEmoji: PropTypes.bool,
   threadJoined: PropTypes.bool,
   threadLoading: PropTypes.bool,
+  isJoiningThread: PropTypes.bool,
   mute: PropTypes.bool,
   notPopup: PropTypes.bool,
+  isShowOnlineList: PropTypes.bool,
   noWeb3: PropTypes.bool,
   currentUser3BoxProfile: PropTypes.object,
   currentUserAddr: PropTypes.string,
   colorTheme: PropTypes.string,
   profiles: PropTypes.object,
   messageList: PropTypes.array,
-  membersOnline: PropTypes.number,
+  membersOnline: PropTypes.array,
+  membersOnlineLength: PropTypes.number,
 };
 
 export default ChatWindow;

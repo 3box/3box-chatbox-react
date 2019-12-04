@@ -5,7 +5,6 @@ import SVG from 'react-inlinesvg';
 import { getCurrentProvider } from '../utils';
 import closeIcon from '../assets/close-icon.svg';
 import Chat from '../assets/chat-bubble.svg';
-// import Chat from '../assets/Chat2.svg';
 
 class Header extends Component {
 
@@ -15,9 +14,11 @@ class Header extends Component {
       chatName,
       onClose,
       colorTheme,
-      membersOnline,
+      membersOnlineLength,
       currentUser3BoxProfile,
-      ethereum
+      ethereum,
+      handleShowOnlineList,
+      isShowOnlineList,
     } = this.props;
 
     const isEmptyProfile = !currentUser3BoxProfile.image && !currentUser3BoxProfile.name;
@@ -34,8 +35,11 @@ class Header extends Component {
               {chatName}
             </h3>
 
-            <p className="sc-header--team-name_membersOnline">
-              {`${membersOnline} online`}
+            <p
+              className={`sc-header--team-name_membersOnline ${isShowOnlineList ? 'active' : ''}`}
+              onClick={handleShowOnlineList}
+            >
+              {`${membersOnlineLength} online`}
             </p>
           </div>
         </div>
@@ -64,9 +68,11 @@ Header.propTypes = {
   chatName: PropTypes.string,
   colorTheme: PropTypes.string,
   onClose: PropTypes.func,
-  membersOnline: PropTypes.number,
+  membersOnlineLength: PropTypes.number,
   currentUser3BoxProfile: PropTypes.object,
+  isShowOnlineList: PropTypes.bool,
   ethereum: PropTypes.object,
+  handleShowOnlineList: PropTypes.func.isRequired,
 };
 
 export default Header;

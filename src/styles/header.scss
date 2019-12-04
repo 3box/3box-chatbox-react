@@ -64,6 +64,15 @@
   color: white;
   opacity: .6;
   padding-top: 1px;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.sc-header--team-name_membersOnline.active {
+  text-decoration: underline;
 }
 
 .sc-header--close-button {

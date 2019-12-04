@@ -36,16 +36,19 @@ class ChatBox extends Component {
       popupChat,
       isOpen: false,
       newMessagesCount: 0,
-      membersOnline: 1,
+      updateCommentsCount: 0,
+      membersOnlineLength: 1,
       mute,
       threadJoined: false,
       dialogue: [],
       uniqueUsers: [],
+      membersOnline: [],
       thread: {},
       profiles: {},
       currentUser3BoxProfile: {},
       box,
       currentUserAddr,
+      isJoiningThread: false,
       ethereum: ethereum || window.ethereum,
     }
   }
@@ -97,13 +100,17 @@ class ChatBox extends Component {
 
     const currentUser3BoxProfile = await Box.getProfile(myAddress);
     currentUser3BoxProfile.profileURL = userProfileURL ? userProfileURL(myAddress) : `https://3box.io/${myAddress}`;
+    currentUser3BoxProfile.ethAddr = myAddress;
 
-    this.setState({ currentUser3BoxProfile });
+    let profiles = {};
+    profiles[myAddress] = currentUser3BoxProfile;
+
+    this.setState({ currentUser3BoxProfile, profiles });
   }
 
   // get profiles of commenters from public api only on component mount
-  fetchMessagers = async (uniqueUsers) => {
-    const { profiles } = this.state;
+  fetchProfiles = async (uniqueUsers) => {
+    const { profiles, currentUser3BoxProfile, currentUserAddr } = this.state;
 
     const profilesToUpdate = uniqueUsers.filter((did, i) => !profiles[uniqueUsers[i]]);
 
@@ -124,7 +131,12 @@ class ChatBox extends Component {
       profile.profileURL = userProfileURL ? userProfileURL(ethAddr) : `https://3box.io/${ethAddr}`;
       profiles[profilesToUpdate[i]] = profile;
     });
-    this.setState({ profiles, numUsersOnline: profiles.length });
+
+    profiles[currentUserAddr] = currentUser3BoxProfile;
+
+    this.setState({
+      profiles,
+    });
   }
 
   openThread = async () => {
@@ -165,6 +177,7 @@ class ChatBox extends Component {
       threadName,
       spaceOpts,
     } = this.props;
+    this.setState({ isJoiningThread: true });
     const stateBox = (this.state.box && Object.keys(this.state.box).length) && this.state.box;
     const propBox = (this.props.box && Object.keys(this.props.box).length) && this.props.box;
     const box = stateBox || propBox;
@@ -174,14 +187,16 @@ class ChatBox extends Component {
     };
     const thread = await space.joinThread(threadName, opts);
 
-    const unsortedDialogue = await thread.getPosts();
-    const dialogue = sortChronologicallyAndGroup(unsortedDialogue);
+    this.setState({ thread, threadJoined: true, }, async () => {
+      await this.updateComments();
+      await this.updateMembersOnline();
 
-    this.setState({
-      thread,
-      dialogue,
-      threadJoined: true
-    }, () => thread.onUpdate(() => this.updateComments()));
+      thread.onUpdate(() => {
+        this.updateComments();
+        this.updateMembersOnline();
+      })
+    });
+    console.log('6');
   }
 
   updateComments = async () => {
@@ -189,9 +204,10 @@ class ChatBox extends Component {
       thread,
       uniqueUsers,
       newMessagesCount,
-      dialogueLength
+      dialogueLength,
+      updateCommentsCount,
     } = this.state;
-    const members = await thread.listMembers();
+
     const updatedUnsortedDialogue = await thread.getPosts();
     const newDialogueLength = updatedUnsortedDialogue.length;
     const updatedDialogue = sortChronologicallyAndGroup(updatedUnsortedDialogue);
@@ -211,14 +227,32 @@ class ChatBox extends Component {
         dialogueLength: newDialogueLength,
       });
     } else {
-      await this.fetchMessagers(updatedUniqueUsers);
+      await this.fetchProfiles(updatedUniqueUsers);
       this.setState({
         dialogue: updatedDialogue,
         newMessagesCount: totalNewMessages,
-        membersOnline: members.length + 1,
         dialogueLength: newDialogueLength,
+        uniqueUsers: updatedUniqueUsers
       });
     }
+
+    if (updateCommentsCount === 0) this.setState({ isJoiningThread: false });
+    this.setState({ updateCommentsCount: updateCommentsCount + 1 });
+  }
+
+  updateMembersOnline = async () => {
+    const { thread, currentUserAddr } = this.state;
+
+    const updatedMembersOnline = await thread.listMembers();
+    console.log('updatedMembersOnline', updatedMembersOnline);
+
+    await this.fetchProfiles(updatedMembersOnline);
+    updatedMembersOnline.push(currentUserAddr);
+
+    this.setState({
+      membersOnline: updatedMembersOnline,
+      membersOnlineLength: updatedMembersOnline.length,
+    });
   }
 
   _onMessageWasSent = async (message) => {
@@ -254,11 +288,12 @@ class ChatBox extends Component {
       showEmoji,
       popupChat,
       newMessagesCount,
-      numUsersOnline,
       mute,
-      membersOnline,
+      membersOnlineLength,
       ethereum,
       box,
+      isJoiningThread,
+      membersOnline,
     } = this.state;
     const { loginFunction, userProfileURL } = this.props;
 
@@ -283,11 +318,12 @@ class ChatBox extends Component {
           colorTheme={colorTheme}
           isOpen={isOpen}
           newMessagesCount={newMessagesCount}
-          numUsersOnline={numUsersOnline}
           mute={mute}
+          membersOnlineLength={membersOnlineLength}
           membersOnline={membersOnline}
           ethereum={ethereum}
           noWeb3={noWeb3}
+          isJoiningThread={isJoiningThread}
           userProfileURL={userProfileURL}
         />
       );
@@ -307,12 +343,13 @@ class ChatBox extends Component {
         threadJoined={threadJoined}
         threadLoading={threadLoading}
         colorTheme={colorTheme}
-        numUsersOnline={numUsersOnline}
         mute={mute}
+        membersOnlineLength={membersOnlineLength}
         membersOnline={membersOnline}
         ethereum={ethereum}
         noWeb3={noWeb3}
         userProfileURL={userProfileURL}
+        isJoiningThread={isJoiningThread}
         notPopup
       />
     )

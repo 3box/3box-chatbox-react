@@ -5,7 +5,6 @@ import SVG from 'react-inlinesvg';
 import ChatWindow from './ChatWindow';
 import launcherIconActive from '../assets/close-icon.svg';
 import Chat from '../assets/chat-bubble.svg';
-// import Chat from '../assets/Chat2.svg';
 
 import styles from '../styles';
 
@@ -42,10 +41,12 @@ class Launcher extends Component {
       showEmoji,
       profiles,
       mute,
-      membersOnline,
+      membersOnlineLength,
       noWeb3,
       ethereum,
-      userProfileURL
+      userProfileURL,
+      isJoiningThread,
+      membersOnline,
     } = this.props;
 
     const classList = [
@@ -79,11 +80,13 @@ class Launcher extends Component {
           openThread={openThread}
           threadLoading={threadLoading}
           colorTheme={colorTheme}
-          membersOnline={membersOnline}
+          membersOnlineLength={membersOnlineLength}
           mute={mute}
           ethereum={ethereum}
           noWeb3={noWeb3}
           userProfileURL={userProfileURL}
+          isJoiningThread={isJoiningThread}
+          membersOnline={membersOnline}
         />
       </div>
     );
@@ -108,10 +111,12 @@ Launcher.propTypes = {
   handleClick: PropTypes.func,
   openThread: PropTypes.func,
   messageList: PropTypes.array,
+  membersOnline: PropTypes.array,
   mute: PropTypes.bool,
   showEmoji: PropTypes.bool,
   threadJoined: PropTypes.bool,
   threadLoading: PropTypes.bool,
+  isJoiningThread: PropTypes.bool,
   noWeb3: PropTypes.bool,
   currentUserAddr: PropTypes.string,
   colorTheme: PropTypes.string,
@@ -119,7 +124,7 @@ Launcher.propTypes = {
   currentUser3BoxProfile: PropTypes.object,
   profiles: PropTypes.object,
   ethereum: PropTypes.object,
-  membersOnline: PropTypes.number,
+  membersOnlineLength: PropTypes.number,
 };
 
 Launcher.defaultProps = {
