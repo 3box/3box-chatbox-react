@@ -93,52 +93,6 @@ class ChatBox extends Component {
     }
   }
 
-  fetchMe = async () => {
-    const { currentUserAddr, userProfileURL } = this.props;
-    const stateCurrentUserAddr = this.state.currentUserAddr;
-    const myAddress = currentUserAddr || stateCurrentUserAddr;
-
-    const currentUser3BoxProfile = await Box.getProfile(myAddress);
-    currentUser3BoxProfile.profileURL = userProfileURL ? userProfileURL(myAddress) : `https://3box.io/${myAddress}`;
-    currentUser3BoxProfile.ethAddr = myAddress;
-
-    let profiles = {};
-    profiles[myAddress] = currentUser3BoxProfile;
-
-    this.setState({ currentUser3BoxProfile, profiles });
-  }
-
-  // get profiles of commenters from public api only on component mount
-  fetchProfiles = async (uniqueUsers) => {
-    const { profiles, currentUser3BoxProfile, currentUserAddr } = this.state;
-
-    const profilesToUpdate = uniqueUsers.filter((did, i) => !profiles[uniqueUsers[i]]);
-
-    if (!profilesToUpdate.length) return;
-
-    const fetchProfile = async (did) => await Box.getProfile(did);
-    const fetchAllProfiles = async () => await Promise.all(profilesToUpdate.map(did => fetchProfile(did)));
-    const profilesArray = await fetchAllProfiles();
-
-    const getEthAddr = async (did) => await resolve(did);
-    const getAllEthAddr = async () => await Promise.all(profilesToUpdate.map(did => getEthAddr(did)));
-    const ethAddrArray = await getAllEthAddr();
-
-    profilesArray.forEach((profile, i) => {
-      const { userProfileURL } = this.props;
-      const ethAddr = ethAddrArray[i].publicKey[2].ethereumAddress;
-      profile.ethAddr = ethAddr;
-      profile.profileURL = userProfileURL ? userProfileURL(ethAddr) : `https://3box.io/${ethAddr}`;
-      profiles[profilesToUpdate[i]] = profile;
-    });
-
-    profiles[currentUserAddr] = currentUser3BoxProfile;
-
-    this.setState({
-      profiles,
-    });
-  }
-
   openThread = async () => {
     const { box, ethereum } = this.state;
     const { loginFunction } = this.props;
@@ -199,6 +153,52 @@ class ChatBox extends Component {
     console.log('6');
   }
 
+  fetchMe = async () => {
+    const { currentUserAddr, userProfileURL } = this.props;
+    const stateCurrentUserAddr = this.state.currentUserAddr;
+    const myAddress = currentUserAddr || stateCurrentUserAddr;
+
+    const currentUser3BoxProfile = await Box.getProfile(myAddress);
+    currentUser3BoxProfile.profileURL = userProfileURL ? userProfileURL(myAddress) : `https://3box.io/${myAddress}`;
+    currentUser3BoxProfile.ethAddr = myAddress;
+
+    let profiles = {};
+    profiles[myAddress] = currentUser3BoxProfile;
+
+    this.setState({ currentUser3BoxProfile, profiles });
+  }
+
+  // get profiles of commenters from public api only on component mount
+  fetchProfiles = async (uniqueUsers) => {
+    const { profiles, currentUser3BoxProfile, currentUserAddr } = this.state;
+
+    const profilesToUpdate = uniqueUsers.filter((did, i) => !profiles[uniqueUsers[i]]);
+
+    if (!profilesToUpdate.length) return;
+
+    const fetchProfile = async (did) => await Box.getProfile(did);
+    const fetchAllProfiles = async () => await Promise.all(profilesToUpdate.map(did => fetchProfile(did)));
+    const profilesArray = await fetchAllProfiles();
+
+    const getEthAddr = async (did) => await resolve(did);
+    const getAllEthAddr = async () => await Promise.all(profilesToUpdate.map(did => getEthAddr(did)));
+    const ethAddrArray = await getAllEthAddr();
+
+    profilesArray.forEach((profile, i) => {
+      const { userProfileURL } = this.props;
+      const ethAddr = ethAddrArray[i].publicKey[2].ethereumAddress;
+      profile.ethAddr = ethAddr;
+      profile.profileURL = userProfileURL ? userProfileURL(ethAddr) : `https://3box.io/${ethAddr}`;
+      profiles[profilesToUpdate[i]] = profile;
+    });
+
+    profiles[currentUserAddr] = currentUser3BoxProfile;
+
+    this.setState({
+      profiles,
+    });
+  }
+
   updateComments = async () => {
     const {
       thread,
@@ -244,7 +244,6 @@ class ChatBox extends Component {
     const { thread, currentUserAddr } = this.state;
 
     const updatedMembersOnline = await thread.listMembers();
-    console.log('updatedMembersOnline', updatedMembersOnline);
 
     await this.fetchProfiles(updatedMembersOnline);
     updatedMembersOnline.push(currentUserAddr);

@@ -62,6 +62,20 @@
   margin-right: 40px;
 }
 
+.sc-message_online {
+  height: 12px;
+  width: 12px;
+  min-height: 12px;
+  min-width: 12px;
+  background-color: $onlineGreen;
+  position: absolute;
+  font-size: 12px;
+  color: $lighterFont;
+  top: -22px;
+  border-radius: 50%;
+  left: 50px;
+}
+
 .sc-message_messager {
   position: absolute;
   font-size: 12px;

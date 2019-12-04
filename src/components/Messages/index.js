@@ -13,12 +13,17 @@ const Message = (props) => {
     message,
     isFirstMessage,
     colorTheme,
-    userProfileURL
+    userProfileURL,
+    membersOnline,
   } = props;
 
   const currentUserAddrNormalized = currentUserAddr && currentUserAddr.toLowerCase();
   const commentAddr = profile && profile.ethAddr.toLowerCase();
   const isMyComment = commentAddr === currentUserAddrNormalized;
+  const isOnline = membersOnline.includes(message.author);
+  console.log('message.author', message.author)
+  console.log('isOnline', isOnline)
+  console.log('membersOnline', membersOnline)
 
   let contentClassList = [
     'sc-message--content',
@@ -34,6 +39,9 @@ const Message = (props) => {
       <div className={contentClassList.join(' ')}>
 
         {(!isMyComment && isFirstMessage) && (
+          <>
+          {isOnline && <div className="sc-message_online" />}
+
           <a
             href={profile.profileURL}
             className="sc-message_messager"
@@ -42,6 +50,7 @@ const Message = (props) => {
           >
             {profile.name ? `${profile.name} ${shortenEthAddr(profile.ethAddr)}` : `${shortenEthAddr(profile.ethAddr)}`}
           </a>
+          </>
         )}
 
         {isFirstMessage ? (
@@ -74,6 +83,7 @@ Message.propTypes = {
   profile: PropTypes.object,
   isFirstMessage: PropTypes.bool,
   colorTheme: PropTypes.string,
+  membersOnline: PropTypes.array,
   currentUserAddr: PropTypes.string,
   userProfileURL: PropTypes.func,
 };

@@ -93,6 +93,7 @@ class MessageList extends Component {
                     <Message
                       message={message}
                       userProfileURL={userProfileURL}
+                      membersOnline={membersOnline}
                       key={i}
                       currentUserAddr={currentUserAddr}
                       profile={profiles[message.author]}

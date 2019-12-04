@@ -50,7 +50,7 @@
 }
 
 .sc-message-list.show {
-  display: flex;
+  display: inline;
 }
 
 .sc-message-list.isLoading {
@@ -108,7 +108,7 @@
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background-color: rgb(82, 208, 139);
+  background-color: $onlineGreen;
   margin-right: 10px;
 }
 
@@ -117,6 +117,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  margin-bottom: 14px;
 }
 
 .onlineList_members {
