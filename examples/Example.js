@@ -51,7 +51,7 @@ class Example extends React.Component {
           <div className="userscontainer">
             <ChatBox
               // required
-              spaceName='3boxtestcomments'
+              spaceName='TiramisuTest'
               threadName='ghostChatTest'
 
               // case A & B
