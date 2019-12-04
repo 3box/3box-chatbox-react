@@ -145,12 +145,9 @@ class ChatBox extends Component {
       await this.updateComments();
       await this.updateMembersOnline();
 
-      thread.onUpdate(() => {
-        this.updateComments();
-        this.updateMembersOnline();
-      })
+      thread.onUpdate(() => this.updateComments());
+      thread.onNewCapabilities(() => this.updateMembersOnline());
     });
-    console.log('6');
   }
 
   fetchMe = async () => {

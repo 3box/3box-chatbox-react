@@ -27,9 +27,6 @@ class MessageList extends Component {
       handleShowOnlineList,
     } = this.props;
 
-    console.log('profiles', profiles)
-    console.log('membersOnline', membersOnline)
-
     return (
       <>
         <div className={`onlineList ${isShowOnlineList ? 'show' : ''}`} ref={el => this.scrollList = el}>

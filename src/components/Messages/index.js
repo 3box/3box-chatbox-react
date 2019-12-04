@@ -21,9 +21,6 @@ const Message = (props) => {
   const commentAddr = profile && profile.ethAddr.toLowerCase();
   const isMyComment = commentAddr === currentUserAddrNormalized;
   const isOnline = membersOnline.includes(message.author);
-  console.log('message.author', message.author)
-  console.log('isOnline', isOnline)
-  console.log('membersOnline', membersOnline)
 
   let contentClassList = [
     'sc-message--content',
