@@ -43,7 +43,7 @@ export default () => ({
   },
 
   resolve: {
-    extensions: ['.js', '.jsx', '.scss', '.svg', '.css']
+    extensions: ['.js', '.jsx', '.scss', '.svg', '.css', '.json']
   },
 
   plugins: [
