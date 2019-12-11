@@ -38,6 +38,7 @@ class Launcher extends Component {
       isOpen,
       agentProfile,
       messageList,
+      likes,
       showEmoji,
       profiles,
       mute,
@@ -68,6 +69,7 @@ class Launcher extends Component {
 
         <ChatWindow
           messageList={messageList}
+          likes={likes}
           onUserInputSubmit={onMessageWasSent}
           agentProfile={agentProfile}
           isOpen={isOpen}
@@ -111,6 +113,7 @@ Launcher.propTypes = {
   handleClick: PropTypes.func,
   openThread: PropTypes.func,
   messageList: PropTypes.array,
+  likes: PropTypes.instanceOf(Map),
   membersOnline: PropTypes.array,
   mute: PropTypes.bool,
   showEmoji: PropTypes.bool,

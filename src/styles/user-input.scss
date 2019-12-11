@@ -109,7 +109,8 @@
 
 // .sc-user-input--file-icon-wrapper
 .sc-user-input--emoji-icon-wrapper,
-.sc-user-input--send-icon-wrapper {
+.sc-user-input--send-icon-wrapper,
+.sc-user-input--like-icon-wrapper {
   background: none;
   border: none;
   padding: 2px 2px 2px 2px;
@@ -119,12 +120,19 @@
   justify-content: center;
 }
 
+.sc-user-input--like-icon-wrapper {
+  margin: 0px;
+  margin-right: 4px;
+  cursor: pointer;
+}
+
 // .sc-user-input--file-icon-wrapper,
 .sc-user-input--send-icon-wrapper {
   flex-direction: row;
 }
 
-.sc-user-input--emoji-icon-wrapper:focus {
+.sc-user-input--emoji-icon-wrapper:focus,
+.sc-user-input--like-icon-wrapper:focus {
   outline: none;
 }
 
@@ -135,8 +143,13 @@
 }
 
 .sc-user-input--emoji-icon path,
-.sc-user-input--emoji-icon circle {
+.sc-user-input--emoji-icon circle,
+.sc-user-input--like-icon {
   fill: rgba(86, 88, 103, 0.3);
+}
+
+.sc-user-input--like-icon {
+  fill: rgba(97, 77, 86, 0.3);
 }
 
 .sc-user-input--emoji-icon-wrapper:focus .sc-user-input--emoji-icon path,
@@ -146,6 +159,21 @@
 .sc-user-input--emoji-icon:hover path,
 .sc-user-input--emoji-icon:hover circle {
   fill: rgba(86, 88, 103, 1);
+}
+
+.sc-user-input--like-icon {
+  height: 18px;
+  cursor: pointer;
+  align-self: center;
+  transition: fill 0.25s ease;
+}
+
+.sc-user-input--like-icon.liked {
+  fill: red;
+}
+
+.sc-user-input--like-icon.not-liked:hover {
+  fill: #bd8888;
 }
 
 @media (max-width: 450px) {

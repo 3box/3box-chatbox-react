@@ -96,3 +96,97 @@ export const getCurrentProvider = (ethereum) => {
   
   return 'unknown';
 }
+
+/**
+ *@param {String} messageText
+ */
+
+export const isLikeEvent = (messageText) => {
+  return /^\/(like|unlike) /.test(messageText)
+}
+
+/**
+ * 
+ * @param {Array} messages 
+ * groups likes by target id first,
+ * then by author
+ */
+
+const groupLikes = (messages) => {
+
+  //using Map instead of object to avoid prototype poisoning vulnerability
+  const groupedLikes = new Map()
+
+  for (const { message, author, timestamp } of messages) {
+    if (!isLikeEvent(message)) continue
+
+    const [action, targetId] = message.split(" ")
+
+    if (!action || !targetId) continue
+
+    if (!groupedLikes.get(targetId)) {
+      groupedLikes.set(targetId, { [author]: [{ action, timestamp }] })
+    }
+    else {
+      const stack = groupedLikes.get(targetId)[author]
+
+      if (stack) {
+        stack.push({ action, timestamp })
+      }
+      else {
+        groupedLikes.get(targetId)[author] = [{ action, timestamp }]
+      }
+    }
+  }
+
+  return groupedLikes
+}
+
+/**
+ * 
+ * @param {Array} messages 
+ * @returns
+ * a mapping from postId to list of user ids 
+ * that liked that post
+ */
+
+export const resolveLikes = (messages) => {
+  const groupedLikes = groupLikes(messages)
+  const resolvedLikes = new Map()
+
+  for (const [targetId, targetGroup] of groupedLikes) {
+
+    for (const author in targetGroup) {
+      const stack = targetGroup[author].sort((a, b) => b.timestamp - a.timestamp)
+      const lastAction = stack[0] && stack[0].action
+
+      if (lastAction !== "/like") {
+        continue
+      }
+
+      const target = resolvedLikes.get(targetId)
+      if (target) {
+        target.push(author)
+      }
+      else {
+        resolvedLikes.set(targetId, [author])
+      }
+    }
+  }
+
+  return resolvedLikes
+}
+
+
+// memoization for single-argument function
+export const memo = function (func) {
+  const cache = new Map()
+  return function (arg) {
+    const fromCache = cache.get(arg)
+    if (fromCache) return fromCache
+
+    const res = func(arg)
+    cache.set(arg, res)
+    return res
+  }
+}

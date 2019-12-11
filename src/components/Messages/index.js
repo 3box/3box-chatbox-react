@@ -5,16 +5,19 @@ import PropTypes from 'prop-types';
 import { shortenEthAddr, timeSince } from '../../utils';
 
 import TextMessage from './TextMessage';
+import Like from './Like'
 
 const Message = (props) => {
   const {
     currentUserAddr,
     profile,
     message,
+    likers,
     isFirstMessage,
     colorTheme,
     userProfileURL,
     membersOnline,
+    sendMessage
   } = props;
 
   const currentUserAddrNormalized = currentUserAddr && currentUserAddr.toLowerCase();
@@ -65,12 +68,18 @@ const Message = (props) => {
           </a>
         ) : <div className="sc-message_spacer" />}
 
-        <TextMessage
-          messageObj={message}
-          isMyComment={isMyComment}
-          colorTheme={colorTheme}
-        />
+        <div className="sc-message-and-like-container">
+          <TextMessage
+            messageObj={message}
+            isMyComment={isMyComment}
+            colorTheme={colorTheme}
+          />
+          <Like sendMessage={sendMessage} messageObj={message} likers={likers} currentUserAddr={currentUserAddr} />
+        </div>
+
+
       </div>
+
     </div>
   );
 }
@@ -78,11 +87,13 @@ const Message = (props) => {
 Message.propTypes = {
   message: PropTypes.string,
   profile: PropTypes.object,
+  likers: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
   isFirstMessage: PropTypes.bool,
   colorTheme: PropTypes.string,
   membersOnline: PropTypes.array,
   currentUserAddr: PropTypes.string,
   userProfileURL: PropTypes.func,
+  sendMessage: PropTypes.func
 };
 
 export default Message;

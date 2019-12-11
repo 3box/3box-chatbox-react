@@ -20,7 +20,6 @@
 .sc-message--content.sent .sc-message--avatar {
   display: none;
 }
-
 .sc-message--avatar {
   background-image: url(https://d13yacurqjgara.cloudfront.net/assets/avatar-default-aa2eab7684294781f93bc99ad394a0eb3249c5768c21390163c9f55ea8ef83a4.gif);
   background-repeat: no-repeat;
@@ -32,6 +31,15 @@
   max-height: 30px;
   border-radius: 50%;
   margin-right: 10px;
+}
+
+.sc-message--liker-avatar {
+  min-width: 28px;
+  min-height: 28px;
+  max-width: 28px;
+  max-height: 28px;
+  border-radius: 50%;
+  margin: 0px 5px;
 }
 
 .sc-message--text {
@@ -53,8 +61,12 @@
 
 .sc-message--content.sent .sc-message--text {
   color: white;
-  max-width: calc(100% - 120px);
+  word-break: break-word;
   word-wrap: break-word;
+}
+
+.sc-message-and-like-container {
+  max-width: calc(100% - 120px);
 }
 
 .sc-message--content.received .sc-message--text {
@@ -128,6 +140,33 @@
 .sc-message--file p {
   margin: 0px 0px 0px 10px;
   color: rgba(86, 88, 103, 0.6);
+}
+
+.sc-message-like-wrapper {
+  position: relative;
+  width: fit-content;
+}
+
+.sc-message-like-container {
+  display: flex;
+  align-items: center;
+  padding: 0px 11px;
+  width: fit-content;
+}
+
+.sc-message-likers-wrapper {
+  position: absolute;
+  bottom: 28px;
+  padding: 4px 6px;
+  background-color: #000000c7;
+  border-radius: 10px;
+  display: flex;
+  flex-wrap: nowrap;
+  left: 11px;
+}
+
+.sc-message--content.sent .sc-message-likers-wrapper {
+  left: auto;
 }
 
 @media (max-width: 450px) {

@@ -10,13 +10,27 @@ import LoadingAnimation from './LoadingAnimation';
 import closeIcon from '../assets/close-icon-black.svg';
 
 class MessageList extends Component {
-  componentDidUpdate() {
-    this.scrollList.scrollTop = this.scrollList.scrollHeight;
+  componentDidUpdate(prevProps) {
+
+    const moreGroups = this.props.messages.length > prevProps.messages.length
+
+    if (moreGroups) {
+      this.scrollList.scrollTop = this.scrollList.scrollHeight;
+      return
+    }
+
+    const messageGroup = this.props.messages[this.props.messages.length - 1]
+    const prevMessageGroup = prevProps.messages[prevProps.messages.length - 1]
+
+    if (messageGroup && prevMessageGroup && messageGroup.length > prevMessageGroup.length) {
+      this.scrollList.scrollTop = this.scrollList.scrollHeight;
+    }
   }
 
   render() {
     const {
       messages,
+      likes,
       profiles,
       currentUserAddr,
       colorTheme,
@@ -25,6 +39,7 @@ class MessageList extends Component {
       isShowOnlineList,
       membersOnline,
       handleShowOnlineList,
+      sendMessage
     } = this.props;
 
     return (
@@ -86,9 +101,13 @@ class MessageList extends Component {
             return (
               <div className={`sc-message_group ${isMyComment ? 'myGroup' : ''}`} key={i}>
                 {userGrouping.map((message, i) => {
+
+                  const likers = likes.get(message.postId) && likes.get(message.postId).map((author) => profiles[author])
+
                   return (
                     <Message
                       message={message}
+                      likers={likers}
                       userProfileURL={userProfileURL}
                       membersOnline={membersOnline}
                       key={i}
@@ -96,6 +115,7 @@ class MessageList extends Component {
                       profile={profiles[message.author]}
                       isFirstMessage={i === 0}
                       colorTheme={colorTheme}
+                      sendMessage={sendMessage}
                     />
                   );
                 })}
@@ -110,6 +130,7 @@ class MessageList extends Component {
 
 MessageList.propTypes = {
   messages: PropTypes.array,
+  likes: PropTypes.instanceOf(Map),
   membersOnline: PropTypes.array,
   profiles: PropTypes.object,
   currentUserAddr: PropTypes.string,
@@ -118,6 +139,7 @@ MessageList.propTypes = {
   handleShowOnlineList: PropTypes.func.isRequired,
   isJoiningThread: PropTypes.bool,
   isShowOnlineList: PropTypes.bool,
+  sendMessage: PropTypes.func
 };
 
 export default MessageList;

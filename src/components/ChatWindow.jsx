@@ -74,6 +74,7 @@ class ChatWindow extends Component {
       notPopup,
       onClose,
       profiles,
+      likes,
       showEmoji,
       colorTheme,
       membersOnlineLength,
@@ -196,6 +197,7 @@ class ChatWindow extends Component {
 
           <MessageList
             messages={messageList}
+            likes={likes}
             imageUrl={agentProfile.imageUrl}
             handleShowOnlineList={this.handleShowOnlineList}
             currentUserAddr={currentUserAddr}
@@ -205,6 +207,7 @@ class ChatWindow extends Component {
             isJoiningThread={isJoiningThread}
             isShowOnlineList={isShowOnlineList}
             membersOnline={membersOnline}
+            sendMessage={this.onUserInputSubmit}
           />
 
           <UserInput
@@ -242,6 +245,7 @@ ChatWindow.propTypes = {
   colorTheme: PropTypes.string,
   profiles: PropTypes.object,
   messageList: PropTypes.array,
+  likes: PropTypes.instanceOf(Map),
   membersOnline: PropTypes.array,
   membersOnlineLength: PropTypes.number,
 };

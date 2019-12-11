@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import resolve from 'did-resolver';
 import registerResolver from '3id-resolver';
 
-import { sortChronologicallyAndGroup } from './utils';
+import { sortChronologicallyAndGroup, isLikeEvent, resolveLikes } from './utils';
 
 import Launcher from './components/Launcher';
 import ChatWindow from './components/ChatWindow';
@@ -41,6 +41,7 @@ class ChatBox extends Component {
       mute,
       threadJoined: false,
       dialogue: [],
+      likes: new Map(),
       uniqueUsers: [],
       membersOnline: [],
       thread: {},
@@ -206,8 +207,10 @@ class ChatBox extends Component {
     } = this.state;
 
     const updatedUnsortedDialogue = await thread.getPosts();
-    const newDialogueLength = updatedUnsortedDialogue.length;
-    const updatedDialogue = sortChronologicallyAndGroup(updatedUnsortedDialogue);
+    const likes = resolveLikes(updatedUnsortedDialogue)
+    const filteredDialogue = updatedUnsortedDialogue.filter(({ message }) => !isLikeEvent(message))
+    const newDialogueLength = filteredDialogue.length;
+    const updatedDialogue = sortChronologicallyAndGroup(filteredDialogue);
 
     // if there are new messagers, fetch their profiles
     const updatedUniqueUsers = [...new Set(updatedUnsortedDialogue.map(x => x.author))];
@@ -222,6 +225,7 @@ class ChatBox extends Component {
         dialogue: updatedDialogue,
         newMessagesCount: totalNewMessages,
         dialogueLength: newDialogueLength,
+        likes
       });
     } else {
       await this.fetchProfiles(updatedUniqueUsers);
@@ -229,7 +233,8 @@ class ChatBox extends Component {
         dialogue: updatedDialogue,
         newMessagesCount: totalNewMessages,
         dialogueLength: newDialogueLength,
-        uniqueUsers: updatedUniqueUsers
+        uniqueUsers: updatedUniqueUsers,
+        likes
       });
     }
 
@@ -290,6 +295,7 @@ class ChatBox extends Component {
       box,
       isJoiningThread,
       membersOnline,
+      likes
     } = this.state;
     const { loginFunction, userProfileURL } = this.props;
 
@@ -305,6 +311,7 @@ class ChatBox extends Component {
           resetNewMessageCounter={this.resetNewMessageCounter}
           agentProfile={agentProfile}
           messageList={dialogue}
+          likes={likes}
           showEmoji={showEmoji}
           currentUserAddr={currentUserAddr}
           currentUser3BoxProfile={currentUser3BoxProfile}
@@ -330,6 +337,7 @@ class ChatBox extends Component {
         onUserInputSubmit={this._onMessageWasSent}
         openThread={this.openThread}
         messageList={dialogue}
+        likes={likes}
         agentProfile={agentProfile}
         isOpen={isOpen}
         showEmoji={showEmoji}
