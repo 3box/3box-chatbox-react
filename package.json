@@ -1,6 +1,6 @@
 {
   "name": "3box-chatbox-react",
-  "version": "0.0.1-beta.13",
+  "version": "0.0.1-beta.14",
   "description": "Chat component for decentralized applications by 3Box",
   "main": "./dist/index.js",
   "author": "3box.io",
@@ -72,6 +72,7 @@
     "babel-core": "^7.0.0-bridge.0",
     "emoji-js": "^3.4.1",
     "ethereum-blockies-base64": "^1.0.2",
+    "multicodec": "^0.5.6",
     "orbit-db": "^0.21.4",
     "react-linkify": "^1.0.0-alpha",
     "react-text-loop": "^2.1.1",
