@@ -1,13 +1,13 @@
 {
   "name": "3box-chatbox-react",
-  "version": "0.0.1-beta.14",
+  "version": "0.0.2",
   "description": "Chat component for decentralized applications by 3Box",
-  "main": "./dist/index.js",
   "author": "3box.io",
   "license": "MIT",
   "contributors": [
     "Kenzo Nakamura <kenzo@nyu.edu>"
   ],
+  "main": "./lib/index.js",
   "keywords": [
     "chat",
     "3Box",
@@ -15,7 +15,9 @@
     "ethereum"
   ],
   "scripts": {
+    "analyze": "source-map-explorer 'dist/index.js'",
     "build": "webpack --config webpack.config.babel.js",
+    "build:es5": "rm -rf ./lib; ./node_modules/.bin/babel src --out-dir lib --source-maps inline --copy-files --ignore=src/__tests__/,src/__mocks__/",
     "build-examples": "webpack --config examples/webpack.config.babel.js --progress",
     "clean": "rm -rf dist coverage",
     "coverage": "jest --coverage",
@@ -68,15 +70,16 @@
   "dependencies": {
     "3box": "^1.14.0",
     "3id-resolver": "0.0.6",
+    "@babel/cli": "^7.7.7",
     "@babel/runtime": "^7.6.0",
     "babel-core": "^7.0.0-bridge.0",
     "emoji-js": "^3.4.1",
     "ethereum-blockies-base64": "^1.0.2",
-    "multicodec": "^0.5.6",
-    "orbit-db": "^0.21.4",
+    "istanbul-reports": "^2.2.6",
     "react-linkify": "^1.0.0-alpha",
     "react-text-loop": "^2.1.1",
     "react-tilt": "^0.1.4",
+    "source-map-explorer": "^2.1.2",
     "svg-inline-loader": "^0.8.0"
   }
 }

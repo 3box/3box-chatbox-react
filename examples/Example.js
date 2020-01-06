@@ -2,7 +2,7 @@ import React from 'react';
 import Box from '3box';
 import SVG from 'react-inlinesvg';
 
-import ChatBox from '../src/index';
+import ChatBox from '../lib/index';
 import Logo from '../src/assets/3BoxLogoWhite.svg';
 
 import './index.scss';
