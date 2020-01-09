@@ -2,7 +2,7 @@ import React from 'react';
 import Box from '3box';
 import SVG from 'react-inlinesvg';
 
-import ChatBox from '../lib/index';
+import ChatBox from '../src/index';
 import Logo from '../src/assets/3BoxLogoWhite.svg';
 
 import './index.scss';
@@ -51,8 +51,10 @@ class Example extends React.Component {
           <div className="userscontainer">
             <ChatBox
               // required
-              spaceName='3boxtestcomments'
-              threadName='ghostChatTest'
+              spaceName='MyFollowing'
+              // spaceName='3boxtestcomments'
+              threadName='chatbox'
+              // threadName='ghostChatTest'
 
               // case A & B
               box={box}
@@ -64,6 +66,7 @@ class Example extends React.Component {
               // case C
               ethereum={window.ethereum}
 
+              openOnMount
               popupChat
             // mute
             // colorTheme="#1168df"

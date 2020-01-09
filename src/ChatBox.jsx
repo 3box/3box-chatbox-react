@@ -24,21 +24,14 @@ class ChatBox extends Component {
       colorTheme,
       popupChat,
       mute,
+      openOnMount,
     } = this.props;
 
     this.state = {
-      agentProfile: agentProfile || {
-        chatName: 'Chatbox',
-        imageUrl: null
-      },
-      colorTheme: colorTheme || '#181F21',
-      showEmoji,
-      popupChat,
-      isOpen: false,
+      isOpen: openOnMount,
       newMessagesCount: 0,
       updateCommentsCount: 0,
       membersOnlineLength: 1,
-      mute,
       threadJoined: false,
       dialogue: [],
       uniqueUsers: [],
@@ -46,9 +39,17 @@ class ChatBox extends Component {
       thread: {},
       profiles: {},
       currentUser3BoxProfile: {},
+      isJoiningThread: false,
       box,
       currentUserAddr,
-      isJoiningThread: false,
+      agentProfile: agentProfile || {
+        chatName: 'Chatbox',
+        imageUrl: null
+      },
+      colorTheme: colorTheme || '#181F21',
+      showEmoji,
+      popupChat,
+      mute,
       ethereum: ethereum || window.ethereum,
     }
   }
@@ -61,11 +62,35 @@ class ChatBox extends Component {
     const IPFS = await Box.getIPFS();
     registerResolver(IPFS);
 
+    this.getGhostThread();
     // if we have eth and don't have 3box profile, fetch it
     if (currentUserAddr &&
       (!currentUser3BoxProfile || !Object.entries(currentUser3BoxProfile).length)) {
       this.fetchMe();
     }
+  }
+
+  getGhostThread = async () => {
+    const { ethereum } = this.state;
+    const {
+      spaceName,
+      threadName,
+    } = this.props;
+
+    console.log('threadName', threadName);
+    console.log('spaceName', spaceName);
+    const box = await Box.create(ethereum);
+    const thread = await box.openThread(spaceName, threadName, { ghost: true });
+
+    this.setState({ thread, threadJoined: true, }, async () => {
+      await this.updateComments();
+      await this.updateMembersOnline();
+
+      thread.onUpdate(() => this.updateComments());
+      thread.onNewCapabilities(() => this.updateMembersOnline());
+    });
+
+    // this.setState({ box });
   }
 
   componentDidUpdate(prevProps) {
@@ -98,7 +123,11 @@ class ChatBox extends Component {
     const { loginFunction } = this.props;
 
     const noWeb3 = (!ethereum || !Object.entries(ethereum).length) && !loginFunction;
-    if (noWeb3) return;
+
+    if (noWeb3) {
+      console.log('You must provide web3 or a login to the comments component.');
+      return;
+    }
     // add error message
 
     this.setState({ threadLoading: true });
@@ -113,7 +142,11 @@ class ChatBox extends Component {
     const {
       ethereum
     } = this.state;
-    if (!ethereum) console.error('You must provide an ethereum object to the comments component.');
+
+    if (!ethereum) {
+      console.log('You must provide an ethereum object to the comments component.');
+      return;
+    }
 
     const addresses = await ethereum.enable();
     const currentUserAddr = addresses[0];
@@ -140,6 +173,7 @@ class ChatBox extends Component {
       ghost: true
     };
     const thread = await space.joinThread(threadName, opts);
+    console.log('threadnormal', thread);
 
     this.setState({ thread, threadJoined: true, }, async () => {
       await this.updateComments();
@@ -204,8 +238,8 @@ class ChatBox extends Component {
       dialogueLength,
       updateCommentsCount,
     } = this.state;
-
     const updatedUnsortedDialogue = await thread.getPosts();
+    console.log('normaldialogue', updatedUnsortedDialogue);
     const newDialogueLength = updatedUnsortedDialogue.length;
     const updatedDialogue = sortChronologicallyAndGroup(updatedUnsortedDialogue);
 
@@ -356,6 +390,7 @@ ChatBox.propTypes = {
   chatName: PropTypes.string,
   colorTheme: PropTypes.string,
   popupChat: PropTypes.bool,
+  openOnMount: PropTypes.bool,
   mute: PropTypes.bool,
   currentUserAddr: PropTypes.string,
   userProfileURL: PropTypes.func,
@@ -384,6 +419,7 @@ ChatBox.defaultProps = {
   spaceOpts: null,
   loginFunction: null,
   showEmoji: true,
+  openOnMount: false,
 };
 
 export default ChatBox;
