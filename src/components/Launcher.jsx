@@ -31,10 +31,9 @@ class Launcher extends Component {
       currentUserAddr,
       currentUser3BoxProfile,
       threadJoined,
-      openThread,
       threadLoading,
       colorTheme,
-      onMessageWasSent,
+      postMessage,
       isOpen,
       agentProfile,
       messageList,
@@ -47,13 +46,15 @@ class Launcher extends Component {
       userProfileURL,
       isJoiningThread,
       membersOnline,
+      newMessagesCount,
+      loginFunction,
+      box,
     } = this.props;
 
     const classList = [
       'sc-launcher',
       (isOpen ? 'opened' : ''),
     ];
-
     return (
       <div id="sc-launcher">
         <div
@@ -61,14 +62,14 @@ class Launcher extends Component {
           onClick={this.handleClick.bind(this)}
           style={{ backgroundColor: colorTheme }}
         >
-          <MessageCount count={this.props.newMessagesCount} isOpen={isOpen} />
+          <MessageCount count={newMessagesCount} isOpen={isOpen} />
           <SVG className="sc-open-icon" src={launcherIconActive} />
           <SVG src={Chat} alt="Logo" className="sc-closed-icon" />
         </div>
 
         <ChatWindow
           messageList={messageList}
-          onUserInputSubmit={onMessageWasSent}
+          postMessage={postMessage}
           agentProfile={agentProfile}
           isOpen={isOpen}
           onClose={this.handleClick.bind(this)}
@@ -77,7 +78,6 @@ class Launcher extends Component {
           currentUser3BoxProfile={currentUser3BoxProfile}
           currentUserAddr={currentUserAddr}
           threadJoined={threadJoined}
-          openThread={openThread}
           threadLoading={threadLoading}
           colorTheme={colorTheme}
           membersOnlineLength={membersOnlineLength}
@@ -87,6 +87,8 @@ class Launcher extends Component {
           userProfileURL={userProfileURL}
           isJoiningThread={isJoiningThread}
           membersOnline={membersOnline}
+          loginFunction={loginFunction}
+          box={box}
         />
       </div>
     );
@@ -104,12 +106,12 @@ const MessageCount = ({ count, isOpen }) => {
 
 Launcher.propTypes = {
   onMessageWasReceived: PropTypes.func,
-  onMessageWasSent: PropTypes.func,
+  postMessage: PropTypes.func,
   userProfileURL: PropTypes.func,
   newMessagesCount: PropTypes.number,
   isOpen: PropTypes.bool,
   handleClick: PropTypes.func,
-  openThread: PropTypes.func,
+  loginFunction: PropTypes.func,
   messageList: PropTypes.array,
   membersOnline: PropTypes.array,
   mute: PropTypes.bool,
@@ -124,6 +126,7 @@ Launcher.propTypes = {
   currentUser3BoxProfile: PropTypes.object,
   profiles: PropTypes.object,
   ethereum: PropTypes.object,
+  box: PropTypes.object,
   membersOnlineLength: PropTypes.number,
 };
 

@@ -51,7 +51,6 @@
     "react-addons-test-utils": "^15.5.1",
     "react-dom": "^16.6.0",
     "react-hot-loader": "next",
-    "react-inlinesvg": "^1.1.6",
     "react-test-renderer": "^16.0.0",
     "regenerator-runtime": "^0.12.1",
     "sass-loader": "^7.0.1",
@@ -68,7 +67,8 @@
     "babel-core": "7.0.0-bridge.0"
   },
   "dependencies": {
-    "3box": "^1.14.0",
+    "3box": "^1.16.0",
+    "3box-comments-react": "0.0.5-beta.1",
     "3id-resolver": "0.0.6",
     "@babel/cli": "^7.7.7",
     "@babel/runtime": "^7.6.0",
@@ -76,6 +76,7 @@
     "emoji-js": "^3.4.1",
     "ethereum-blockies-base64": "^1.0.2",
     "istanbul-reports": "^2.2.6",
+    "react-inlinesvg": "^1.1.6",
     "react-linkify": "^1.0.0-alpha",
     "react-text-loop": "^2.1.1",
     "react-tilt": "^0.1.4",

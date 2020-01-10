@@ -68,7 +68,7 @@ class UserInput extends Component {
     const { threadJoined } = this.props;
     const text = this.userInput.value;
     if (text && text.length > 0 && threadJoined) {
-      this.props.onSubmit({
+      this.props.postMessage({
         author: 'me',
         type: 'text',
         data: { text }
@@ -174,7 +174,7 @@ class UserInput extends Component {
 }
 
 UserInput.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
+  postMessage: PropTypes.func.isRequired,
   userProfileURL: PropTypes.func,
   showEmoji: PropTypes.bool,
   threadJoined: PropTypes.bool,

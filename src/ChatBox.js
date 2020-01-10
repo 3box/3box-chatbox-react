@@ -61,6 +61,7 @@ class ChatBox extends Component {
     const IPFS = await Box.getIPFS();
     registerResolver(IPFS);
 
+    this.fetchThread();
     // if we have eth and don't have 3box profile, fetch it
     if (currentUserAddr &&
       (!currentUser3BoxProfile || !Object.entries(currentUser3BoxProfile).length)) {
@@ -93,6 +94,36 @@ class ChatBox extends Component {
     }
   }
 
+  // get thread from public api only on component mount
+  fetchThread = async () => {
+    const { ethereum } = this.state;
+    const {
+      spaceName,
+      threadName,
+    } = this.props;
+
+    if (!spaceName || !threadName) console.error('You must pass both spaceName and threadName props');
+
+    let box;
+    let thread;
+    let dialogue;
+    if (ethereum) {
+      box = await Box.create(ethereum);
+      console.log('boxxxx', box)
+      thread = await box.openThread(spaceName, threadName, { ghost: true });
+      dialogue = await thread.getPosts()
+    }
+
+    this.setState({ thread, threadJoined: true, box, dialogue }, async () => {
+      await this.updateComments();
+      await this.updateMembersOnline();
+
+      thread.onUpdate(() => this.updateComments());
+      thread.onNewCapabilities(() => this.updateMembersOnline());
+    });
+
+  }
+
   openThread = async () => {
     const { box, ethereum } = this.state;
     const { loginFunction } = this.props;
@@ -111,44 +142,48 @@ class ChatBox extends Component {
 
   openBox = async () => {
     const {
-      ethereum
+      ethereum,
+      box,
     } = this.state;
+    const { spaceName } = this.props;
+
     if (!ethereum) console.error('You must provide an ethereum object to the comments component.');
 
     const addresses = await ethereum.enable();
     const currentUserAddr = addresses[0];
     this.setState({ currentUserAddr }, async () => await this.fetchMe());
 
-    const box = await Box.openBox(currentUserAddr, ethereum, {});
+    await box.auth([spaceName], { address: currentUserAddr });
+    this.setState({ hasAuthed: true });
 
-    box.onSyncDone(() => this.setState({ box }));
+    await box.syncDone;
     this.setState({ box });
   }
 
-  joinThread = async () => {
-    const {
-      spaceName,
-      threadName,
-      spaceOpts,
-    } = this.props;
-    this.setState({ isJoiningThread: true });
-    const stateBox = (this.state.box && Object.keys(this.state.box).length) && this.state.box;
-    const propBox = (this.props.box && Object.keys(this.props.box).length) && this.props.box;
-    const box = stateBox || propBox;
-    const space = await box.openSpace(spaceName, spaceOpts || {});
-    const opts = {
-      ghost: true
-    };
-    const thread = await space.joinThread(threadName, opts);
+  // joinThread = async () => {
+  //   const {
+  //     spaceName,
+  //     threadName,
+  //     spaceOpts,
+  //   } = this.props;
+  //   this.setState({ isJoiningThread: true });
+  //   const stateBox = (this.state.box && Object.keys(this.state.box).length) && this.state.box;
+  //   const propBox = (this.props.box && Object.keys(this.props.box).length) && this.props.box;
+  //   const box = stateBox || propBox;
+  //   const space = await box.openSpace(spaceName, spaceOpts || {});
+  //   const opts = {
+  //     ghost: true
+  //   };
+  //   const thread = await space.joinThread(threadName, opts);
 
-    this.setState({ thread, threadJoined: true, }, async () => {
-      await this.updateComments();
-      await this.updateMembersOnline();
+  //   this.setState({ thread, threadJoined: true, }, async () => {
+  //     await this.updateComments();
+  //     await this.updateMembersOnline();
 
-      thread.onUpdate(() => this.updateComments());
-      thread.onNewCapabilities(() => this.updateMembersOnline());
-    });
-  }
+  //     thread.onUpdate(() => this.updateComments());
+  //     thread.onNewCapabilities(() => this.updateMembersOnline());
+  //   });
+  // }
 
   fetchMe = async () => {
     const { currentUserAddr, userProfileURL } = this.props;
@@ -204,6 +239,7 @@ class ChatBox extends Component {
       dialogueLength,
       updateCommentsCount,
     } = this.state;
+    console.log('inupdatecomments')
 
     const updatedUnsortedDialogue = await thread.getPosts();
     const newDialogueLength = updatedUnsortedDialogue.length;
@@ -216,18 +252,17 @@ class ChatBox extends Component {
     const numNewMessages = newDialogueLength - dialogueLength;
     let totalNewMessages = newMessagesCount;
     totalNewMessages += numNewMessages;
-
     if (uniqueUsers.length === updatedUniqueUsers.length) {
       this.setState({
         dialogue: updatedDialogue,
-        newMessagesCount: totalNewMessages,
+        newMessagesCount: totalNewMessages || 0,
         dialogueLength: newDialogueLength,
       });
     } else {
       await this.fetchProfiles(updatedUniqueUsers);
       this.setState({
         dialogue: updatedDialogue,
-        newMessagesCount: totalNewMessages,
+        newMessagesCount: totalNewMessages || 0,
         dialogueLength: newDialogueLength,
         uniqueUsers: updatedUniqueUsers
       });
@@ -251,10 +286,6 @@ class ChatBox extends Component {
     });
   }
 
-  _onMessageWasSent = async (message) => {
-    await this.postMessage(message);
-  }
-
   _handleClick = () => {
     this.setState({
       isOpen: !this.state.isOpen,
@@ -263,7 +294,9 @@ class ChatBox extends Component {
   }
 
   postMessage = async (message) => {
+    const { hasAuthed } = this.state;
     try {
+      if (!hasAuthed) await this.openBox();
       await this.state.thread.post(message.data.text || message.data.emoji);
       await this.updateComments();
     } catch (error) {
@@ -299,11 +332,12 @@ class ChatBox extends Component {
     if (popupChat) {
       return (
         <Launcher
-          onMessageWasSent={this._onMessageWasSent}
+          postMessage={this.postMessage}
           handleClick={this._handleClick}
           openThread={this.openThread}
           resetNewMessageCounter={this.resetNewMessageCounter}
           agentProfile={agentProfile}
+          loginFunction={loginFunction}
           messageList={dialogue}
           showEmoji={showEmoji}
           currentUserAddr={currentUserAddr}
@@ -320,6 +354,7 @@ class ChatBox extends Component {
           ethereum={ethereum}
           noWeb3={noWeb3}
           isJoiningThread={isJoiningThread}
+          box={box}
           userProfileURL={userProfileURL}
         />
       );
@@ -327,10 +362,11 @@ class ChatBox extends Component {
 
     return (
       <ChatWindow
-        onUserInputSubmit={this._onMessageWasSent}
+        postMessage={this.postMessage}
         openThread={this.openThread}
         messageList={dialogue}
         agentProfile={agentProfile}
+        loginFunction={loginFunction}
         isOpen={isOpen}
         showEmoji={showEmoji}
         profiles={profiles}
@@ -346,6 +382,7 @@ class ChatBox extends Component {
         noWeb3={noWeb3}
         userProfileURL={userProfileURL}
         isJoiningThread={isJoiningThread}
+        box={box}
         notPopup
       />
     )

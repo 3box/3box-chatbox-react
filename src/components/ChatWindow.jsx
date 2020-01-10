@@ -54,10 +54,6 @@ class ChatWindow extends Component {
     audio.play();
   }
 
-  onUserInputSubmit = (message) => {
-    this.props.onUserInputSubmit(message);
-  }
-
   handleShowOnlineList = () => {
     const { isShowOnlineList } = this.state;
     this.setState({ isShowOnlineList: !isShowOnlineList });
@@ -82,6 +78,9 @@ class ChatWindow extends Component {
       userProfileURL,
       isJoiningThread,
       membersOnline,
+      postMessage,
+      loginFunction,
+      box,
     } = this.props;
 
     const { isShowOnlineList } = this.state;
@@ -152,20 +151,22 @@ class ChatWindow extends Component {
             </div>
 
             <div className="joinThreadWindow_wrapper_buttonDiv">
-              {noWeb3 ? (
+              {noWeb3 && (
                 <p className="joinThreadWindow_wrapper_buttonDiv_error">
                   Web3 is required for Chatbox
                 </p>
-              ) : (
-                  <Tilt options={options}>
-                    <button
-                      className={`joinThreadWindow_wrapper_button  ${threadLoading ? '' : 'show'}`}
-                      onClick={openThread}
-                      style={{ backgroundColor: colorTheme }}
-                    >
-                      Join
-                    </button>
-                  </Tilt>)}
+              )}
+
+              {(loginFunction && !box) && (
+                <Tilt options={options}>
+                  <button
+                    className={`joinThreadWindow_wrapper_button  ${threadLoading ? '' : 'show'}`}
+                    onClick={openThread}
+                    style={{ backgroundColor: colorTheme }}
+                  >
+                    Join
+                  </button>
+                </Tilt>)}
 
               <LoadingAnimation colorTheme={colorTheme} threadLoading={threadLoading} />
             </div>
@@ -210,7 +211,7 @@ class ChatWindow extends Component {
           <UserInput
             currentUser3BoxProfile={currentUser3BoxProfile}
             currentUserAddr={currentUserAddr}
-            onSubmit={this.onUserInputSubmit}
+            postMessage={postMessage}
             showEmoji={showEmoji}
             userProfileURL={userProfileURL}
             threadJoined={threadJoined}
@@ -226,7 +227,7 @@ ChatWindow.propTypes = {
   ethereum: PropTypes.object,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  onUserInputSubmit: PropTypes.func.isRequired,
+  postMessage: PropTypes.func.isRequired,
   openThread: PropTypes.func.isRequired,
   userProfileURL: PropTypes.func,
   showEmoji: PropTypes.bool,
