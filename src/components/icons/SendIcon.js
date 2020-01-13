@@ -4,11 +4,9 @@ import PropTypes from 'prop-types';
 class SendIcon extends Component {
 
   render() {
-    const { onFocus, onBlur, onClick, inputHasText } = this.props;
+    const { onClick, inputHasText } = this.props;
     return (
       <button
-        onFocus={onFocus}
-        onBlur={onBlur}
         onClick={(e) => { e.preventDefault(); onClick(e); }}
         className="sc-user-input--send-icon-wrapper"
       >
@@ -35,8 +33,6 @@ class SendIcon extends Component {
 }
 
 SendIcon.propTypes = {
-  onFocus: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
   inputHasText: PropTypes.bool,
 };

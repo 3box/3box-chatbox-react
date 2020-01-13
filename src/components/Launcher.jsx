@@ -31,8 +31,6 @@ class Launcher extends Component {
     const {
       currentUserAddr,
       currentUser3BoxProfile,
-      threadJoined,
-      threadLoading,
       colorTheme,
       postMessage,
       isOpen,
@@ -45,11 +43,11 @@ class Launcher extends Component {
       noWeb3,
       ethereum,
       userProfileURL,
-      isJoiningThread,
       membersOnline,
       newMessagesCount,
       loginFunction,
       box,
+      popupChat,
     } = this.props;
 
     const classList = [
@@ -63,7 +61,7 @@ class Launcher extends Component {
           onClick={this.handleClick.bind(this)}
           style={{ backgroundColor: colorTheme }}
         >
-          <MessageCount count={newMessagesCount} isOpen={isOpen} />
+          {(newMessagesCount !== 0 && isOpen === false) && <div className={'sc-new-messages-count'}> {newMessagesCount} </div>}
           <SVG className="sc-open-icon" src={launcherIconActive} />
           <SVG src={Chat} alt="Logo" className="sc-closed-icon" />
         </div>
@@ -78,32 +76,21 @@ class Launcher extends Component {
           profiles={profiles}
           currentUser3BoxProfile={currentUser3BoxProfile}
           currentUserAddr={currentUserAddr}
-          threadJoined={threadJoined}
-          threadLoading={threadLoading}
           colorTheme={colorTheme}
           membersOnlineLength={membersOnlineLength}
           mute={mute}
           ethereum={ethereum}
           noWeb3={noWeb3}
           userProfileURL={userProfileURL}
-          isJoiningThread={isJoiningThread}
           membersOnline={membersOnline}
           loginFunction={loginFunction}
           box={box}
+          popupChat={popupChat}
         />
       </div>
     );
   }
 }
-
-const MessageCount = ({ count, isOpen }) => {
-  if (count === 0 || isOpen === true) return null;
-  return (
-    <div className={'sc-new-messages-count'}>
-      {count}
-    </div>
-  );
-};
 
 Launcher.propTypes = {
   onMessageWasReceived: PropTypes.func,
@@ -117,9 +104,7 @@ Launcher.propTypes = {
   membersOnline: PropTypes.array,
   mute: PropTypes.bool,
   showEmoji: PropTypes.bool,
-  threadJoined: PropTypes.bool,
-  threadLoading: PropTypes.bool,
-  isJoiningThread: PropTypes.bool,
+  popupChat: PropTypes.bool,
   noWeb3: PropTypes.bool,
   currentUserAddr: PropTypes.string,
   colorTheme: PropTypes.string,

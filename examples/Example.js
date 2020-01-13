@@ -56,16 +56,16 @@ class Example extends React.Component {
               // threadName='ghostChatTest'
 
               // case A & B
-              box={box}
-              currentUserAddr={myAddress}
+              // box={box}
+              // currentUserAddr={myAddress}
 
               // case B
               // loginFunction={this.handleLogin}
 
               // case C
-              // ethereum={window.ethereum}
+              ethereum={window.ethereum}
 
-              popupChat
+              // popupChat
               openOnMount
             // mute
             // colorTheme="#1168df"

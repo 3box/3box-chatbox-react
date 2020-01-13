@@ -10,4 +10,3 @@ import './Input.scss';
 import './Context.scss';
 // import './Dialogue.scss';
 import './Comments.scss';
-import './Footer.scss';

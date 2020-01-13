@@ -6,7 +6,6 @@ import SVG from 'react-inlinesvg';
 import { shortenEthAddr } from '../utils';
 
 import Message from './Messages';
-import LoadingAnimation from './LoadingAnimation';
 import closeIcon from '../assets/close-icon-black.svg';
 
 class MessageList extends Component {
@@ -21,7 +20,6 @@ class MessageList extends Component {
       currentUserAddr,
       colorTheme,
       userProfileURL,
-      isJoiningThread,
       isShowOnlineList,
       membersOnline,
       handleShowOnlineList,
@@ -72,11 +70,7 @@ class MessageList extends Component {
             })}
           </div>
         </div>
-        <div className={`sc-message-list ${isJoiningThread ? 'isLoading' : ''} ${isShowOnlineList ? '' : 'show'}`} ref={el => this.scrollList = el}>
-          {isJoiningThread && (
-            <LoadingAnimation colorTheme={colorTheme} threadLoading={isJoiningThread} />
-          )}
-
+        <div className={`sc-message-list ${isShowOnlineList ? '' : 'show'}`} ref={el => this.scrollList = el}>
           {messages.map((userGrouping, i) => {
             const profile = profiles[userGrouping[0].author];
             const currentUserAddrNormalized = currentUserAddr && currentUserAddr.toLowerCase();
@@ -116,7 +110,6 @@ MessageList.propTypes = {
   colorTheme: PropTypes.string,
   userProfileURL: PropTypes.func,
   handleShowOnlineList: PropTypes.func.isRequired,
-  isJoiningThread: PropTypes.bool,
   isShowOnlineList: PropTypes.bool,
 };
 
