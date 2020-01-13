@@ -24,6 +24,7 @@ class ChatBox extends Component {
       colorTheme,
       popupChat,
       mute,
+      openOnMount,
     } = this.props;
 
     this.state = {
@@ -34,12 +35,12 @@ class ChatBox extends Component {
       colorTheme: colorTheme || '#181F21',
       showEmoji,
       popupChat,
-      isOpen: false,
+      isOpen: openOnMount || false,
       newMessagesCount: 0,
       updateCommentsCount: 0,
       membersOnlineLength: 1,
       mute,
-      threadJoined: false,
+      threadJoined: !!ethereum,
       dialogue: [],
       uniqueUsers: [],
       membersOnline: [],
@@ -54,45 +55,30 @@ class ChatBox extends Component {
   }
 
   async componentDidMount() {
-    const { currentUserAddr } = this.state;
     const { currentUser3BoxProfile } = this.props;
 
     // get ipfs instance for did-resolver
     const IPFS = await Box.getIPFS();
     registerResolver(IPFS);
 
+    if ((!currentUser3BoxProfile || !Object.entries(currentUser3BoxProfile).length)) {
+      await this.fetchMe();
+    }
+
     this.fetchThread();
-    // if we have eth and don't have 3box profile, fetch it
-    if (currentUserAddr &&
-      (!currentUser3BoxProfile || !Object.entries(currentUser3BoxProfile).length)) {
-      this.fetchMe();
-    }
   }
 
-  componentDidUpdate(prevProps) {
-    const {
-      currentUserAddr,
-      currentUser3BoxProfile,
-      box
-    } = this.props;
+  // componentDidUpdate(prevProps) {
+  //   const {
+  //     box
+  //   } = this.props;
 
-    // if current user's eth addr is updated in parent, fetch profile
-    if (currentUserAddr !== prevProps.currentUserAddr) {
-      const hasNoUserProfile = (!currentUser3BoxProfile || !Object.entries(currentUser3BoxProfile).length);
-      this.setState({ currentUserAddr }, () => { hasNoUserProfile && this.fetchMe(); });
-    }
-
-    // if current user's profile is updated in parent, update UI
-    if (currentUser3BoxProfile !== prevProps.currentUser3BoxProfile) {
-      this.setState({ currentUser3BoxProfile });
-    }
-
-    // if box is updated in parent, update component state
-    const prevBoxEmpty = !prevProps.box || !Object.entries(prevProps.box).length;
-    if (prevBoxEmpty && box && Object.entries(box).length > 0) {
-      this.setState({ box });
-    }
-  }
+  //   // if box is updated in parent, update component state
+  //   const prevBoxEmpty = !prevProps.box || !Object.entries(prevProps.box).length;
+  //   if (prevBoxEmpty && box && Object.entries(box).length > 0) {
+  //     this.setState({ box });
+  //   }
+  // }
 
   // get thread from public api only on component mount
   fetchThread = async () => {
@@ -108,13 +94,12 @@ class ChatBox extends Component {
     let thread;
     let dialogue;
     if (ethereum) {
-      box = await Box.create(ethereum);
-      console.log('boxxxx', box)
+      box = await Box.create({ethereum});
       thread = await box.openThread(spaceName, threadName, { ghost: true });
       dialogue = await thread.getPosts()
     }
 
-    this.setState({ thread, threadJoined: true, box, dialogue }, async () => {
+    this.setState({ thread, threadJoined: !!ethereum, box, dialogue }, async () => {
       await this.updateComments();
       await this.updateMembersOnline();
 
@@ -132,7 +117,7 @@ class ChatBox extends Component {
     if (noWeb3) return;
     // add error message
 
-    this.setState({ threadLoading: true });
+    // this.setState({ threadLoading: true });
 
     if (!box || !Object.keys(box).length) loginFunction ? await loginFunction() : await this.openBox();
     await this.joinThread();
@@ -144,20 +129,16 @@ class ChatBox extends Component {
     const {
       ethereum,
       box,
+      currentUserAddr,
     } = this.state;
     const { spaceName } = this.props;
 
     if (!ethereum) console.error('You must provide an ethereum object to the comments component.');
 
-    const addresses = await ethereum.enable();
-    const currentUserAddr = addresses[0];
-    this.setState({ currentUserAddr }, async () => await this.fetchMe());
-
-    await box.auth([spaceName], { address: currentUserAddr });
+    await box.auth([spaceName], { address: this.props.currentUserAddr || currentUserAddr });
     this.setState({ hasAuthed: true });
 
     await box.syncDone;
-    this.setState({ box });
   }
 
   // joinThread = async () => {
@@ -186,18 +167,25 @@ class ChatBox extends Component {
   // }
 
   fetchMe = async () => {
+    const { profiles, ethereum } = this.state;
     const { currentUserAddr, userProfileURL } = this.props;
-    const stateCurrentUserAddr = this.state.currentUserAddr;
-    const myAddress = currentUserAddr || stateCurrentUserAddr;
+
+    let myAddress;
+
+    if (currentUserAddr) {
+      myAddress = currentUserAddr;
+    } else {
+      const addresses = await ethereum.enable();
+      myAddress = addresses[0];
+    }
 
     const currentUser3BoxProfile = await Box.getProfile(myAddress);
     currentUser3BoxProfile.profileURL = userProfileURL ? userProfileURL(myAddress) : `https://3box.io/${myAddress}`;
     currentUser3BoxProfile.ethAddr = myAddress;
 
-    let profiles = {};
     profiles[myAddress] = currentUser3BoxProfile;
 
-    this.setState({ currentUser3BoxProfile, profiles });
+    this.setState({ currentUser3BoxProfile, profiles, currentUserAddr: myAddress });
   }
 
   // get profiles of commenters from public api only on component mount
@@ -224,7 +212,7 @@ class ChatBox extends Component {
       profiles[profilesToUpdate[i]] = profile;
     });
 
-    profiles[currentUserAddr] = currentUser3BoxProfile;
+    if (currentUserAddr) profiles[currentUserAddr] = currentUser3BoxProfile;
 
     this.setState({
       profiles,
@@ -239,7 +227,6 @@ class ChatBox extends Component {
       dialogueLength,
       updateCommentsCount,
     } = this.state;
-    console.log('inupdatecomments')
 
     const updatedUnsortedDialogue = await thread.getPosts();
     const newDialogueLength = updatedUnsortedDialogue.length;
@@ -278,7 +265,7 @@ class ChatBox extends Component {
     const updatedMembersOnline = await thread.listMembers();
 
     await this.fetchProfiles(updatedMembersOnline);
-    updatedMembersOnline.push(currentUserAddr);
+    if (currentUserAddr) updatedMembersOnline.push(currentUserAddr);
 
     this.setState({
       membersOnline: updatedMembersOnline,
@@ -286,7 +273,7 @@ class ChatBox extends Component {
     });
   }
 
-  _handleClick = () => {
+  handleClick = () => {
     this.setState({
       isOpen: !this.state.isOpen,
       newMessagesCount: 0
@@ -333,7 +320,7 @@ class ChatBox extends Component {
       return (
         <Launcher
           postMessage={this.postMessage}
-          handleClick={this._handleClick}
+          handleClick={this.handleClick}
           openThread={this.openThread}
           resetNewMessageCounter={this.resetNewMessageCounter}
           agentProfile={agentProfile}
@@ -406,6 +393,7 @@ ChatBox.propTypes = {
   spaceName: PropTypes.string.isRequired,
   threadName: PropTypes.string.isRequired,
   showEmoji: PropTypes.bool,
+  openOnMount: PropTypes.bool,
   isOpen: PropTypes.bool,
 };
 
@@ -421,6 +409,7 @@ ChatBox.defaultProps = {
   spaceOpts: null,
   loginFunction: null,
   showEmoji: true,
+  openOnMount: true,
 };
 
 export default ChatBox;

@@ -187,7 +187,7 @@
 }
 
 .joinThreadWindow.closed {
-  opacity: 0;
+  opacity: 0 !important;
   visibility: hidden;
   bottom: 90px;
 }

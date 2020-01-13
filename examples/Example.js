@@ -66,6 +66,7 @@ class Example extends React.Component {
               // ethereum={window.ethereum}
 
               popupChat
+              openOnMount
             // mute
             // colorTheme="#1168df"
 

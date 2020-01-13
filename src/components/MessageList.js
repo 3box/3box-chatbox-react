@@ -42,7 +42,7 @@ class MessageList extends Component {
           </span>
 
           <div className="onlineList_members">
-            {/* {membersOnline.map(memberDID => {
+            {membersOnline.map(memberDID => {
               const isMe = memberDID === currentUserAddr;
               const profile = profiles[isMe ? currentUserAddr : memberDID];
               const profilePicture = (profile && profile.ethAddr) &&
@@ -69,7 +69,7 @@ class MessageList extends Component {
                   </div>
                 </a>
               )
-            })} */}
+            })}
           </div>
         </div>
         <div className={`sc-message-list ${isJoiningThread ? 'isLoading' : ''} ${isShowOnlineList ? '' : 'show'}`} ref={el => this.scrollList = el}>
