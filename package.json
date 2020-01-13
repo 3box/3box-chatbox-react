@@ -1,6 +1,6 @@
 {
   "name": "3box-chatbox-react",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "Chat component for decentralized applications by 3Box",
   "author": "3box.io",
   "license": "MIT",
@@ -45,7 +45,6 @@
     "eslint-plugin-react": "^7.4.0",
     "file-loader": "^4.2.0",
     "jest-cli": "^23.6.0",
-    "node-sass": "^4.7.2",
     "prop-types": "^15.6.0",
     "react": "^16.6.0",
     "react-addons-test-utils": "^15.5.1",
@@ -76,6 +75,7 @@
     "ethereum-blockies-base64": "^1.0.2",
     "istanbul-reports": "^2.2.6",
     "multicodec": "^0.5.6",
+    "node-sass": "^4.7.2",
     "react-inlinesvg": "^1.1.6",
     "react-linkify": "^1.0.0-alpha",
     "react-text-loop": "^2.1.1",
