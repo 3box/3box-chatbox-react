@@ -48,6 +48,7 @@ class Launcher extends Component {
       loginFunction,
       box,
       popupChat,
+      isJoiningThread,
     } = this.props;
 
     const classList = [
@@ -84,6 +85,7 @@ class Launcher extends Component {
           userProfileURL={userProfileURL}
           membersOnline={membersOnline}
           loginFunction={loginFunction}
+          isJoiningThread={isJoiningThread}
           box={box}
           popupChat={popupChat}
         />
@@ -104,6 +106,7 @@ Launcher.propTypes = {
   membersOnline: PropTypes.array,
   mute: PropTypes.bool,
   showEmoji: PropTypes.bool,
+  isJoiningThread: PropTypes.bool,
   popupChat: PropTypes.bool,
   noWeb3: PropTypes.bool,
   currentUserAddr: PropTypes.string,

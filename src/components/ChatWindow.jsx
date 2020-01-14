@@ -56,6 +56,7 @@ class ChatWindow extends Component {
       membersOnline,
       postMessage,
       popupChat,
+      isJoiningThread,
     } = this.props;
 
     const { isShowOnlineList } = this.state;
@@ -93,6 +94,7 @@ class ChatWindow extends Component {
             colorTheme={colorTheme}
             isShowOnlineList={isShowOnlineList}
             membersOnline={membersOnline}
+            isJoiningThread={isJoiningThread}
           />
 
           <UserInput
@@ -121,11 +123,12 @@ ChatWindow.propTypes = {
   notPopup: PropTypes.bool,
   isShowOnlineList: PropTypes.bool,
   noWeb3: PropTypes.bool,
+  isJoiningThread: PropTypes.bool,
   currentUser3BoxProfile: PropTypes.object,
   currentUserAddr: PropTypes.string,
   colorTheme: PropTypes.string,
   profiles: PropTypes.object,
-  popupChat: PropTypes.object,
+  popupChat: PropTypes.bool,
   messageList: PropTypes.array,
   membersOnline: PropTypes.array,
   membersOnlineLength: PropTypes.number,

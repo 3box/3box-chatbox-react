@@ -36,6 +36,7 @@ class ChatBox extends Component {
       showEmoji,
       popupChat,
       isOpen: openOnMount || false,
+      isJoiningThread: true,
       newMessagesCount: 0,
       updateCommentsCount: 0,
       membersOnlineLength: 1,
@@ -73,6 +74,8 @@ class ChatBox extends Component {
       spaceName,
       threadName,
     } = this.props;
+
+    setTimeout(() => this.setState({ isJoiningThread: false }), 5000);
 
     if (!spaceName || !threadName) console.error('You must pass both spaceName and threadName props');
     if (!ethereum) console.error('Chatbox component must have ethereum provider to fully operate');
@@ -167,9 +170,11 @@ class ChatBox extends Component {
       newMessagesCount,
       dialogueLength,
       updateCommentsCount,
+      isJoiningThread
     } = this.state;
 
     if (!thread) return;
+    if (isJoiningThread) this.setState({ isJoiningThread: false });
 
     const updatedUnsortedDialogue = await thread.getPosts();
     const newDialogueLength = updatedUnsortedDialogue.length;
@@ -252,6 +257,7 @@ class ChatBox extends Component {
       ethereum,
       box,
       membersOnline,
+      isJoiningThread,
     } = this.state;
     const { loginFunction, userProfileURL, } = this.props;
 
@@ -282,6 +288,7 @@ class ChatBox extends Component {
           popupChat={popupChat}
           box={box}
           userProfileURL={userProfileURL}
+          isJoiningThread={isJoiningThread}
         />
       );
     }
@@ -304,6 +311,7 @@ class ChatBox extends Component {
         ethereum={ethereum}
         noWeb3={noWeb3}
         userProfileURL={userProfileURL}
+        isJoiningThread={isJoiningThread}
         box={box}
         popupChat={false}
         notPopup
@@ -345,7 +353,7 @@ ChatBox.defaultProps = {
   spaceOpts: null,
   loginFunction: null,
   showEmoji: true,
-  openOnMount: true,
+  openOnMount: false,
 };
 
 export default ChatBox;

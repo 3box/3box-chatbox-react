@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { shortenEthAddr, timeSince } from '../../utils';
 
 import TextMessage from './TextMessage';
-import { render } from 'enzyme';
 
 class Message extends Component {
   constructor() {

@@ -65,8 +65,8 @@ class Example extends React.Component {
               // case C
               ethereum={window.ethereum}
 
-              // popupChat
-              openOnMount
+              popupChat
+              openOnMount={false}
             // mute
             // colorTheme="#1168df"
 
