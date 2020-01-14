@@ -17,8 +17,9 @@ class Launcher extends Component {
   }
 
   handleClick() {
-    if (this.props.handleClick !== undefined) {
-      this.props.handleClick();
+    const { handleClick } = this.props;
+    if (handleClick !== undefined) {
+      handleClick();
     } else {
       this.setState({
         isOpen: !this.state.isOpen,
@@ -30,11 +31,8 @@ class Launcher extends Component {
     const {
       currentUserAddr,
       currentUser3BoxProfile,
-      threadJoined,
-      openThread,
-      threadLoading,
       colorTheme,
-      onMessageWasSent,
+      postMessage,
       isOpen,
       agentProfile,
       messageList,
@@ -45,15 +43,18 @@ class Launcher extends Component {
       noWeb3,
       ethereum,
       userProfileURL,
-      isJoiningThread,
       membersOnline,
+      newMessagesCount,
+      loginFunction,
+      box,
+      popupChat,
+      isJoiningThread,
     } = this.props;
 
     const classList = [
       'sc-launcher',
       (isOpen ? 'opened' : ''),
     ];
-
     return (
       <div id="sc-launcher">
         <div
@@ -61,14 +62,14 @@ class Launcher extends Component {
           onClick={this.handleClick.bind(this)}
           style={{ backgroundColor: colorTheme }}
         >
-          <MessageCount count={this.props.newMessagesCount} isOpen={isOpen} />
+          {(newMessagesCount !== 0 && isOpen === false) && <div className={'sc-new-messages-count'}> {newMessagesCount} </div>}
           <SVG className="sc-open-icon" src={launcherIconActive} />
           <SVG src={Chat} alt="Logo" className="sc-closed-icon" />
         </div>
 
         <ChatWindow
           messageList={messageList}
-          onUserInputSubmit={onMessageWasSent}
+          postMessage={postMessage}
           agentProfile={agentProfile}
           isOpen={isOpen}
           onClose={this.handleClick.bind(this)}
@@ -76,47 +77,37 @@ class Launcher extends Component {
           profiles={profiles}
           currentUser3BoxProfile={currentUser3BoxProfile}
           currentUserAddr={currentUserAddr}
-          threadJoined={threadJoined}
-          openThread={openThread}
-          threadLoading={threadLoading}
           colorTheme={colorTheme}
           membersOnlineLength={membersOnlineLength}
           mute={mute}
           ethereum={ethereum}
           noWeb3={noWeb3}
           userProfileURL={userProfileURL}
-          isJoiningThread={isJoiningThread}
           membersOnline={membersOnline}
+          loginFunction={loginFunction}
+          isJoiningThread={isJoiningThread}
+          box={box}
+          popupChat={popupChat}
         />
       </div>
     );
   }
 }
 
-const MessageCount = ({ count, isOpen }) => {
-  if (count === 0 || isOpen === true) return null;
-  return (
-    <div className={'sc-new-messages-count'}>
-      {count}
-    </div>
-  );
-};
-
 Launcher.propTypes = {
   onMessageWasReceived: PropTypes.func,
-  onMessageWasSent: PropTypes.func,
+  postMessage: PropTypes.func,
   userProfileURL: PropTypes.func,
   newMessagesCount: PropTypes.number,
   isOpen: PropTypes.bool,
   handleClick: PropTypes.func,
-  openThread: PropTypes.func,
+  loginFunction: PropTypes.func,
   messageList: PropTypes.array,
   membersOnline: PropTypes.array,
   mute: PropTypes.bool,
   showEmoji: PropTypes.bool,
-  threadJoined: PropTypes.bool,
-  threadLoading: PropTypes.bool,
   isJoiningThread: PropTypes.bool,
+  popupChat: PropTypes.bool,
   noWeb3: PropTypes.bool,
   currentUserAddr: PropTypes.string,
   colorTheme: PropTypes.string,
@@ -124,6 +115,7 @@ Launcher.propTypes = {
   currentUser3BoxProfile: PropTypes.object,
   profiles: PropTypes.object,
   ethereum: PropTypes.object,
+  box: PropTypes.object,
   membersOnlineLength: PropTypes.number,
 };
 

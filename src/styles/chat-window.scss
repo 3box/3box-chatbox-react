@@ -121,7 +121,6 @@
 }
 
 .onlineList_members {
-  // background-color: #eee;
   width: 100%;
   height: 100%;
   padding: 20px;
@@ -152,135 +151,6 @@
   text-align: left;
 }
 
-
-.joinThreadWindow {
-  width: 376px;
-  height: calc(100% - 120px);
-  max-height: 590px;
-  box-sizing: border-box;
-  background-color: white;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: 0.3s ease-in-out;
-  border-radius: $windowBorderRadius;
-}
-
-.popupChat .joinThreadWindow {
-  box-shadow: 0px 7px 40px 2px rgba(0, 0, 0, 0.3);
-  position: fixed;
-  right: 25px;
-  bottom: 100px;
-  min-height: 400px;
-}
-
-.chat .joinThreadWindow {
-  position: absolute;
-  top: 0;
-  left: 0;
-  border: 1px solid $borderColor;
-  height: 100% !important;
-}
-
-.joinThreadWindow.opened {
-  display: flex;
-  opacity: 1;
-}
-
-.joinThreadWindow.closed {
-  opacity: 0;
-  visibility: hidden;
-  bottom: 90px;
-}
-
-.joinThreadWindow_wrapper {
-  padding: 20px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  position: relative;
-  box-sizing: border-box;
-
-  p {
-    margin: 0;
-  }
-}
-
-.joinThreadWindow_wrapper_header_title {
-  color: $threeBoxBlack;
-  margin: 0;
-  font-size: 36px;
-  letter-spacing: .5px;
-  font-weight: 800;
-}
-
-.joinThreadWindow_wrapper_header {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-}
-
-.joinThreadWindow_wrapper_buttonDiv {
-  height: 60px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.joinThreadWindow_wrapper_buttonDiv_error {
-  font-weight: 400;
-  font-size: 18px;
-  opacity: .7;
-}
-
-.joinThreadWindow_wrapper_button {
-  background-color: $threeBoxBlack;
-  padding: 10px 20px;
-  border-radius: 35px;
-  font-size: 24px;
-  font-weight: 700;
-  color: white;
-  border: none;
-  letter-spacing: .5px;
-  box-sizing: border-box;
-  height: 40px;
-  cursor: pointer;
-  height: 60px;
-  width: 180px;
-  transition: 0.3s ease-in-out;
-  box-shadow: 0px 0px 35px -7px rgba(0, 0, 0, 0.56);
-  opacity: 0;
-  display: none;
-}
-
-.show.joinThreadWindow_wrapper_button {
-  opacity: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.joinThreadWindow_wrapper_loading {
-  opacity: 0;
-  transition: 0.3s ease-in-out;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: -28px;
-}
-
-.joinThreadWindow_wrapper_loading_text {
-  color: $lighterFont;
-  text-align: center;
-  width: 270px;
-}
-
-.show.joinThreadWindow_wrapper_loading {
-  opacity: 1;
-}
-
 .x0.x1.x2 {
   display: flex;
   justify-content: center;
@@ -291,27 +161,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.joinThreadWindow_wrapper_image {
-  min-height: 140px;
-  min-width: 140px;
-  max-height: 140px;
-  max-width: 140px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.joinThreadWindow_wrapper_image_pic {
-  width: 70px;
-  height: auto;
-}
-
-.joinThreadWindow_wrapper_close_icon {
-  width: 20px;
-  height: 20px;
 }
 
 .thread_loading {
@@ -331,20 +180,6 @@
   }
 
   .popupChat .sc-chat-window {
-    width: 100vw;
-    height: 100vh;
-    max-height: 100vh;
-    right: 0px;
-    bottom: 0px;
-    border-radius: 0px;
-    border: none;
-    box-shadow: none;
-    position: fixed;
-    right: 0;
-    bottom: 0;
-  }
-
-  .popupChat .joinThreadWindow {
     width: 100vw;
     height: 100vh;
     max-height: 100vh;

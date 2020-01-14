@@ -19,6 +19,7 @@ class Header extends Component {
       ethereum,
       handleShowOnlineList,
       isShowOnlineList,
+      popupChat,
     } = this.props;
 
     const isEmptyProfile = !currentUser3BoxProfile.image && !currentUser3BoxProfile.name;
@@ -54,9 +55,11 @@ class Header extends Component {
             </a>
           )}
 
-          <div className="sc-header--close-button" onClick={onClose}>
-            <SVG src={closeIcon} alt="Close" />
-          </div>
+          {popupChat && (
+            <div className="sc-header--close-button" onClick={onClose}>
+              <SVG src={closeIcon} alt="Close" />
+            </div>
+          )}
         </div>
       </div>
     );
@@ -71,6 +74,7 @@ Header.propTypes = {
   membersOnlineLength: PropTypes.number,
   currentUser3BoxProfile: PropTypes.object,
   isShowOnlineList: PropTypes.bool,
+  popupChat: PropTypes.bool,
   ethereum: PropTypes.object,
   handleShowOnlineList: PropTypes.func.isRequired,
 };

@@ -15,7 +15,7 @@
 The Chatbox plugin is built using a standard implementation of [Open Threads](https://docs.3box.io/build/web-apps/messaging/choose#open-threads) which are defined in the [3Box Threads API](https://docs.3box.io/api/messaging) and made available via the [`3Box.js SDK`](https://github.com/3box/3box-js). Chatbox messages are ephemeral and are persisted only as long as there is at least one user in the chatbox. The Chatbox plugin includes UI for inputting and displaying both an in-window and pop-up chat and all relevant logic. The component is configurable to various authentication patterns, and can handle both Web3/3Box logged-in & logged-out states. 
 
 #### Authentication
-The content of the configured chatbox cannot be read until a user has authenticated into their 3Box and joined the ephemeral (`ghost`-type) thread.  After authenticating, a user can post and receive messages from other users in *real-time*.
+Starting with version 0.0.5, the content of the configured chatbox can be read right on component mount.  Authentication into the space provided is handled automatically when the user decides to post to the chatbox.
 </br>
 </br>
 
@@ -103,6 +103,7 @@ const MyComponent = ({ handleLogin, box, ethereum, myAddress, currentUser3BoxPro
             chatName: "3Box",
             imageUrl: "https://imgur.com/RXJO8FD"
         }
+        openOnMount={false}
     />
 );
 ```
@@ -127,6 +128,7 @@ const MyComponent = ({ handleLogin, box, ethereum, myAddress, currentUser3BoxPro
 | `showEmoji`    | Boolean       |  False  | Optional    | Pass false to turn off the emoji pop up within the chat input UI. |
 | `currentUser3BoxProfile`    | Object       |   | Optional    | If the current user has already had their 3Box data fetched at the global dApp state, pass the object returned from `Box.getProfile(profileAddress)` to avoid an extra request.  This data will be rendered in the Chatbox input interface.|
 | `userProfileURL`    | Function       |  Defaults to returning user's 3Box profile URL  | Optional    | A function that returns a correctly formatted URL of a user's profile on the current platform.  The function will be passed an Ethereum address within the component, if needed.  A user will be redirected to the URL returned from this function when clicking on the name or Ethereum address associated with the message in the chatbox.|
+| `openOnMount`    | Boolean       |  False  | Optional    | Set whether a Popup style Chatbox is open on component mount. |
 
 ## License
 

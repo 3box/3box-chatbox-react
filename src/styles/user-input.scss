@@ -15,6 +15,15 @@
   border-top: 1px solid $borderColor;
 }
 
+.sc-user-input-warning {
+  position: absolute;
+  color: $warningColor;
+  left: 64px;
+  top: -24px;
+  font-size: 13px;
+  margin: 0;
+}
+
 .sc-user-input--text {
   width: 330px;
   resize: none;
@@ -43,7 +52,8 @@
 
 .sc-user-input--text:empty:before {
   content: attr(placeholder);
-  display: block; /* For Firefox */
+  display: block;
+  /* For Firefox */
   color: rgba(86, 88, 103, 0.3);
   outline: none;
 }
