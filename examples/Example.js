@@ -77,7 +77,7 @@ class Example extends React.Component {
             // spaceOpts={{}}
             // useHovers={true}
             // currentUser3BoxProfile={myProfile}
-            // userProfileURL={address => `https://userprofiles.co/user/${address}`}
+            // userProfileURL={(address) => `https://userprofiles.co/user/${address}`}
             />
           </div>
         </div>

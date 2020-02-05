@@ -79,10 +79,11 @@ class ChatWindow extends Component {
             onClose={onClose}
             colorTheme={colorTheme}
             membersOnlineLength={membersOnlineLength}
-            currentUser3BoxProfile={currentUser3BoxProfile}
             isShowOnlineList={isShowOnlineList}
             ethereum={ethereum}
             popupChat={popupChat}
+            userProfileURL={userProfileURL}
+            currentUserAddr={currentUserAddr}
           />
 
           <MessageList

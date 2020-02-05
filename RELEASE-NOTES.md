@@ -1,5 +1,8 @@
 # Release Notes
 
+## v0.1.3 - 2020-02-05
+* feat: use userURL for edit profile
+
 ## v0.1.2 - 2020-02-05
 * fix: add padding to username
 

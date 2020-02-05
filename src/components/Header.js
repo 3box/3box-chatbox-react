@@ -15,14 +15,15 @@ class Header extends Component {
       onClose,
       colorTheme,
       membersOnlineLength,
-      currentUser3BoxProfile,
       ethereum,
       handleShowOnlineList,
       isShowOnlineList,
       popupChat,
+      userProfileURL,
+      currentUserAddr,
     } = this.props;
 
-    const isEmptyProfile = !currentUser3BoxProfile.image && !currentUser3BoxProfile.name;
+    const url = userProfileURL ? userProfileURL(currentUserAddr) : `https://3box.io/login?wallet=${getCurrentProvider(ethereum)}`;
 
     return (
       <div className="sc-header" style={{ backgroundColor: colorTheme }}>
@@ -46,14 +47,14 @@ class Header extends Component {
         </div>
 
         <div className="sc-header--right">
-          {isEmptyProfile && (
-            <a
-              href={`https://3box.io/login?wallet=${getCurrentProvider(ethereum)}`}
-              className="sc-header-updateProfile"
-            >
-              Edit profile
-            </a>
-          )}
+          <a
+            href={url}
+            className="sc-header-updateProfile"
+            target={userProfileURL ? '_self' : '_blank'}
+            rel={userProfileURL ? 'dofollow' : 'noopener noreferrer'}
+          >
+            Edit profile
+          </a>
 
           {popupChat && (
             <div className="sc-header--close-button" onClick={onClose}>
@@ -70,13 +71,14 @@ Header.propTypes = {
   imageUrl: PropTypes.string,
   chatName: PropTypes.string,
   colorTheme: PropTypes.string,
+  currentUserAddr: PropTypes.string,
   onClose: PropTypes.func,
   membersOnlineLength: PropTypes.number,
-  currentUser3BoxProfile: PropTypes.object,
   isShowOnlineList: PropTypes.bool,
   popupChat: PropTypes.bool,
   ethereum: PropTypes.object,
   handleShowOnlineList: PropTypes.func.isRequired,
+  userProfileURL: PropTypes.func,
 };
 
 export default Header;
