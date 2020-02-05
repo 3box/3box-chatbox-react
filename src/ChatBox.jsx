@@ -6,7 +6,12 @@ import PropTypes from 'prop-types';
 import resolve from 'did-resolver';
 import registerResolver from '3id-resolver';
 
-import { sortChronologicallyAndGroup, isLikeEvent, resolveLikes } from './utils';
+import {
+  sortChronologicallyAndGroup,
+  isLikeEvent,
+  resolveLikes,
+  checkIsMobileDevice,
+} from './utils';
 
 import Launcher from './components/Launcher';
 import ChatWindow from './components/ChatWindow';
@@ -35,7 +40,7 @@ class ChatBox extends Component {
       colorTheme: colorTheme || '#181F21',
       showEmoji,
       popupChat,
-      isOpen: openOnMount || false,
+      isOpen: checkIsMobileDevice() ? false : openOnMount,
       isJoiningThread: true,
       newMessagesCount: 0,
       updateCommentsCount: 0,
@@ -236,9 +241,9 @@ class ChatBox extends Component {
 
     if (!ethereum) return;
     try {
-    if (!hasAuthed) await this.openBox();
-    await this.state.thread.post(message.data.text || message.data.emoji);
-    await this.updateComments();
+      if (!hasAuthed) await this.openBox();
+      await this.state.thread.post(message.data.text || message.data.emoji);
+      await this.updateComments();
     } catch (error) {
       console.error('There was an error saving your message', error);
     }

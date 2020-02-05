@@ -1,5 +1,8 @@
 # Release Notes
 
+## v0.1.4 - 2020-02-05
+* fix: only openOnMount when not on mobile
+
 ## v0.1.3 - 2020-02-05
 * feat: use userURL for edit profile
 

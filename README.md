@@ -127,8 +127,8 @@ const MyComponent = ({ handleLogin, box, ethereum, myAddress, currentUser3BoxPro
 | `mute`    | Boolean       |  False  | Optional    | Pass false to turn off sound for incoming messages. |
 | `showEmoji`    | Boolean       |  False  | Optional    | Pass false to turn off the emoji pop up within the chat input UI. |
 | `currentUser3BoxProfile`    | Object       |   | Optional    | If the current user has already had their 3Box data fetched at the global dApp state, pass the object returned from `Box.getProfile(profileAddress)` to avoid an extra request.  This data will be rendered in the Chatbox input interface.|
-| `userProfileURL`    | Function       |  Defaults to returning user's 3Box profile URL  | Optional    | A function that returns a correctly formatted URL of a user's profile on the current platform.  The function will be passed an Ethereum address within the component, if needed.  A user will be redirected to the URL returned from this function when clicking on the name or Ethereum address associated with the message in the chatbox.|
-| `openOnMount`    | Boolean       |  False  | Optional    | Set whether a Popup style Chatbox is open on component mount. |
+| `userProfileURL`    | Function       |  Defaults to returning user's 3Box profile URL  | Optional    | A function that returns a correctly formatted URL of a user's profile on the current platform.  The function will be passed an Ethereum address within the component, if needed.  A user will be redirected to the URL returned from this function when clicking on the name or Ethereum address associated with the message in the chatbox. This prop is also used in the "Edit profile" link in the header of the Chatbox component.|
+| `openOnMount`    | Boolean       |  False  | Optional    | Set whether a Popup style Chatbox is open on component mount. This prop only affects desktop browsers. |
 
 ## License
 
