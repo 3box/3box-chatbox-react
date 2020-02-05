@@ -51,12 +51,13 @@ class Example extends React.Component {
           <div className="userscontainer">
             <ChatBox
               // required
-              spaceName='LikesTest'
-              threadName='ghostChatTest'
+              spaceName='3boxtestcomments'
+              threadName='ghostChatTest5'
+              // threadName='ghostChatTest'
 
               // case A & B
-              box={box}
-              currentUserAddr={myAddress}
+              // box={box}
+              // currentUserAddr={myAddress}
 
               // case B
               // loginFunction={this.handleLogin}
@@ -64,6 +65,7 @@ class Example extends React.Component {
               // case C
               ethereum={window.ethereum}
 
+              openOnMount
               popupChat
             // mute
             // colorTheme="#1168df"

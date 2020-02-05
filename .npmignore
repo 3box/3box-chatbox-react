@@ -15,6 +15,7 @@ yarn.lock
 
 # project files
 src
+dist
 test
 examples
 CHANGELOG.md

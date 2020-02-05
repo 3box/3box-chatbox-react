@@ -5,8 +5,8 @@ import SVG from 'react-inlinesvg';
 
 import { shortenEthAddr } from '../utils';
 
-import Message from './Messages';
 import LoadingAnimation from './LoadingAnimation';
+import Message from './Messages';
 import closeIcon from '../assets/close-icon-black.svg';
 
 class MessageList extends Component {
@@ -35,11 +35,11 @@ class MessageList extends Component {
       currentUserAddr,
       colorTheme,
       userProfileURL,
-      isJoiningThread,
       isShowOnlineList,
       membersOnline,
       handleShowOnlineList,
-      sendMessage
+      postMessage,
+      isJoiningThread,
     } = this.props;
 
     return (
@@ -64,6 +64,8 @@ class MessageList extends Component {
                 (profile.image ? `https://ipfs.infura.io/ipfs/${profile.image[0].contentUrl['/']}`
                   : makeBlockie(profile.ethAddr));
 
+              if(!profile) return <div>nada</div>;
+              
               return (
                 <a
                   href={profile.profileURL}
@@ -87,6 +89,7 @@ class MessageList extends Component {
             })}
           </div>
         </div>
+
         <div className={`sc-message-list ${isJoiningThread ? 'isLoading' : ''} ${isShowOnlineList ? '' : 'show'}`} ref={el => this.scrollList = el}>
           {isJoiningThread && (
             <LoadingAnimation colorTheme={colorTheme} threadLoading={isJoiningThread} />
@@ -115,7 +118,7 @@ class MessageList extends Component {
                       profile={profiles[message.author]}
                       isFirstMessage={i === 0}
                       colorTheme={colorTheme}
-                      sendMessage={sendMessage}
+                      postMessage={postMessage}
                     />
                   );
                 })}
@@ -137,9 +140,9 @@ MessageList.propTypes = {
   colorTheme: PropTypes.string,
   userProfileURL: PropTypes.func,
   handleShowOnlineList: PropTypes.func.isRequired,
-  isJoiningThread: PropTypes.bool,
   isShowOnlineList: PropTypes.bool,
-  sendMessage: PropTypes.func
+  postMessage: PropTypes.func,
+  isJoiningThread: PropTypes.bool,
 };
 
 export default MessageList;

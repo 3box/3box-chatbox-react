@@ -17,6 +17,7 @@ class UserInput extends Component {
       inputActive: false,
       inputHasText: false,
       emojiPickerIsOpen: false,
+      showWe3Warning: false,
       emojiFilter: '',
       isMobile: checkIsMobileDevice(),
     };
@@ -38,9 +39,11 @@ class UserInput extends Component {
   }
 
   handleKeyUp(event) {
+    const { ethereum } = this.props;
     const inputHasText = event.target.value.length !== 0 &&
       event.target.innerText !== '\n';
     // this.autoExpand(event.target);
+    if (!ethereum) this.setState({ showWe3Warning: inputHasText });
     this.setState({ inputHasText });
   }
 
@@ -65,10 +68,9 @@ class UserInput extends Component {
 
   _submitText(event) {
     event.preventDefault();
-    const { threadJoined } = this.props;
     const text = this.userInput.value;
-    if (text && text.length > 0 && threadJoined) {
-      this.props.onSubmit({
+    if (text && text.length > 0) {
+      this.props.postMessage({
         author: 'me',
         type: 'text',
         data: { text }
@@ -78,9 +80,8 @@ class UserInput extends Component {
   }
 
   _handleEmojiPicked = (emoji) => {
-    const { threadJoined } = this.props;
     this.setState({ emojiPickerIsOpen: false });
-    if (threadJoined) this.userInput.value += emoji;
+    this.userInput.value += emoji;
   }
 
   handleEmojiFilterChange = (event) => {
@@ -107,7 +108,7 @@ class UserInput extends Component {
   // };
 
   render() {
-    const { emojiPickerIsOpen, inputActive, inputHasText } = this.state;
+    const { emojiPickerIsOpen, inputActive, inputHasText, showWe3Warning } = this.state;
     const { currentUser3BoxProfile, currentUserAddr, userProfileURL } = this.props;
 
     const updatedProfilePicture = currentUser3BoxProfile.image ? `https://ipfs.infura.io/ipfs/${currentUser3BoxProfile.image[0].contentUrl['/']}`
@@ -115,6 +116,8 @@ class UserInput extends Component {
 
     return (
       <form className={`sc-user-input ${(inputActive ? 'active' : '')}`}>
+        {showWe3Warning && <p className="sc-user-input-warning">You cannot post without a web3 provider</p>}
+
         {updatedProfilePicture ? (
           <a
             href={currentUser3BoxProfile.profileURL}
@@ -174,12 +177,12 @@ class UserInput extends Component {
 }
 
 UserInput.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
+  postMessage: PropTypes.func.isRequired,
   userProfileURL: PropTypes.func,
   showEmoji: PropTypes.bool,
-  threadJoined: PropTypes.bool,
   currentUserAddr: PropTypes.string,
   currentUser3BoxProfile: PropTypes.object,
+  ethereum: PropTypes.object,
 };
 
 export default UserInput;

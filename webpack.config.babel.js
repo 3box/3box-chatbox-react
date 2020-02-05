@@ -60,5 +60,5 @@ export default () => ({
       name: 'vendor',
       minChunks: 2
     }
-  }
+  },
 });
