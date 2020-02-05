@@ -1,10 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import {
-  checkIsMobileDevice,
-} from '../utils';
-
 import incomingMessageSound from '../assets/sounds/notification.mp3';
 import MessageList from './MessageList';
 import UserInput from './UserInput';
@@ -74,7 +70,7 @@ class ChatWindow extends Component {
     ];
 
     return (
-      <div className={`${notPopup ? 'chat' : 'popupChat'} ${checkIsMobileDevice() ? 'isMobile' : ''}`} id={`${notPopup ? 'sc-launcher' : ''}`}>
+      <div className={notPopup ? 'chat' : 'popupChat'} id={`${notPopup ? 'sc-launcher' : ''}`}>
         <div className={chatWindowClassList.join(' ')}>
           <Header
             chatName={agentProfile.chatName}
