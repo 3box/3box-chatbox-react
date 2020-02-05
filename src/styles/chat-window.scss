@@ -12,6 +12,12 @@
   z-index: 100;
 }
 
+.popupChat.isMobile {
+  z-index: 100;
+  min-height: 0;
+  height: 0;
+}
+
 .sc-chat-window {
   width: 376px;
   height: calc(100% - 120px);
