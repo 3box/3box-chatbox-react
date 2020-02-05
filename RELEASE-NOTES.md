@@ -1,6 +1,9 @@
 # Release Notes
 
-## v0.0.5 - 2020-01-09
+## v0.1.2 - 2020-02-05
+* fix: add padding to username
+
+## v0.1.1 - 2020-02-05
 * feat: add likes
 * feat: render messages without joining thread
 
