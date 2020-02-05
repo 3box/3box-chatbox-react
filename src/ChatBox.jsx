@@ -267,11 +267,11 @@ class ChatBox extends Component {
       membersOnline,
       likes,
       isJoiningThread,
+      isOpen,
     } = this.state;
     const { loginFunction, userProfileURL, } = this.props;
 
     const noWeb3 = !box && !loginFunction && !ethereum;
-    const isOpen = this.props.hasOwnProperty('isOpen') ? this.props.isOpen : this.state.isOpen;
 
     if (popupChat) {
       return (
@@ -349,7 +349,6 @@ ChatBox.propTypes = {
   spaceName: PropTypes.string.isRequired,
   threadName: PropTypes.string.isRequired,
   showEmoji: PropTypes.bool,
-  isOpen: PropTypes.bool,
 };
 
 ChatBox.defaultProps = {
