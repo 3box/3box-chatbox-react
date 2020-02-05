@@ -51,10 +51,10 @@ class Example extends React.Component {
           <div className="userscontainer">
             <ChatBox
               // required
-              spaceName='3boxtestcomments'
-              threadName='ghostChatTest5'
-              // spaceName='MyFollowing'
-              // threadName='chatbox'
+              // spaceName='3boxtestcomments'
+              // threadName='ghostChatTest5'
+              spaceName='MyFollowing'
+              threadName='chatbox'
 
               // case A & B
               // box={box}
