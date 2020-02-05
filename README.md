@@ -4,7 +4,7 @@
 
 # 3Box Chatbox Plugin 💬
 
-`3box-chatbox-react` node package is a drop-in react component that provides Web3 developers with a readymade chat system for their Ethereum application. Easily add rich, decentralized social discourse to your dApp with one line of code. The 3Box Chatbox plugin is built using 3Box infrastructure, and handles all logic for creating a chatbox. *Read the docs on [docs.3box.io](https://docs.3box.io/build/plugins/chatbox)*.
+`3box-chatbox-react` node package is a drop-in react component that provides Web3 developers with a readymade chat system for their Ethereum application. Easily add rich, decentralized social discourse to your dApp with one line of code. The 3Box Chatbox plugin is built using 3Box infrastructure, and handles all logic for creating a chatbox. Starting with v0.1.0, Chatbox supports likes for every message. *Read the docs on [docs.3box.io](https://docs.3box.io/build/plugins/chatbox)*.
 
 ### Try the demo [here](https://3box.github.io/3box-chatbox/examples/dist/)
 ![Example Screenshot](chatbox-example-screenshot.png)

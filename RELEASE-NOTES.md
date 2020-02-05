@@ -1,6 +1,10 @@
 # Release Notes
 
 ## v0.0.5 - 2020-01-09
+* feat: add likes
+* feat: render messages without joining thread
+
+## v0.0.5 - 2020-01-09
 * chore: update 3box lib to 1.16.1
 * feat: add loading animation on first fetch
 * feat: render messages without joining thread

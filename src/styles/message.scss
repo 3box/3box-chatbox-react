@@ -11,6 +11,12 @@
   width: 100%;
   display: flex;
   position: relative;
+
+  &:hover {
+    .sc-message-like-wrapper {
+      display: flex;
+    }
+  }
 }
 
 .sc-message--content.sent {
@@ -60,13 +66,7 @@
 .sc-message-and-like-container {
   max-width: calc(100% - 120px);
   position: relative;
-  margin-bottom: 22px;
-
-  &:hover {
-    .sc-message-like-wrapper {
-      display: flex;
-    }
-  }
+  margin-bottom: 16px;
 }
 
 .sc-message--content.received .sc-message--text {
@@ -104,7 +104,7 @@
 
 .sc-message_group {
   position: relative;
-  margin-bottom: 34px;
+  margin-bottom: 28px;
 }
 
 .messageList_loadingIcon {
@@ -145,21 +145,43 @@
 .sc-message-like-wrapper {
   position: absolute;
   width: fit-content;
-  left: 10px;
-  bottom: -21px;
+  bottom: -17px;
   cursor: pointer;
   display: none;
-  padding-top: 10px;
+  background-color: white;
+  border: 1px solid $borderColor;
+  z-index: 5;
+  border-radius: 12px;
+  min-height: 23px;
+  min-width: 24px;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+
+  &:hover {
+    .sc-user-input--like-icon.not-liked {
+      fill: #ff6b6b;
+    }
+  }
 }
 
 .sc-message-like-wrapper.show {
   display: flex !important;
 }
 
+.sent .sc-message-like-wrapper {
+  right: 10px;
+}
+
+.received .sc-message-like-wrapper {
+  left: 10px;
+}
+
 .sc-message-like-container {
   display: flex;
   align-items: center;
   width: fit-content;
+  padding-top: 1px;
 
   p {
     font-size: 13px;
@@ -168,22 +190,27 @@
   }
 }
 
+.show .sc-message-like-container {
+  padding: 1px 5px 0 5px;
+}
+
 .sc-message-likers-wrapper {
   display: flex;
   position: absolute;
-  left: 38px;
+  left: 40px;
   background-color: #38383e;
   font-size: 12px;
   transition: .2s ease-in-out all;
   white-space: nowrap;
   overflow: hidden;
-  padding: 2px 10px;
-  border-radius: 4px;
+  padding: 2px 12px;
+  border-radius: 12px;
   z-index: 10;
   width: fit-content;
   width: -moz-fit-content;
   max-width: 230px;
   text-overflow: ellipsis;
+  min-height: 23px;
 
   p {
     color: white;
@@ -202,7 +229,7 @@
 }
 
 .sc-message-likers-wrapper.isMyComment {
-  right: 32px !important;
+  right: 40px !important;
 }
 
 .sc-message--content.sent .sc-message-likers-wrapper {
