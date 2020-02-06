@@ -13,6 +13,7 @@ interface ChatBoxProps {
   mute?: boolean;
   popupChat?: boolean;
   showEmoji?: boolean;
+  openOnMount?: boolean;
 
   colorTheme: string;
   currentUserAddr?: string;

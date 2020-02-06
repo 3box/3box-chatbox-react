@@ -1,5 +1,8 @@
 # Release Notes
 
+## v0.1.5 - 2020-02-06
+* fix: update Typescript type interface for new prop `openOnMount`
+
 ## v0.1.4 - 2020-02-05
 * fix: only openOnMount when not on mobile
 * fix: hide popup when on mobile
