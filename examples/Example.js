@@ -57,14 +57,14 @@ class Example extends React.Component {
               threadName='chatbox'
 
               // case A & B
-              // box={box}
-              // currentUserAddr={myAddress}
+              box={box}
+              currentUserAddr={myAddress}
 
               // case B
-              // loginFunction={this.handleLogin}
+              loginFunction={this.handleLogin}
 
               // case C
-              ethereum={window.ethereum}
+              // ethereum={window.ethereum}
 
               // optional
               // mute
