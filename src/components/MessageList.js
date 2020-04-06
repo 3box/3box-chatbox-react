@@ -137,7 +137,7 @@ MessageList.propTypes = {
   membersOnline: PropTypes.array,
   profiles: PropTypes.object,
   currentUserAddr: PropTypes.string,
-  colorTheme: PropTypes.string,
+  colorTheme: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   userProfileURL: PropTypes.func,
   handleShowOnlineList: PropTypes.func.isRequired,
   isShowOnlineList: PropTypes.bool,

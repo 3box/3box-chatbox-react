@@ -99,7 +99,7 @@ Message.propTypes = {
   profile: PropTypes.object,
   likers: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
   isFirstMessage: PropTypes.bool,
-  colorTheme: PropTypes.string,
+  colorTheme: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   membersOnline: PropTypes.array,
   currentUserAddr: PropTypes.string,
   userProfileURL: PropTypes.func,

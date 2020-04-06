@@ -130,7 +130,7 @@ ChatWindow.propTypes = {
   isJoiningThread: PropTypes.bool,
   currentUser3BoxProfile: PropTypes.object,
   currentUserAddr: PropTypes.string,
-  colorTheme: PropTypes.string,
+  colorTheme: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   profiles: PropTypes.object,
   popupChat: PropTypes.bool,
   messageList: PropTypes.array,

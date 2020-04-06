@@ -37,7 +37,7 @@ class ChatBox extends Component {
         chatName: 'Chatbox',
         imageUrl: null
       },
-      colorTheme: colorTheme || '#181F21',
+      colorTheme: colorTheme,
       showEmoji,
       popupChat,
       isOpen: checkIsMobileDevice() ? false : openOnMount,
@@ -333,7 +333,7 @@ class ChatBox extends Component {
 
 ChatBox.propTypes = {
   chatName: PropTypes.string,
-  colorTheme: PropTypes.string,
+  colorTheme: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   popupChat: PropTypes.bool,
   openOnMount: PropTypes.bool,
   mute: PropTypes.bool,

@@ -21,6 +21,10 @@
 
 .sc-message--content.sent {
   justify-content: flex-end;
+
+  .sc-message--text {
+    background-color: $threeBoxBlack;
+  }
 }
 
 .sc-message--content.sent .sc-message--avatar {
@@ -70,6 +74,7 @@
 }
 
 .sc-message--content.received .sc-message--text {
+  background-color: $defaultReceivedBubbleColor;
   color: #263238;
   margin-right: 40px;
 }
@@ -151,7 +156,7 @@
   display: none;
   background-color: white;
   border: 1px solid $borderColor;
-  z-index: 5;
+  z-index: 1;
   border-radius: 12px;
   min-height: 23px;
   min-width: 24px;
