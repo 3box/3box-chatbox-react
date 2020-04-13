@@ -123,7 +123,7 @@ const MyComponent = ({ handleLogin, box, ethereum, myAddress, currentUser3BoxPro
 | `agentProfile`    | Object       |  { chatName: 'Chatbox', imageUrl: null }   | Optional    | An object with the name of the chatbox which will appear in the `Join thread` step and in the header of the chat UI.  The default `imageUrl` is the provided chat icon. |
 | `spaceOpts`    | Object       | | Optional    | Optional parameters for threads (see [Docs.3box.io](https://Docs.3box.io) for more info)|
 | `threadOpts`    | Object       | | Optional    | Optional parameters for threads (see [Docs.3box.io](https://Docs.3box.io) for more info)|
-| `colorTheme`    | String       |  False  | Optional    | Pass an rgb or hex color string to match the color theme of your application |
+| `colorTheme`    | String/Boolean       |  False  | Optional    | Pass an rgb or hex color string to match the color theme of your application |
 | `mute`    | Boolean       |  False  | Optional    | Pass false to turn off sound for incoming messages. |
 | `showEmoji`    | Boolean       |  False  | Optional    | Pass false to turn off the emoji pop up within the chat input UI. |
 | `currentUser3BoxProfile`    | Object       |   | Optional    | If the current user has already had their 3Box data fetched at the global dApp state, pass the object returned from `Box.getProfile(profileAddress)` to avoid an extra request.  This data will be rendered in the Chatbox input interface.|

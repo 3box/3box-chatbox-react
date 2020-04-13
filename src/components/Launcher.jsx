@@ -61,7 +61,7 @@ class Launcher extends Component {
         <div
           className={classList.join(' ')}
           onClick={this.handleClick.bind(this)}
-          style={{ backgroundColor: colorTheme }}
+          style={colorTheme ? { backgroundColor: colorTheme } : {}}
         >
           {(newMessagesCount !== 0 && isOpen === false) && <div className={'sc-new-messages-count'}> {newMessagesCount} </div>}
           <SVG className="sc-open-icon" src={launcherIconActive} />
@@ -113,7 +113,7 @@ Launcher.propTypes = {
   popupChat: PropTypes.bool,
   noWeb3: PropTypes.bool,
   currentUserAddr: PropTypes.string,
-  colorTheme: PropTypes.string,
+  colorTheme: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   agentProfile: PropTypes.object,
   currentUser3BoxProfile: PropTypes.object,
   profiles: PropTypes.object,
