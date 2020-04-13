@@ -1,5 +1,11 @@
 # Release Notes
 
+## v0.1.9 - 2020-04-13
+* fix: better check for valid profile picture
+
+## v0.1.8 - 2020-04-13
+* fix: better check for valid profile picture
+
 ## v0.1.7 - 2020-04-03
 * chore: update 3box lib to 1.17.1
 
