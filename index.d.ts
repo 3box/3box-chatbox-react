@@ -15,7 +15,7 @@ interface ChatBoxProps {
   showEmoji?: boolean;
   openOnMount?: boolean;
 
-  colorTheme: string;
+  colorTheme?: string|boolean;
   currentUserAddr?: string;
 
   agentProfile: {

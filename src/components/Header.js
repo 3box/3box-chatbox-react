@@ -26,7 +26,7 @@ class Header extends Component {
     const url = userProfileURL ? userProfileURL(currentUserAddr) : `https://3box.io/login?wallet=${getCurrentProvider(ethereum)}`;
 
     return (
-      <div className="sc-header" style={{ backgroundColor: colorTheme }}>
+      <div className="sc-header" style={colorTheme ? { backgroundColor: colorTheme } : {}}>
         <div className="sc-header_details">
           {imageUrl ? <img className="sc-header--img" src={imageUrl} alt="Chat Profile" />
             : <SVG src={Chat} alt="Logo" className="sc-header--img default" />
@@ -70,7 +70,7 @@ class Header extends Component {
 Header.propTypes = {
   imageUrl: PropTypes.string,
   chatName: PropTypes.string,
-  colorTheme: PropTypes.string,
+  colorTheme: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   currentUserAddr: PropTypes.string,
   onClose: PropTypes.func,
   membersOnlineLength: PropTypes.number,

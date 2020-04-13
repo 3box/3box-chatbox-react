@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import '../styles/LoadingAnimation.scss';
 
 const LoadingAnimation = ({ colorTheme, threadLoading }) => (
-  <div style={{ color: colorTheme }} className={`la-ball-pulse-sync ${threadLoading ? 'threadLoading' : ''}`}>
+  <div style={colorTheme ? { color: colorTheme } : {}} className={`la-ball-pulse-sync ${threadLoading ? 'threadLoading' : ''}`}>
     <div></div>
     <div></div>
     <div></div>
@@ -13,7 +13,7 @@ const LoadingAnimation = ({ colorTheme, threadLoading }) => (
 )
 
 LoadingAnimation.propTypes = {
-  colorTheme: PropTypes.string,
+  colorTheme: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   threadLoading: PropTypes.bool
 };
 
