@@ -5,7 +5,6 @@ declare class ChatBox extends React.Component<ChatBoxProps, any> { }
 interface ChatBoxProps {
   box?: [any];
   spaceOpts?: [any];
-  threadOpts?: [any];
   loginFunction?: [any];
   ethereum?: [any];
   currentUser3BoxProfile?: [any];

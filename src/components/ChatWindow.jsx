@@ -58,6 +58,7 @@ class ChatWindow extends Component {
       postMessage,
       popupChat,
       isJoiningThread,
+      noWeb3,
     } = this.props;
 
     const { isShowOnlineList } = this.state;
@@ -107,7 +108,7 @@ class ChatWindow extends Component {
             postMessage={postMessage}
             showEmoji={showEmoji}
             userProfileURL={userProfileURL}
-            ethereum={ethereum}
+            noWeb3={noWeb3}
           />
         </div>
       </div >

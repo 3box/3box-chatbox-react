@@ -1,5 +1,11 @@
 # Release Notes
 
+## v0.1.11 - 2020-04-30
+* fix: Do not restrict functionality when ethereum object not passed in auth contexts A & B
+
+## v0.1.10 - 2020-04-13
+* feat: Remove inline styles if colorTheme is empty
+
 ## v0.1.9 - 2020-04-13
 * fix: better check for valid profile picture
 
