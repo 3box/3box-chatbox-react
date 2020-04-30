@@ -53,8 +53,8 @@ class Example extends React.Component {
                 // required
                 // spaceName='3boxtestcomments'
                 // threadName='ghostChatTest5'
-                spaceName='MyFollowingTest'
-                // spaceName='MyFollowing'
+                // spaceName='MyFollowingTest'
+                spaceName='MyFollowing'
                 threadName='chatbox'
 
                 // case A & B
