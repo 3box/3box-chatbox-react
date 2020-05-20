@@ -99,10 +99,10 @@ const MyComponent = ({ handleLogin, box, ethereum, myAddress, currentUser3BoxPro
         userProfileURL={address => `https://mywebsite.com/user/${address}`}
         spaceOpts={}
         threadOpts={}
-        agentProfile={
+        agentProfile={{
             chatName: "3Box",
             imageUrl: "https://imgur.com/RXJO8FD"
-        }
+        }}
         openOnMount={false}
     />
 );
