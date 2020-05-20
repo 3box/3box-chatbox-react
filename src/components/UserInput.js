@@ -39,11 +39,11 @@ class UserInput extends Component {
   }
 
   handleKeyUp(event) {
-    const { ethereum } = this.props;
+    const { noWeb3 } = this.props;
     const inputHasText = event.target.value.length !== 0 &&
       event.target.innerText !== '\n';
     // this.autoExpand(event.target);
-    if (!ethereum) this.setState({ showWe3Warning: inputHasText });
+    if (noWeb3) this.setState({ showWe3Warning: inputHasText });
     this.setState({ inputHasText });
   }
 
@@ -182,7 +182,7 @@ UserInput.propTypes = {
   showEmoji: PropTypes.bool,
   currentUserAddr: PropTypes.string,
   currentUser3BoxProfile: PropTypes.object,
-  ethereum: PropTypes.object,
+  noWeb3: PropTypes.bool,
 };
 
 export default UserInput;

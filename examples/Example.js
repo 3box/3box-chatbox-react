@@ -19,7 +19,7 @@ class Example extends React.Component {
   }
 
   componentDidMount() {
-    // this.handleLogin();
+    this.handleLogin();
   }
 
   handleLogin = async () => {
@@ -28,8 +28,7 @@ class Example extends React.Component {
 
     const box = await Box.openBox(myAddress, window.ethereum, {});
     const myProfile = await Box.getProfile(myAddress);
-
-    box.onSyncDone(() => this.setState({ box }));
+    await box.syncDone;
     this.setState({ box, myProfile, myAddress, isReady: true });
   }
 
@@ -49,34 +48,36 @@ class Example extends React.Component {
             <h2>Chatbox <br /> Demo</h2>
           </div>
           <div className="userscontainer">
-            <ChatBox
-              // required
-              // spaceName='3boxtestcomments'
-              // threadName='ghostChatTest5'
-              spaceName='MyFollowing'
-              threadName='chatbox'
+            {isReady && (
+              <ChatBox
+                // required
+                // spaceName='3boxtestcomments'
+                // threadName='ghostChatTest5'
+                spaceName='MyFollowingTest'
+                // spaceName='MyFollowing'
+                threadName='chatbox'
 
-              // case A & B
-              box={box}
-              currentUserAddr={myAddress}
+                // case A & B
+                box={box}
+                currentUserAddr={myAddress}
 
-              // case B
-              loginFunction={this.handleLogin}
+                // case B
+                // loginFunction={this.handleLogin}
 
-              // case C
-              // ethereum={window.ethereum}
+                // case C
+                // ethereum={window.ethereum}
 
-              // optional
-              // mute
-              openOnMount
-              popupChat
-            // colorTheme="#1168df"
-            // threadOpts={{}}
-            // spaceOpts={{}}
-            // useHovers={true}
-            // currentUser3BoxProfile={myProfile}
-            // userProfileURL={(address) => `https://userprofiles.co/user/${address}`}
-            />
+                // optional
+                // mute
+                openOnMount
+                popupChat
+              // colorTheme="#1168df"
+              // spaceOpts={{}}
+              // useHovers={true}
+              // currentUser3BoxProfile={myProfile}
+              // userProfileURL={(address) => `https://userprofiles.co/user/${address}`}
+              />
+            )}
           </div>
         </div>
       </div>

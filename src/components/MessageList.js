@@ -41,7 +41,6 @@ class MessageList extends Component {
       postMessage,
       isJoiningThread,
     } = this.props;
-
     return (
       <>
         <div className={`onlineList ${isShowOnlineList ? 'show' : ''}`} ref={el => this.scrollList = el}>

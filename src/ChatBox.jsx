@@ -40,12 +40,15 @@ class ChatBox extends Component {
       colorTheme: colorTheme,
       showEmoji,
       popupChat,
+      mute,
+      box,
+      currentUserAddr,
+      ethereum,
       isOpen: checkIsMobileDevice() ? false : openOnMount,
       isJoiningThread: true,
       newMessagesCount: 0,
       updateCommentsCount: 0,
       membersOnlineLength: 1,
-      mute,
       dialogue: [],
       likes: new Map(),
       uniqueUsers: [],
@@ -53,18 +56,22 @@ class ChatBox extends Component {
       thread: {},
       profiles: {},
       currentUser3BoxProfile: {},
-      box,
-      currentUserAddr,
-      ethereum: ethereum || window.ethereum,
     }
   }
 
   async componentDidMount() {
     const { currentUser3BoxProfile } = this.props;
+    const { ethereum, currentUserAddr } = this.state;
 
     // get ipfs instance for did-resolver
     const IPFS = await Box.getIPFS();
     registerResolver(IPFS);
+
+    if (ethereum && !currentUserAddr) {
+      const addresses = await ethereum.enable();
+      const currentUserAddr = addresses[0];
+      this.setState({ currentUserAddr });
+    }
 
     if ((!currentUser3BoxProfile || !Object.entries(currentUser3BoxProfile).length)) {
       await this.fetchMe();
@@ -73,29 +80,47 @@ class ChatBox extends Component {
     this.fetchThread();
   }
 
+  componentDidUpdate(prevProps) {
+    const {
+      currentUserAddr,
+      currentUser3BoxProfile,
+    } = this.props;
+
+    // if current user's eth addr is updated in parent, fetch profile
+    if (currentUserAddr !== prevProps.currentUserAddr) {
+      const hasNoUserProfile = (!currentUser3BoxProfile || !Object.entries(currentUser3BoxProfile).length);
+      this.setState({ currentUserAddr }, async () => {
+        hasNoUserProfile && await this.fetchMe();
+      });
+    }
+  }
+
   fetchThread = async () => {
-    const { ethereum } = this.state;
+    const { ethereum, box } = this.state;
     const {
       spaceName,
       threadName,
+      loginFunction
     } = this.props;
 
     setTimeout(() => this.setState({ isJoiningThread: false }), 5000);
 
     if (!spaceName || !threadName) console.error('You must pass both spaceName and threadName props');
-    if (!ethereum) console.error('Chatbox component must have ethereum provider to fully operate');
+    if (!ethereum && !box && !loginFunction) console.error('Chatbox component must have ethereum provider to fully operate');
 
-    const box = await Box.create(ethereum);
-    const thread = await box.openThread(spaceName, threadName, { ghost: true });
+    const updatedBox = await Box.create(ethereum);
+    const thread = await updatedBox.openThread(spaceName, threadName, { ghost: true });
     const dialogue = await thread.getPosts();
 
-    this.setState({ thread, box, dialogue }, async () => {
-      await this.updateComments();
-      await this.updateMembersOnline();
+    this.setState({ thread, dialogue }, async () => await this.handleLiveThread(thread));
+  }
 
-      thread.onUpdate(() => this.updateComments());
-      thread.onNewCapabilities(() => this.updateMembersOnline());
-    });
+  handleLiveThread = async (thread) => {
+    await this.updateComments();
+    await this.updateMembersOnline();
+
+    thread.onUpdate(() => this.updateComments());
+    thread.onNewCapabilities(() => this.updateMembersOnline());
   }
 
   openBox = async () => {
@@ -104,34 +129,32 @@ class ChatBox extends Component {
       box,
       currentUserAddr,
     } = this.state;
-    const { spaceName } = this.props;
+    const { spaceName, loginFunction } = this.props;
 
-    if (!ethereum) return console.error('You must provide an ethereum object to the comments component.');
+    if (!ethereum && !box && !loginFunction) return console.error('You must provide an ethereum object, a box object, or a loginFunction to the comments component.');
 
-    await box.auth([spaceName], { address: this.props.currentUserAddr || currentUserAddr });
+    if (loginFunction) {
+      await loginFunction();
+    } else {
+      await box.auth([spaceName], { address: this.props.currentUserAddr || currentUserAddr });
+      await box.syncDone;
+    }
+
+    await this.fetchMe();
     this.setState({ hasAuthed: true });
-
-    await box.syncDone;
   }
 
   fetchMe = async () => {
-    const { profiles, ethereum } = this.state;
+    const { profiles } = this.state;
     const { currentUserAddr, userProfileURL } = this.props;
 
-    if (!ethereum) return console.error('No web3');
+    if (!currentUserAddr) return console.log('Cannot fetch profile without an ethereum address');
 
-    let myAddress;
-    if (currentUserAddr) {
-      myAddress = currentUserAddr;
-    } else {
-      const addresses = await ethereum.enable();
-      myAddress = addresses[0];
-    }
+    let myAddress = currentUserAddr || this.state.currentUserAddr;
 
     const currentUser3BoxProfile = await Box.getProfile(myAddress);
     currentUser3BoxProfile.profileURL = userProfileURL ? userProfileURL(myAddress) : `https://3box.io/${myAddress}`;
     currentUser3BoxProfile.ethAddr = myAddress;
-
     profiles[myAddress] = currentUser3BoxProfile;
 
     this.setState({ currentUser3BoxProfile, profiles, currentUserAddr: myAddress });
@@ -237,13 +260,23 @@ class ChatBox extends Component {
   }
 
   postMessage = async (message) => {
-    const { hasAuthed, ethereum } = this.state;
-
-    if (!ethereum) return;
     try {
+      const { hasAuthed, ethereum, box, joinedThread, thread } = this.state;
+      const { loginFunction, spaceName, threadName } = this.props;
+      let threadToUse = thread;
+
+      if (!ethereum && !box && !loginFunction) return;
       if (!hasAuthed) await this.openBox();
-      await this.state.thread.post(message.data.text || message.data.emoji);
-      await this.updateComments();
+
+      if (!joinedThread) {
+        const space = await box.openSpace(spaceName);
+        threadToUse = await space.joinThread(threadName, { ghost: true });
+        this.handleLiveThread(threadToUse);
+        this.setState({ joinedThread: true });
+      }
+
+      await threadToUse.post(message.data.text || message.data.emoji);
+      this.setState({ thread: threadToUse }, async () => await this.updateComments());
     } catch (error) {
       console.error('There was an error saving your message', error);
     }
@@ -309,7 +342,6 @@ class ChatBox extends Component {
         messageList={dialogue}
         likes={likes}
         agentProfile={agentProfile}
-        loginFunction={loginFunction}
         isOpen={isOpen}
         showEmoji={showEmoji}
         profiles={profiles}
@@ -344,7 +376,6 @@ ChatBox.propTypes = {
   spaceOpts: PropTypes.object,
   agentProfile: PropTypes.object,
   ethereum: PropTypes.object,
-  threadOpts: PropTypes.object,
   currentUser3BoxProfile: PropTypes.object,
   spaceName: PropTypes.string.isRequired,
   threadName: PropTypes.string.isRequired,
@@ -359,7 +390,6 @@ ChatBox.defaultProps = {
   box: null,
   ethereum: null,
   currentUser3BoxProfile: null,
-  threadOpts: null,
   spaceOpts: null,
   loginFunction: null,
   showEmoji: true,

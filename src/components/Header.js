@@ -23,7 +23,7 @@ class Header extends Component {
       currentUserAddr,
     } = this.props;
 
-    const url = userProfileURL ? userProfileURL(currentUserAddr) : `https://3box.io/login?wallet=${getCurrentProvider(ethereum)}`;
+    const url = userProfileURL ? userProfileURL(currentUserAddr) : ethereum ? `https://3box.io/login?wallet=${getCurrentProvider(ethereum)}` : `https://3box.io/${currentUserAddr}`;
 
     return (
       <div className="sc-header" style={colorTheme ? { backgroundColor: colorTheme } : {}}>
