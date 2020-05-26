@@ -3,8 +3,8 @@ import React, {
 } from 'react';
 import Box from '3box';
 import PropTypes from 'prop-types';
-import resolve from 'did-resolver';
-import registerResolver from '3id-resolver';
+import { Resolver } from 'did-resolver';
+import { getResolver } from '3id-resolver';
 
 import {
   sortChronologicallyAndGroup,
@@ -64,8 +64,8 @@ class ChatBox extends Component {
     const { ethereum, currentUserAddr } = this.state;
 
     // get ipfs instance for did-resolver
-    const IPFS = await Box.getIPFS();
-    registerResolver(IPFS);
+    const ipfs = await Box.getIPFS();
+    this.resolver = new Resolver(getResolver(ipfs));
 
     if (ethereum && !currentUserAddr) {
       const addresses = await ethereum.enable();
@@ -172,7 +172,7 @@ class ChatBox extends Component {
     const fetchAllProfiles = async () => await Promise.all(profilesToUpdate.map(did => fetchProfile(did)));
     const profilesArray = await fetchAllProfiles();
 
-    const getEthAddr = async (did) => await resolve(did);
+    const getEthAddr = async (did) => await this.resolver.resolve(did);
     const getAllEthAddr = async () => await Promise.all(profilesToUpdate.map(did => getEthAddr(did)));
     const ethAddrArray = await getAllEthAddr();
 
