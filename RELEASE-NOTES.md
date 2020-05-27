@@ -1,5 +1,8 @@
 # Release Notes
 
+## v0.2.0 - 2020-05-26
+* fix: update 3box and did-resolver
+
 ## v0.1.11 - 2020-04-30
 * fix: Do not restrict functionality when ethereum object not passed in auth contexts A & B
 
